@@ -27,7 +27,7 @@ module.exports = onClosed => {
     webPreferences: {
       nodeIntegration: true
     },
-    title: 'Cargo',
+    title: 'Kargo',
     icon: image
   });
 
@@ -43,7 +43,7 @@ module.exports = onClosed => {
   } else {
     const menu = electron.Menu.buildFromTemplate([
       {
-        label: 'Cargo',
+        label: 'Kargo',
         submenu: [{ role: 'quit' }]
       },
       {

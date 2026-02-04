@@ -18,7 +18,7 @@ const emitter = mitt();
 // const store = new Store();
 
 const state = {
-  url: 'https://home.cargo',
+  url: 'https://home.kargo',
   views: [],
   theme: 'light'
   // store

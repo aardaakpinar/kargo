@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cargo - Home</title>
+    <title>Kargo</title>
     <style media="screen">
       body {
         margin: 0px;
@@ -35,14 +35,14 @@
         border: solid #BDBDBD 1px;
       }
 
-      ::-moz-selection { background: yellow; }
-      ::selection { background: yellow; }
+      ::-moz-selection { background: #fcc41d; }
+      ::selection { background: #fcc41d; }
     </style>
   </head>
   <body>
-    <h1>🚂🚋🚋 Cargo</h1>
+    <h1>🚂🚋🚋 Kargo</h1>
     <p class="text">-</p>
-    <input type="text" class="dest" placeholder="Destination">
+    <input type="text" class="dest" placeholder="Varış noktası">
 
     <script src="../static/tld.js" charset="utf-8"></script>
     <script src="../static/normalize.js" charset="utf-8"></script>
@@ -64,12 +64,12 @@
       }, false);
 
       const texts = [
-        'Where is the next train station?',
-        'Let the train carry you!',
-        'Hop in!',
-        'Have you bought a ticket?',
-        'Could I sit next to the window?',
-        'When does the next train leave?',
+        'En yakın tren istasyonu nerede?',
+        'Tren sizi taşısın!',
+        'Hadi binin!',
+        'Bilet aldınız mı?',
+        'Pencere kenarına oturabilir miyim?',
+        'Bir sonraki tren ne zaman kalkıyor?',
       ];
 
       const key = Math.floor((Math.random() * texts.length) + 1) - 1;

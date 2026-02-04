@@ -7,7 +7,7 @@ require('events').EventEmitter.prototype._maxListeners = 100;
 
 const app = electron.app;
 
-app.setName('Cargo');
+app.setName('Kargo');
 
 if (isDev) {
   require('electron-debug')();

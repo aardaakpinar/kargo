@@ -75,8 +75,8 @@
     background: #23272A !important;
 }
 
-#titlebar::-moz-selection { background: yellow !important; }
-#titlebar::selection { background: yellow !important; }
+#titlebar::-moz-selection { background: #fcc41d !important; }
+#titlebar::selection { background: #fcc41d !important; }
 
 #titlebar .button img{
     filter: invert(0.8);

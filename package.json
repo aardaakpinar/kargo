@@ -1,21 +1,20 @@
 {
-  "name": "cargo",
-  "productName": "Cargo",
+  "name": "kargo",
+  "productName": "kargo",
   "version": "0.0.1",
-  "description": "A browser with a really thin ui",
+  "description": "The Turkish version of a browser with almost no UI.",
   "license": "MIT",
-  "repository": "herber/cargo",
+  "repository": "aardaakpinar/kargo",
   "main": "./src/index.js",
   "author": {
-    "name": "Tobias Herber",
-    "email": "tobihrbr@gmail.com",
-    "url": "http://tobihrbr.com"
+    "name": "aardaakpinar",
+    "url": "http://aardaakpinar.github.io"
   },
   "scripts": {
     "test": "formatted",
     "start": "electron .",
     "build": "electron-builder .",
-    "build:win32": "npm run build -- --win",
+    "build:win64": "npm run build -- --win",
     "build:mac": "npm run build -- --mac",
     "build:all": "npm run build -- --all"
   },
@@ -23,7 +22,7 @@
     "electron-app",
     "electron",
     "browser",
-    "cargo"
+    "kargo"
   ],
   "dependencies": {
     "@cargohq/keyval": "^1.1.0",
@@ -48,8 +47,8 @@
     "formatted": "^1.0.0"
   },
   "build": {
-    "appId": "com.cargo",
-    "productName": "cargo",
+    "appId": "com.kargo",
+    "productName": "kargo",
     "asar": true,
     "npmRebuild": false,
     "directories": {

@@ -1,162 +1,153 @@
 <p align="center">
   <img width="200px" src="https://i.imgur.com/XfHbapN.png" />
-  <h1 align="center">Cargo</h1>
+  <h1 align="center">Kargo</h1>
 </p>
 
 <p align="center">
-  A browser with almost no UI.
+  Neredeyse hiç kullanıcı arayüzü (UI) olmayan bir tarayıcı.
 </p>
 
-Cargo is a browser for people that live on the internet and hate mice. Cargo can be controlled using only a few keyboard shortcuts. Cargo only includes the most useful features of a browser, this way unnecessary features can't disturb you while surfing the interwebz. I built cargo, because I did not use most features that my browsers of choice(chrome and firefox) had.
+Kargo, internette yaşayan ve fareden nefret eden insanlar için bir tarayıcıdır. Kargo, sadece birkaç klavye kısayolu kullanılarak kontrol edilebilir. Kargo, bir tarayıcının sadece en kullanışlı özelliklerini içerir; bu sayede internette gezinirken gereksiz özellikler sizi rahatsız edemez. Kargo'yu geliştirdim çünkü tercih ettiğim tarayıcıların (Chrome ve Firefox) sahip olduğu çoğu özelliği kullanmıyordum.
 
-Cargo is still in a very early state, but it is already usable, please help me developing it.
+Kargo henüz çok erken aşamadadır ancak şimdiden kullanılabilir durumdadır; lütfen geliştirmeme yardımcı olun.
 
-You can use one of our precompiled [binaries](https://github.com/herber/cargo/releases/latest) to try out or install cargo.
+Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](https://github.com/herber/kargo/releases/latest) birini kullanabilirsiniz.
 
-## Features
+## Özellikler
 
- - __Chrome__: Cargo uses electron's webview tags, which are powered by chromium.
- - __Tabs__: Like any other browser cargo supports tabs, but it hides them from you.
- - __Devtools__: Cargo has full support for chrome's devtools.
- - __Cross platform__: Cargo looks good on all platforms, even the titlebar on windows looks good.
- - __Simple__: Cargo only has the features most people need.
- - __Tab restore__: Cargo will automatically restore your previously opened tabs, when you open it.
- - __Very cute__: 🚂🚋🚋 Cargo(delivering the web to your home).
+ - __Chrome__: Kargo, gücünü Chromium'dan alan Electron'un webview etiketlerini kullanır.
+ - __Sekmeler__: Diğer tüm tarayıcılar gibi Kargo da sekmeleri destekler, ancak bunları sizden gizler.
+ - __Geliştirici Araçları__: Kargo, Chrome'un geliştirici araçlarını tam olarak destekler.
+ - __Platformlar arası__: Kargo tüm platformlarda iyi görünür, Windows'taki başlık çubuğu bile şık durur.
+ - __Basit__: Kargo sadece çoğu insanın ihtiyaç duyduğu özelliklere sahiptir.
+ - __Sekme Kurtarma__: Kargo, açıldığında önceden açık olan sekmelerinizi otomatik olarak geri yükler.
+ - __Çok şirin__: 🚂🚋🚋 Kargo (web'i evinize taşır).
 
-## Screenshots
+## Ekran Görüntüleri
 
-##### Cargo's homepage on macos
+##### Windows üzerinde Kargo ana sayfası
 
-![Medium](https://i.imgur.com/BT4P3mn.png)
+![Home](./assets/cargo_home.png)
 
-##### Medium
+##### Duckduckgo (varsayılan arama motoru)
 
-![Medium](https://i.imgur.com/YpUDGQJ.png)
+![DDG](./assets/cargo_ddg.png)
 
-##### Duckduckgo(the default search engine)
+##### Windows üzerinde Kargo hakkında sayfası
 
-![Medium](https://i.imgur.com/fnQ9ZCF.png)
+![About](./assets/cargo_tabs.png)
 
-##### Cargo's about page on windows
+##### Karanlık Mod (DarkMode)
 
-![Medium](https://i.imgur.com/ykuNAlY.png)
+![Dark](https://i.imgur.com/1FSXg5d.png)
 
-##### Github
-
-![Medium](https://i.imgur.com/umxDEtU.png)
-
-
-##### DarkMode
-
-![Medium](https://i.imgur.com/1FSXg5d.png)
-
-## Keyboard shortcuts
+## Klavye Kısayolları
 
 <table>
   <tr>
     <td class="shortcut">alt</td>
-    <td>Open menu</td>
+    <td>Menüyü aç</td>
   </tr>
   <tr>
     <td class="shortcut">ctrl + enter</td>
-    <td>Add www. + .com</td>
+    <td>www. + .com ekle</td>
   </tr>
   <tr>
     <td class="shortcut">command + shift + d / ctrl + shift + d</td>
-    <td>Open devtools</td>
+    <td>Geliştirici araçlarını aç</td>
   </tr>
   <tr>
     <td class="shortcut">command + shift + a / ctrl + shift + a</td>
-    <td>Open about page</td>
+    <td>Hakkında sayfasını aç</td>
   </tr>
   <tr>
-    <td class="shortcut">command + left / ctrl + left</td>
-    <td>Navigate back</td>
+    <td class="shortcut">command + sol / ctrl + sol</td>
+    <td>Geri git</td>
   </tr>
   <tr>
-    <td class="shortcut">command + right / ctrl + right</td>
-    <td>Navigate forward</td>
+    <td class="shortcut">command + sağ / ctrl + sağ</td>
+    <td>İleri git</td>
   </tr>
   <tr>
     <td class="shortcut">command + r / ctrl + r / F5</td>
-    <td>Reload</td>
+    <td>Yenile</td>
   </tr>
   <tr>
     <td class="shortcut">command + shift + h / ctrl + shift + h</td>
-    <td>Navigate to home.cargo</td>
+    <td>home.kargo sayfasına git</td>
   </tr>
   <tr>
     <td class="shortcut">command + h / ctrl + h</td>
-    <td>Open history</td>
+    <td>Geçmişi aç</td>
   </tr>
   <tr>
     <td class="shortcut">command + t / ctrl + t</td>
-    <td>Open a new tab</td>
+    <td>Yeni sekme aç</td>
   </tr>
   <tr>
     <td class="shortcut">command + w / ctrl + w</td>
-    <td>Close current tab</td>
+    <td>Mevcut sekmeyi kapat</td>
   </tr>
   <tr>
-    <td class="shortcut">command + shift + left / ctrl + shift + left</td>
-    <td>Go to previous tab</td>
+    <td class="shortcut">command + shift + sol / ctrl + shift + sol</td>
+    <td>Önceki sekmeye git</td>
   </tr>
   <tr>
-    <td class="shortcut">command + shift + right / ctrl + shift + right</td>
-    <td>Go to next tab</td>
+    <td class="shortcut">command + shift + sağ / ctrl + shift + sağ</td>
+    <td>Sonraki sekmeye git</td>
   </tr>
   <tr>
     <td class="shortcut">command + 0 / ctrl + 0</td>
-    <td>Go to last tab</td>
+    <td>Son sekmeye git</td>
   </tr>
   <tr>
-    <td class="shortcut">command + [number from 1 to 9] / ctrl + [number from 1 to 9]</td>
-    <td>Go to n<i style="font-size: .7em;">th</i> tab</td>
+    <td class="shortcut">command + [1-9 arası sayı] / ctrl + [1-9 arası sayı]</td>
+    <td>n.<i style="font-size: .7em;"></i> sekmeye git</td>
   </tr>
     <tr>
     <td class="shortcut">command + shift + t  / ctrl + shift + t</td>
-    <td>Change to Darkmode</td>
+    <td>Karanlık moda geç</td>
   </tr>
 </table>
 
-## Future
+## Gelecek
 
-Cargo is still very much work in progress, but we can work together to make it the browser of our dreams.
+Kargo hala geliştirilme aşamasındadır, ancak hayallerimizdeki tarayıcıyı yapmak için birlikte çalışabiliriz.
 
-#### TODO
+#### YAPILACAKLAR (TODO)
 
- - Tests
- - Design improvements
- - Settings
-    - Search engine
-    - Darkmode
+ - Testler
+ - Tasarım iyileştirmeleri
+ - Ayarlar
+    - Arama motoru
+    - Karanlık mod
     - ...
 
-## Development
+## Geliştirme
 
-To build cargo you only need to have [nodejs](https://nodejs.org) and [yarn](https://yarnpkg.com) installed.
+Kargo'yu derlemek için sadece [nodejs](https://nodejs.org) ve [yarn](https://yarnpkg.com) yüklü olması gerekir.
 
-### Running cargo
+### Kargo'yu çalıştırma
 
-Install all the dependencies (this may take a while)
+Tüm bağımlılıkları yükleyin (bu işlem biraz zaman alabilir)
 
 ```
 $ yarn
 ```
 
-Run cargo
+Run kargo
 
 ```
 $ yarn start
 ```
 
-### Building cargo
+### Kargo'yu derleme
 
 ```
 $ yarn build
 ```
 
-#### Building for a specific platform
+#### Belirli bir platform için derleme
 
 __Mac__
 
@@ -168,9 +159,10 @@ __Windows__
 
 ```
 $ yarn build:win32
+$ yarn build:win64
 ```
 
-__All platforms__
+__Tüm platformlar__
 
 ```
 $ yarn build:all

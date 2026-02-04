@@ -1,134 +1,129 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Cargo</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./styles.css">
-    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
-    <meta name="theme-color" content="#000000" />
-  </head>
-  <body>
-    <nav>
-      <span class="left"><a class="nav-link" href="/">Cargo</a></span>
-      <span class="right"><a class="nav-link" href="https://github.com/herber/cargo/releases/latest">Download</a><a class="nav-link" href="https://github.com/herber/cargo/">Github</a></span>
-    </nav>
+    <head>
+        <meta charset="utf-8" />
+        <title>Kargo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="./styles.css" />
+        <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+        <meta name="theme-color" content="#000000" />
+    </head>
+    <body>
+        <nav>
+            <span class="left"><a class="nav-link" href="/">Kargo</a></span>
+            <span class="right"
+                ><a class="nav-link" href="https://github.com/aardaakpinar/kargo/releases/latest">İndir</a
+                ><a class="nav-link" href="https://github.com/aardaakpinar/kargo/">Github</a></span
+            >
+        </nav>
 
-    <header>
-      <section class="header-text">
-        <h1>Cargo</h1>
-        <p>A browser with almost no UI.</p>
-        <a class="button" href="https://github.com/herber/cargo/releases/latest">Download Now!</a>
-      </section>
-      <img src="./example.png" alt="">
-    </header>
+        <header>
+            <section class="header-text">
+                <h1>Kargo</h1>
+                <p>Kullanıcı arayüzü neredeyse hiç olmayan bir tarayıcının Türkçe versiyonu.</p>
+                <a class="button" href="https://github.com/aardaakpinar/kargo/releases/latest">Şimdi İndir</a>
+            </section>
+            <img src="./example.png" alt="" />
+        </header>
 
-    <section id="about" class="about">
-      <section class="about-inner">
-        <h1>Cargo is a new browser.</h1>
-        <p>
-          Cargo is a browser for people that live on the internet and hate mice.
-          Cargo can be controlled using only a few keyboard shortcuts.
-          Cargo only includes the most useful features of a browser,
-          this way unnecessary features can't disturb you while surfing the interwebz.
-          I built Cargo because I did not use most features that my browsers of choice (Chrome and Firefox) had.
-        </p>
-        <p>
-          Cargo is built using <a href="https://electronjs.org">Electron</a>,
-          a technology for building modern cross platform desktop apps using Javascript,
-          HTML and CSS. The source is available on <a href="https://github.com/herber/cargo">Github</a>.
-        </p>
+        <section id="about" class="about">
+            <section class="about-inner">
+                <h1>Kargo yeni bir tarayıcıdır.</h1>
+                <p>
+                    Kargo, internette yaşayan ve fareden nefret eden insanlar için tasarlanmış bir tarayıcıdır. Kargo,
+                    sadece birkaç klavye kısayolu kullanılarak kontrol edilebilir. Kargo, bir tarayıcının sadece en
+                    kullanışlı özelliklerini içerir; bu sayede internette gezinirken gereksiz özellikler sizi rahatsız
+                    edemez. Kargo'yu geliştirdim çünkü tercih ettiğim tarayıcıların (Chrome ve Firefox) sahip olduğu
+                    çoğu özelliği kullanmıyordum.
+                </p>
+                <p>
+                    Kargo; Javascript, HTML ve CSS kullanarak modern, platformlar arası masaüstü uygulamaları
+                    geliştirmeye yarayan bir teknoloji olan
+                    <a href="https://electronjs.org">Electron</a> kullanılarak inşa edilmiştir. Kaynak koduna
+                    <a href="https://github.com/aardaakpinar/kargo">Github</a> üzerinden ulaşılabilir.
+                </p>
 
-        <h3>Features</h3>
-        <ul>
-          <li><strong>Chrome</strong>: Cargo uses Electron’s webview tags, which are powered by Chromium</li>
-          <li><strong>Tabs</strong>: Like any other browser cargo supports tabs, but it hides them from you</li>
-          <li><strong>Dev Tools</strong>: Cargo has full support for Chrome’s developer tools</li>
-          <li><strong>Cross platform</strong>: Cargo looks good on all platforms, even the titlebar on windows looks good</li>
-          <li><strong>Simple</strong>: Cargo only has the features most people need</li>
-          <li><strong>Very cute</strong>: 🚂🚋🚋 Cargo(delivering the web to your home)</li>
-        </ul>
+                <h3>Özellikler</h3>
+                <ul>
+                    <li>
+                        <strong>Chrome</strong>: Kargo, gücünü Chromium'dan alan Electron'un webview etiketlerini
+                        kullanır.
+                    </li>
+                    <li>
+                        <strong>Sekmeler</strong>: Diğer tüm tarayıcılar gibi Kargo da sekmeleri destekler, ancak
+                        bunları sizden gizler.
+                    </li>
+                    <li>
+                        <strong>Geliştirici Araçları</strong>: Kargo, Chrome'un geliştirici araçlarını tam olarak
+                        destekler.
+                    </li>
+                    <li>
+                        <strong>Platformlar arası</strong>: Kargo tüm platformlarda iyi görünür, Windows'taki başlık
+                        çubuğu bile şık durur.
+                    </li>
+                    <li><strong>Basit</strong>: Kargo sadece çoğu insanın ihtiyaç duyduğu özelliklere sahiptir.</li>
+                    <li><strong>Çok şirin</strong>: 🚂🚋🚋 Kargo (web'i evinize taşır)</li>
+                </ul>
 
-        <h3 id="shortcuts">Keyboard shortcuts</h3>
-        <table>
-          <tr>
-            <td class="shortcut">alt</td>
-            <td>Open menu</td>
-          </tr>
-          <tr>
-            <td class="shortcut">ctrl + enter</td>
-            <td>Add www. + .com</td>
-          </tr>
-          <tr>
-            <td class="shortcut">command + shift + d / ctrl + shift + d</td>
-            <td>Open devtools</td>
-          </tr>
-          <tr>
-            <td class="shortcut">command + shift + a / ctrl + shift + a</td>
-            <td>Open about page</td>
-          </tr>
-          <tr>
-            <td class="shortcut">command + left / ctrl + left</td>
-            <td>Navigate back</td>
-          </tr>
-          <tr>
-            <td class="shortcut">command + right / ctrl + right</td>
-            <td>Navigate forward</td>
-          </tr>
-          <tr>
-            <td class="shortcut">command + r / ctrl + r / F5</td>
-            <td>Reload</td>
-          </tr>
-          <tr>
-            <td class="shortcut">command + h / ctrl + h</td>
-            <td>Navigate to home.cargo</td>
-          </tr>
-          <tr>
-            <td class="shortcut">command + t / ctrl + t</td>
-            <td>Open a new tab</td>
-          </tr>
-          <tr>
-            <td class="shortcut">command + w / ctrl + w</td>
-            <td>Close current tab</td>
-          </tr>
-          <tr>
-            <td class="shortcut">command + shift + left / ctrl + shift + left</td>
-            <td>Go to previous tab</td>
-          </tr>
-          <tr>
-            <td class="shortcut">command + shift + right / ctrl + shift + right</td>
-            <td>Go to next tab</td>
-          </tr>
-          <tr>
-            <td class="shortcut">command + 0 / ctrl + 0</td>
-            <td>Go to last tab</td>
-          </tr>
-          <tr>
-            <td class="shortcut">command + [number from 1 to 9] / ctrl + [number from 1 to 9]</td>
-            <td>Go to n<i style="font-size: .7em;">th</i> tab</td>
-          </tr>
-        </table>
-      </section>
-    </section>
-
-    <!-- <script type="text/javascript">
-      const about = document.querySelector('#about');
-      const navLink = document.querySelectorAll('.nav-link');
-      const rect = about.getBoundingClientRect();
-
-      console.log(rect);
-
-      document.addEventListener('scroll', (e) => {
-        if (e.srcElement.scrollingElement.scrollTop >= rect.top) {
-          for (lnk of navLink) {
-            lnk.style.color = 'black';
-          }
-        } else {
-          for (lnk of navLink) {
-            lnk.style.color = 'white';
-          }
-        }
-      });
-    </script> -->
-  </body>
+                <h3 id="shortcuts">Klavye Kısayolları</h3>
+                <table>
+                    <tr>
+                        <td class="shortcut">alt</td>
+                        <td>Menüyü aç</td>
+                    </tr>
+                    <tr>
+                        <td class="shortcut">ctrl + enter</td>
+                        <td>www. + .com ekle</td>
+                    </tr>
+                    <tr>
+                        <td class="shortcut">command + shift + d / ctrl + shift + d</td>
+                        <td>Geliştirici araçlarını aç</td>
+                    </tr>
+                    <tr>
+                        <td class="shortcut">command + shift + a / ctrl + shift + a</td>
+                        <td>Hakkında sayfasını aç</td>
+                    </tr>
+                    <tr>
+                        <td class="shortcut">command + sol / ctrl + sol</td>
+                        <td>Geri git</td>
+                    </tr>
+                    <tr>
+                        <td class="shortcut">command + sağ / ctrl + sağ</td>
+                    </tr>
+                    <tr>
+                        <td class="shortcut">command + r / ctrl + r / F5</td>
+                        <td>Yenile</td>
+                    </tr>
+                    <tr>
+                        <td class="shortcut">command + h / ctrl + h</td>
+                        <td>home.kargo sayfasına git</td>
+                    </tr>
+                    <tr>
+                        <td class="shortcut">command + t / ctrl + t</td>
+                        <td>Yeni sekme aç</td>
+                    </tr>
+                    <tr>
+                        <td class="shortcut">command + w / ctrl + w</td>
+                        <td>Mevcut sekmeyi kapat</td>
+                    </tr>
+                    <tr>
+                        <td class="shortcut">command + shift + sol / ctrl + shift + sol</td>
+                        <td>Önceki sekmeye git</td>
+                    </tr>
+                    <tr>
+                        <td class="shortcut">command + shift + sağ / ctrl + shift + sağ</td>
+                        <td>Sonraki sekmeye git</td>
+                    </tr>
+                    <tr>
+                        <td class="shortcut">command + 0 / ctrl + 0</td>
+                        <td>Son sekmeye git</td>
+                    </tr>
+                    <tr>
+                        <td class="shortcut">command + [1-9 arası sayı] / ctrl + [1-9 arası sayı]</td>
+                        <td>n.<i style="font-size: 0.7em"></i> sekmeye git</td>
+                    </tr>
+                </table>
+            </section>
+        </section>
+    </body>
 </html>

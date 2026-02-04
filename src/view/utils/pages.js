@@ -1,6 +1,6 @@
 module.exports = {
-  'home.cargo': './pages/home.html',
-  'about.cargo': './pages/about.html',
-  'error.cargo': './pages/error.html',
-  'crash.cargo': './pages/crash.html'
+  'home.kargo': './pages/home.html',
+  'about.kargo': './pages/about.html',
+  'error.kargo': './pages/error.html',
+  'crash.kargo': './pages/crash.html'
 };
