@@ -11,7 +11,7 @@ Kargo, internette yaşayan ve fareden nefret eden insanlar için bir tarayıcıd
 
 Kargo henüz çok erken aşamadadır ancak şimdiden kullanılabilir durumdadır; lütfen geliştirmeme yardımcı olun.
 
-Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](https://github.com/herber/kargo/releases/latest) birini kullanabilirsiniz.
+Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](https://github.com/aardaakpinar/kargo/releases/latest) birini kullanabilirsiniz.
 
 ## Özellikler
 
