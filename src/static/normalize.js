@@ -83,8 +83,8 @@
           };
 
           function testParameter(name, filters) {
-            return filters.some(
-              filter => (filter instanceof RegExp ? filter.test(name) : filter === name)
+            return filters.some(filter =>
+              filter instanceof RegExp ? filter.test(name) : filter === name
             );
           }
 
@@ -982,7 +982,7 @@ object-assign
                 for (; /* no initialization */ delta > (baseMinusTMin * tMax) >> 1; k += base) {
                   delta = floor(delta / baseMinusTMin);
                 }
-                return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
+                return floor(k + ((baseMinusTMin + 1) * delta) / (delta + skew));
               }
 
               /**
@@ -1179,7 +1179,9 @@ object-assign
                         }
                         qMinusT = q - t;
                         baseMinusT = base - t;
-                        output.push(stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0)));
+                        output.push(
+                          stringFromCharCode(digitToBasic(t + (qMinusT % baseMinusT), 0))
+                        );
                         q = floor(qMinusT / baseMinusT);
                       }
 
@@ -1285,7 +1287,11 @@ object-assign
             this,
             typeof global !== 'undefined'
               ? global
-              : typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : {}
+              : typeof self !== 'undefined'
+              ? self
+              : typeof window !== 'undefined'
+              ? window
+              : {}
           ));
         },
         {}
@@ -2152,7 +2158,9 @@ object-assign
             if (psychotic) {
               result.hostname = result.host = isAbsolute
                 ? ''
-                : srcPath.length ? srcPath.shift() : '';
+                : srcPath.length
+                ? srcPath.shift()
+                : '';
               //occationaly the auth can get stuck only in host
               //this especially happens in cases like
               //url.resolveObject('mailto:local1@domain1', 'local2@domain2')

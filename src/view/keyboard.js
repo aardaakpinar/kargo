@@ -1,12 +1,13 @@
 const mousetrap = require('mousetrap');
+const { ipcRenderer } = require('electron');
 
 module.exports = (emitter, state) => {
-  mousetrap.bind(['alt'], () => {
+  mousetrap.bind(['command+tab', 'ctrl+tab'], () => {
     emitter.emit('tabs-toggle');
     return false;
   });
 
-  mousetrap.bind(['command+shift+t', 'ctrl+shift+t'], () => {
+  mousetrap.bind(['command+shift+L', 'ctrl+shift+L'], () => {
     emitter.emit('dark-mode');
     return false;
   });
@@ -56,7 +57,7 @@ module.exports = (emitter, state) => {
     return false;
   });
 
-  Mousetrap.bind(['command+w', 'ctrl+w'], () => {
+  Mousetrap.bind(['command+x', 'ctrl+x'], () => {
     emitter.emit('tabs-remove-current');
     return false;
   });
@@ -76,15 +77,8 @@ module.exports = (emitter, state) => {
     return false;
   });
 
-  let fullscreen = false;
-
   Mousetrap.bind(['f11'], () => {
-    const remote = require('electron').remote;
-    let w = remote.getCurrentWindow();
-
-    fullscreen = !fullscreen;
-    w.setFullScreen(fullscreen);
-
+    ipcRenderer.send('toggle-fullscreen');
     return false;
   });
 

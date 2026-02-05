@@ -4,7 +4,11 @@
   else {
     ('undefined' != typeof window
       ? window
-      : 'undefined' != typeof global ? global : 'undefined' != typeof self ? self : this
+      : 'undefined' != typeof global
+      ? global
+      : 'undefined' != typeof self
+      ? self
+      : this
     ).tldjs = $();
   }
 })(function() {
@@ -170,10 +174,10 @@
             return null === a
               ? null
               : a.length === o.length
-                ? null
-                : ((l = a),
-                  (m = (u = o).length - l.length - 2),
-                  -1 === (c = u.lastIndexOf('.', m)) ? u : u.substr(c + 1));
+              ? null
+              : ((l = a),
+                (m = (u = o).length - l.length - 2),
+                -1 === (c = u.lastIndexOf('.', m)) ? u : u.substr(c + 1));
           };
         },
         {}
@@ -194,23 +198,23 @@
           a.exports = function($) {
             return (
               'string' == typeof $ &&
-              (0 !== $.length &&
-                ((function($) {
-                  for (var a = !1, o = 0; o < $.length; o += 1) {
+              0 !== $.length &&
+              ((function($) {
+                for (var a = !1, o = 0; o < $.length; o += 1) {
+                  var i = $.charCodeAt(o);
+                  if (58 === i) a = !0;
+                  else if (!((i >= 48 && i <= 57) || (i >= 97 && i <= 102))) return !1;
+                }
+                return a;
+              })($) ||
+                (function($) {
+                  for (var a = 0, o = 0; o < $.length; o += 1) {
                     var i = $.charCodeAt(o);
-                    if (58 === i) a = !0;
-                    else if (!((i >= 48 && i <= 57) || (i >= 97 && i <= 102))) return !1;
+                    if (46 === i) a += 1;
+                    else if (i < 48 || i > 57) return !1;
                   }
-                  return a;
-                })($) ||
-                  (function($) {
-                    for (var a = 0, o = 0; o < $.length; o += 1) {
-                      var i = $.charCodeAt(o);
-                      if (46 === i) a += 1;
-                      else if (i < 48 || i > 57) return !1;
-                    }
-                    return 3 === a && '.' !== $[0] && '.' !== $[$.length - 1];
-                  })($)))
+                  return 3 === a && '.' !== $[0] && '.' !== $[$.length - 1];
+                })($))
             );
           };
         },
@@ -8956,7 +8960,7 @@
                 var i = 0;
                 for ($ = o ? w($ / g) : $ >> 1, $ += w($ / a); $ > (x * c) >> 1; i += l)
                   $ = w($ / x);
-                return w(i + (x + 1) * $ / ($ + h));
+                return w(i + ((x + 1) * $) / ($ + h));
               }
               function S($) {
                 var a,
@@ -8984,7 +8988,11 @@
                       ((r =
                         (p = $.charCodeAt(e++)) - 48 < 10
                           ? p - 22
-                          : p - 65 < 26 ? p - 65 : p - 97 < 26 ? p - 97 : l) >= l ||
+                          : p - 65 < 26
+                          ? p - 65
+                          : p - 97 < 26
+                          ? p - 97
+                          : l) >= l ||
                         r > w((u - v) / s)) &&
                         j('overflow'),
                       (v += r * s),
@@ -9031,7 +9039,7 @@
                   )
                     if (((p = $[s]) < a && ++o > u && j('overflow'), p == a)) {
                       for (r = o, h = l; !(r < (g = h <= n ? m : h >= n + c ? c : h - n)); h += l)
-                        (x = r - g), (v = l - g), q.push(z(I(g + x % v, 0))), (r = w(x / v));
+                        (x = r - g), (v = l - g), q.push(z(I(g + (x % v), 0))), (r = w(x / v));
                       q.push(z(I(r, 0))), (n = U(o, y, i == e)), (o = 0), ++i;
                     }
                   ++o, ++a;
@@ -9065,7 +9073,11 @@
             this,
             'undefined' != typeof global
               ? global
-              : 'undefined' != typeof self ? self : 'undefined' != typeof window ? window : {}
+              : 'undefined' != typeof self
+              ? self
+              : 'undefined' != typeof window
+              ? window
+              : {}
           ));
         },
         {}
@@ -9098,7 +9110,9 @@
                 (r = n),
                 (u = g),
                 Object.prototype.hasOwnProperty.call(r, u)
-                  ? i(n[g]) ? n[g].push(d) : (n[g] = [n[g], d])
+                  ? i(n[g])
+                    ? n[g].push(d)
+                    : (n[g] = [n[g], d])
                   : (n[g] = d);
             }
             return n;
@@ -9140,7 +9154,9 @@
                         }).join(a)
                       : t + encodeURIComponent(i($[s]));
                   }).join(a)
-                : t ? encodeURIComponent(i(t)) + o + encodeURIComponent(i($)) : ''
+                : t
+                ? encodeURIComponent(i(t)) + o + encodeURIComponent(i($))
+                : ''
             );
           };
           var e =
@@ -9434,8 +9450,8 @@
                 v = y || f || (o.host && $.pathname),
                 x = v,
                 w = (o.pathname && o.pathname.split('/')) || [],
-                z = ((g = ($.pathname && $.pathname.split('/')) || []),
-                o.protocol && !b[o.protocol]);
+                z =
+                  ((g = ($.pathname && $.pathname.split('/')) || []), o.protocol && !b[o.protocol]);
               if (
                 (z &&
                   ((o.hostname = ''),
@@ -9492,7 +9508,9 @@
               )
                 '.' === (j = w[C])
                   ? w.splice(C, 1)
-                  : '..' === j ? (w.splice(C, 1), O++) : O && (w.splice(C, 1), O--);
+                  : '..' === j
+                  ? (w.splice(C, 1), O++)
+                  : O && (w.splice(C, 1), O--);
               if (!v && !x) for (; O--; O) w.unshift('..');
               !v || '' === w[0] || (w[0] && '/' === w[0].charAt(0)) || w.unshift(''),
                 q && '/' !== w.join('/').substr(-1) && w.push('');

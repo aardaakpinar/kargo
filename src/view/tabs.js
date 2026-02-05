@@ -26,6 +26,7 @@ opacity: 0;
   right: 0px;
   top: 0px;
   margin-top: 41px;
+  z-index: 10;
 }
 
 :global(.simplebar-scrollbar) {
@@ -111,44 +112,60 @@ let a = () => {};
 
 module.exports = (emitter, state) => {
   const render = () => {
-    const el = html`<div id="tabs" class="${styles}">
-      <ul class="tabs-bar">
-        ${state.views.map((view, id) => {
-          const webview = document.querySelector(`#${view.id}`);
-          const active = view.element.style.display == 'block' ? true : false;
-          let title = 'Loading';
+    const el = html`
+      <div id="tabs" class="${styles}">
+        <ul class="tabs-bar">
+          ${state.views.map((view, id) => {
+            const webview = document.querySelector(`#${view.id}`);
+            const active = view.element.style.display == 'block' ? true : false;
+            let title = 'Loading';
 
-          try {
-            title = dotify(webview.getTitle());
-          } catch (err) {}
+            try {
+              title = dotify(webview.getTitle());
+            } catch (err) {}
 
-          if (title == '' || title == ' ' || title == undefined) {
-            title = dotify(webview.getURL());
-          }
-
-          if (title == '' || title == ' ' || title == undefined) {
-            title = dotify(betterUrl(webview.getAttribute('src')) || 'Loading');
-          }
-
-          let closeClicked = false;
-
-          return html`<li class="${active == true ? 'active' : ''}" onclick=${() => {
-            if (!closeClicked) {
-              emitter.emit('webview-change', id);
-              emitter.emit('tabs-render');
+            if (title == '' || title == ' ' || title == undefined) {
+              title = dotify(webview.getURL());
             }
-          }}><a class="nav">${title} <span class="close" onclick=${e => {
-            closeClicked = true;
-            e.preventDefault();
-            emitter.emit('webview-remove', id);
 
-            setTimeout(() => {
-              closeClicked = false;
-            }, 10);
-          }}>×</span></a></li>`;
-        })}
-      </ul>
-    </div>`;
+            if (title == '' || title == ' ' || title == undefined) {
+              title = dotify(betterUrl(webview.getAttribute('src')) || 'Loading');
+            }
+
+            let closeClicked = false;
+
+            return html`
+              <li
+                class="${active == true ? 'active' : ''}"
+                onclick=${() => {
+                  if (!closeClicked) {
+                    emitter.emit('webview-change', id);
+                    emitter.emit('tabs-render');
+                  }
+                }}
+              >
+                <a class="nav"
+                  >${title}
+                  <span
+                    class="close"
+                    onclick=${e => {
+                      closeClicked = true;
+                      e.preventDefault();
+                      emitter.emit('webview-remove', id);
+
+                      setTimeout(() => {
+                        closeClicked = false;
+                      }, 10);
+                    }}
+                    >×</span
+                  ></a
+                >
+              </li>
+            `;
+          })}
+        </ul>
+      </div>
+    `;
 
     new SimpleBar(el.querySelector('.tabs-bar'));
 
