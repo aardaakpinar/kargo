@@ -1,9 +1,9 @@
-<p align="center">
+<p style="text-align: center;">
   <img width="200px" src="https://i.imgur.com/XfHbapN.png" />
-  <h1 align="center">Kargo</h1>
+  <h1 style="text-align: center;">Kargo</h1>
 </p>
 
-<p align="center">
+<p style="text-align: center;">
   Neredeyse hiç kullanıcı arayüzü (UI) olmayan bir tarayıcı.
 </p>
 
@@ -45,68 +45,76 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
 
 <table>
   <tr>
-    <td class="shortcut">alt</td>
-    <td>Menüyü aç</td>
+      <td class="shortcut">ctrl + tab</td>
+      <td>Sekme çubuğunu göster/gizle</td>
   </tr>
   <tr>
-    <td class="shortcut">ctrl + enter</td>
-    <td>www. + .com ekle</td>
+      <td class="shortcut">ctrl + enter</td>
+      <td>www. + .com ekle</td>
   </tr>
   <tr>
-    <td class="shortcut">command + shift + d / ctrl + shift + d</td>
-    <td>Geliştirici araçlarını aç</td>
+      <td class="shortcut">ctrl + shift + l</td>
+      <td>Tema değiştir</td>
   </tr>
   <tr>
-    <td class="shortcut">command + shift + a / ctrl + shift + a</td>
-    <td>Hakkında sayfasını aç</td>
+      <td class="shortcut">ctrl + m</td>
+      <td>Menü aç</td>
   </tr>
   <tr>
-    <td class="shortcut">command + sol / ctrl + sol</td>
-    <td>Geri git</td>
+      <td class="shortcut">ctrl + h</td>
+      <td>Geçmişi aç</td>
   </tr>
   <tr>
-    <td class="shortcut">command + sağ / ctrl + sağ</td>
-    <td>İleri git</td>
+      <td class="shortcut">ctrl + shift + d</td>
+      <td>Geliştirici araçlarını aç</td>
   </tr>
   <tr>
-    <td class="shortcut">command + r / ctrl + r / F5</td>
-    <td>Yenile</td>
+      <td class="shortcut">ctrl + shift + a</td>
+      <td>Hakkında sayfasını aç</td>
   </tr>
   <tr>
-    <td class="shortcut">command + shift + h / ctrl + shift + h</td>
-    <td>home.kargo sayfasına git</td>
+      <td class="shortcut">ctrl + sol</td>
+      <td>Geri git</td>
   </tr>
   <tr>
-    <td class="shortcut">command + h / ctrl + h</td>
-    <td>Geçmişi aç</td>
+      <td class="shortcut">ctrl + sağ</td>
+      <td>İleri git</td>
   </tr>
   <tr>
-    <td class="shortcut">command + t / ctrl + t</td>
-    <td>Yeni sekme aç</td>
+      <td class="shortcut">ctrl + r / F5</td>
+      <td>Yenile</td>
   </tr>
   <tr>
-    <td class="shortcut">command + w / ctrl + w</td>
-    <td>Mevcut sekmeyi kapat</td>
+      <td class="shortcut">ctrl + shift + h</td>
+      <td>Ana sayfaya git</td>
   </tr>
   <tr>
-    <td class="shortcut">command + shift + sol / ctrl + shift + sol</td>
-    <td>Önceki sekmeye git</td>
+      <td class="shortcut">ctrl + t</td>
+      <td>Yeni sekme aç</td>
   </tr>
   <tr>
-    <td class="shortcut">command + shift + sağ / ctrl + shift + sağ</td>
-    <td>Sonraki sekmeye git</td>
+      <td class="shortcut">ctrl + x</td>
+      <td>Mevcut sekmeyi kapat</td>
   </tr>
   <tr>
-    <td class="shortcut">command + 0 / ctrl + 0</td>
-    <td>Son sekmeye git</td>
+      <td class="shortcut">ctrl + shift + sol</td>
+      <td>Önceki sekmeye git</td>
   </tr>
   <tr>
-    <td class="shortcut">command + [1-9 arası sayı] / ctrl + [1-9 arası sayı]</td>
-    <td>n.<i style="font-size: .7em;"></i> sekmeye git</td>
+      <td class="shortcut">ctrl + shift + sağ</td>
+      <td>Sonraki sekmeye git</td>
   </tr>
-    <tr>
-    <td class="shortcut">command + shift + t  / ctrl + shift + t</td>
-    <td>Karanlık moda geç</td>
+  <tr>
+      <td class="shortcut">ctrl + 0</td>
+      <td>Son sekmeye git</td>
+  </tr>
+  <tr>
+      <td class="shortcut">ctrl + [1-9 arası sayı]</td>
+      <td>n. sekmeye git</td>
+  </tr>
+  <tr>
+      <td class="shortcut">F11</td>
+      <td>Tam ekran</td>
   </tr>
 </table>
 
@@ -116,12 +124,10 @@ Kargo hala geliştirilme aşamasındadır, ancak hayallerimizdeki tarayıcıyı 
 
 #### YAPILACAKLAR (TODO)
 
- - Testler
- - Tasarım iyileştirmeleri
- - Ayarlar
-    - Arama motoru
-    - Karanlık mod
-    - ...
+- Testler
+- Tasarım iyileştirmeleri
+- Ayarlar
+  - Karanlık mod
 
 ## Geliştirme
 
