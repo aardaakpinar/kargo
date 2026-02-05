@@ -13,9 +13,9 @@
   "scripts": {
     "test": "formatted .",
     "start": "electron .",
-    "build": "electron-builder .",
+    "build": "electron-builder",
     "build:win64": "npm run build -- --win",
-    "build:mac": "npm run build -- --mac",
+    "build:linux": "npm run build -- --linux",
     "build:all": "npm run build -- --all"
   },
   "keywords": [
@@ -73,8 +73,10 @@
     "win": {
       "icon": "./src/static/icon.ico"
     },
-    "mac": {
-      "icon": "./src/static/icon.icns"
+    "linux": {
+      "icon": "./src/static/icon.png",
+      "target": ["AppImage", "rpm", "deb"],
+      "category": "Network"
     }
   }
 }
