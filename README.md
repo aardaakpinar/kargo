@@ -1,9 +1,9 @@
-<p style="text-align: center;">
+<p align="center">
   <img width="200px" src="https://i.imgur.com/XfHbapN.png" />
-  <h1 style="text-align: center;">Kargo</h1>
+  <h1 align="center">Kargo</h1>
 </p>
 
-<p style="text-align: center;">
+<p align="center">
   Neredeyse hiç kullanıcı arayüzü (UI) olmayan bir tarayıcı.
 </p>
 
