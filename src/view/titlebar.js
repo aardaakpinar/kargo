@@ -1,6 +1,5 @@
 const html = require('xou');
 const vxv = require('vxv');
-const vkey = require('vkey');
 const betterUrl = require('./utils/betterURL');
 const { ipcRenderer } = require('electron');
 
@@ -12,7 +11,6 @@ width: 100%;
   border-bottom: solid #BDBDBD 1px;
   background: white;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 0 10px;
 }
@@ -20,6 +18,8 @@ width: 100%;
 & .controls {
   display: flex;
   -webkit-app-region: no-drag;
+  align-items: center;
+  gap: 5px;
 }
 
 & .control-button {
@@ -33,6 +33,9 @@ width: 100%;
   justify-content: center;
   font-size: 16px;
   color: #616161;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
 }
 
 & .control-button:hover {
@@ -86,9 +89,22 @@ module.exports = (emitter, state) => {
     <div>
       <div id="titlebar" class="${topbarStyle}">
         <div class="controls">
-          <button class="control-button" id="minimize">−</button>
-          <button class="control-button" id="maximize">□</button>
-          <button class="control-button" id="close">×</button>
+          <button class="control-button" id="minimize">
+            <svg width="12" height="2" viewBox="0 0 12 2" xmlns="http://www.w3.org/2000/svg">
+              <rect width="12" height="2" fill="#616161"/>
+            </svg>
+          </button>
+          <button class="control-button" id="maximize">
+            <svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1" y="1" width="10" height="10" stroke="#616161" fill="none" stroke-width="1"/>
+            </svg>
+          </button>
+          <button class="control-button" id="close">
+            <svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+              <line x1="1" y1="1" x2="11" y2="11" stroke="#616161" stroke-width="1"/>
+              <line x1="11" y1="1" x2="1" y2="11" stroke="#616161" stroke-width="1"/>
+            </svg>
+          </button>
         </div>
         <span class="bg"></span>
         <input type="text" class="input urlbar" style="width: ${width}px" value="${state.url}" />
