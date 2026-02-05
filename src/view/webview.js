@@ -4,7 +4,7 @@ const { parse } = require('tldjs');
 const normalizeUrl = require('normalize-url');
 const url = require('url');
 const electron = require('electron');
-const { BrowserWindow } = electron.remote;
+const { ipcRenderer } = electron;
 const path = require('path');
 
 const pages = require('./utils/pages');
@@ -24,6 +24,7 @@ module.exports = (emitter, state) => {
   const didStopLoading = () => {
     const webview = document.querySelector(`#${state.views[focusedView].id}`);
     webview.style.background = 'white';
+    webview.style.zIndex = '1';
     emitter.emit('progress-stop');
   };
 
@@ -57,7 +58,8 @@ module.exports = (emitter, state) => {
   const loadingError = err => {
     console.log(err);
     const webview = document.querySelector(`#${state.views[focusedView].id}`);
-    webview.setAttribute('src', './pages/error.html');
+    if (!webview || !webview.parentNode) return;
+    webview.loadURL('file://' + path.join(__dirname, '../pages/error.html'));
   };
 
   const newWindow = e => {
@@ -76,13 +78,10 @@ module.exports = (emitter, state) => {
       //   title: 'Cargo',
       //   icon: path.join(__dirname, '../static/icon.png')
       // });
-
       // win.on('closed', () => {
       //   win = null;
       // });
-
       // win.loadURL(e.url);
-
       // win.setMenu(null);
     } else if (
       e.disposition == 'foreground-tab' ||
@@ -116,11 +115,17 @@ module.exports = (emitter, state) => {
     const id = '_wv_' + uuid();
     src = src || './pages/home.html';
 
-    const viewElement = html`<div style="display: none;">
-      <webview id="${id}" src="${
-      src
-    }" allowpopups autosize style="width: 100%; height: calc(100vh - 40px);"></webview>
-    </div>`;
+    const viewElement = html`
+      <div style="display: none;">
+        <webview
+          id="${id}"
+          src="${src}"
+          allowpopups
+          autosize
+          style="width: 100%; height: calc(100vh - 40px);"
+        ></webview>
+      </div>
+    `;
 
     document.body.appendChild(viewElement);
 
@@ -165,9 +170,7 @@ module.exports = (emitter, state) => {
     if (state.views.length == 0) {
       emitter.emit('tabs-db-flush');
 
-      const remote = require('electron').remote;
-      let w = remote.getCurrentWindow();
-      w.close();
+      ipcRenderer.send('close-window');
     }
 
     id = id - 1;
@@ -234,7 +237,7 @@ module.exports = (emitter, state) => {
 
     let slug = options.slug;
     const url = normalizeUrl(slug);
-    const parsed = parse(url, true);
+    const parsed = parse(url);
 
     if (url.startsWith('file:///')) {
       return webview.loadURL(slug);
@@ -244,9 +247,9 @@ module.exports = (emitter, state) => {
       slug = 'http://' + slug;
     }
 
-    if (parsed.domain != null && parsed.isValid == true) {
+    if (parsed.domain && parsed.isValid) {
       if (pages[parsed.domain] != null) {
-        webview.setAttribute('src', pages[parsed.domain]);
+        webview.loadURL('file://' + path.join(__dirname, pages[parsed.domain]));
       } else {
         webview.loadURL(slug);
       }

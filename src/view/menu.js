@@ -52,14 +52,16 @@ module.exports = (emitter, state) => {
   // })}
   // </table>
 
-  const element = html`<div id="menu" class="${styles}">
-    <ul>
-      <li><a class="home">Home</a></li>
-      <li><a class="about">About</a></li>
-      <li><a class="back">◀</a></li>
-      <li><a class="forward">▶</a></li>
-    </ul>
-  </div>`;
+  const element = html`
+    <div id="menu" class="${styles}">
+      <ul>
+        <li><a class="home">Home</a></li>
+        <li><a class="about">About</a></li>
+        <li><a class="back">◀</a></li>
+        <li><a class="forward">▶</a></li>
+      </ul>
+    </div>
+  `;
 
   emitter.on('menu-toggle', () => {
     if (toggle) {

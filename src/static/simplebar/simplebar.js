@@ -12,8 +12,10 @@
   'object' == typeof exports && 'object' == typeof module
     ? (module.exports = e())
     : 'function' == typeof define && define.amd
-      ? define([], e)
-      : 'object' == typeof exports ? (exports.SimpleBar = e()) : (t.SimpleBar = e());
+    ? define([], e)
+    : 'object' == typeof exports
+    ? (exports.SimpleBar = e())
+    : (t.SimpleBar = e());
 })(this, function() {
   return (function(t) {
     function e(r) {
@@ -59,7 +61,9 @@
       var n = (t.exports =
         'undefined' != typeof window && window.Math == Math
           ? window
-          : 'undefined' != typeof self && self.Math == Math ? self : Function('return this')());
+          : 'undefined' != typeof self && self.Math == Math
+          ? self
+          : Function('return this')());
       'number' == typeof __g && (__g = n);
     },
     function(t, e) {
@@ -231,7 +235,11 @@
               (u && (o(n, s) || i(n, s, t[e] ? '' + t[e] : a.join(String(e)))),
               t === r
                 ? (t[e] = n)
-                : c ? (t[e] ? (t[e] = n) : i(t, e, n)) : (delete t[e], i(t, e, n)));
+                : c
+                ? t[e]
+                  ? (t[e] = n)
+                  : i(t, e, n)
+                : (delete t[e], i(t, e, n)));
         })(Function.prototype, 'toString', function() {
           return ('function' == typeof this && this[s]) || c.call(this);
         });
@@ -782,15 +790,21 @@
             a = r(n),
             u = c.length;
           return a < 0 || a >= u
-            ? t ? '' : void 0
+            ? t
+              ? ''
+              : void 0
             : ((o = c.charCodeAt(a)),
               o < 55296 ||
               o > 56319 ||
               a + 1 === u ||
               (s = c.charCodeAt(a + 1)) < 56320 ||
               s > 57343
-                ? t ? c.charAt(a) : o
-                : t ? c.slice(a, a + 2) : s - 56320 + ((o - 55296) << 10) + 65536);
+                ? t
+                  ? c.charAt(a)
+                  : o
+                : t
+                ? c.slice(a, a + 2)
+                : s - 56320 + ((o - 55296) << 10) + 65536);
         };
       };
     },
@@ -1029,8 +1043,10 @@
             r(t, o)
               ? t[o]
               : 'function' == typeof t.constructor && t instanceof t.constructor
-                ? t.constructor.prototype
-                : t instanceof Object ? s : null
+              ? t.constructor.prototype
+              : t instanceof Object
+              ? s
+              : null
           );
         };
     },
@@ -1132,12 +1148,14 @@
         return void 0 === t
           ? 'Undefined'
           : null === t
-            ? 'Null'
-            : 'string' == typeof (n = s((e = Object(t)), i))
-              ? n
-              : o
-                ? r(e)
-                : 'Object' == (c = r(e)) && 'function' == typeof e.callee ? 'Arguments' : c;
+          ? 'Null'
+          : 'string' == typeof (n = s((e = Object(t)), i))
+          ? n
+          : o
+          ? r(e)
+          : 'Object' == (c = r(e)) && 'function' == typeof e.callee
+          ? 'Arguments'
+          : c;
       };
     },
     function(t, e, n) {

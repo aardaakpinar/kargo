@@ -71,12 +71,15 @@ let a = () => {};
 // });
 
 module.exports = emitter => {
-  const titleBarOverlay = html`<div id="history-overlay" class="${overlayStyles}">History</div>`;
+  const titleBarOverlay = html`
+    <div id="history-overlay" class="${overlayStyles}">History</div>
+  `;
 
-  const element = html`<div id="history" class="${styles}">
-    <ul class="history">
-    </ul>
-  </div>`;
+  const element = html`
+    <div id="history" class="${styles}">
+      <ul class="history"></ul>
+    </div>
+  `;
 
   emitter.on('history-toggle', () => {
     if (toggle) {
