@@ -40,6 +40,7 @@
     "xou": "^2.0.2"
   },
   "devDependencies": {
+    "@electron/devtron": "^2.1.1",
     "devtron": "^1.4.0",
     "electron": "^40.1.0",
     "electron-builder": "^26.7.0",
@@ -75,7 +76,11 @@
     },
     "linux": {
       "icon": "./src/static/icon.png",
-      "target": ["AppImage", "rpm", "deb"],
+      "target": [
+        "AppImage",
+        "rpm",
+        "deb"
+      ],
       "category": "Network"
     }
   }
