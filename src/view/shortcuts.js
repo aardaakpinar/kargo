@@ -142,7 +142,6 @@ class ShortcutsManager {
 
   setupEventListeners() {
     document.addEventListener('keydown', this.handleKeyDown.bind(this));
-    window.addEventListener('message', this.handleWebviewMessage.bind(this));
     this.setupWebviewListeners();
   }
 
@@ -172,10 +171,6 @@ class ShortcutsManager {
   }
 
   attachWebviewListener(webview) {
-    webview.addEventListener('dom-ready', () => {
-      this.injectShortcutsIntoWebview(webview);
-    });
-
     webview.addEventListener('before-input-event', (event, input) => {
       if (input.type === 'keyDown') {
         const shortcut = this.buildShortcutStringFromInput(input);
@@ -185,55 +180,6 @@ class ShortcutsManager {
           handler();
         }
       }
-    });
-  }
-
-  injectShortcutsIntoWebview(webview) {
-    const shortcutsCode = `
-      document.addEventListener('keydown', function(event) {
-        const shortcut = buildShortcutString(event);
-        if (isShortcutHandled(shortcut)) {
-          event.preventDefault();
-          handleShortcut(shortcut);
-        }
-
-        function buildShortcutString(event) {
-          const parts = [];
-          if (event.ctrlKey || event.metaKey) parts.push('Ctrl');
-          if (event.shiftKey) parts.push('Shift');
-          if (event.altKey) parts.push('Alt');
-
-          const keyMap = {
-            'ArrowLeft': 'ArrowLeft',
-            'ArrowRight': 'ArrowRight',
-            'ArrowUp': 'ArrowUp',
-            'ArrowDown': 'ArrowDown'
-          };
-
-          const key = keyMap[event.key] || event.key.toUpperCase();
-          parts.push(key);
-          return parts.join('+');
-        }
-
-        function isShortcutHandled(shortcut) {
-          const handledShortcuts = [
-            'Ctrl+R', 'F5', 'Ctrl+ArrowLeft', 'Ctrl+ArrowRight',
-            'Ctrl+T', 'Ctrl+X', 'Ctrl+Tab', 'Ctrl+Shift+ArrowLeft', 'Ctrl+Shift+ArrowRight',
-            'Ctrl+0', 'Ctrl+1', 'Ctrl+2', 'Ctrl+3', 'Ctrl+4', 'Ctrl+5', 'Ctrl+6', 'Ctrl+7', 'Ctrl+8', 'Ctrl+9',
-            'Ctrl+Shift+D', 'F11', 'Ctrl+Shift+A', 'Ctrl+Shift+H', 'Ctrl+H',
-            'Ctrl+Shift+L', 'Ctrl+Shift+M', 'Ctrl+Q', 'Ctrl+M', 'Escape'
-          ];
-          return handledShortcuts.includes(shortcut);
-        }
-
-        function handleShortcut(shortcut) {
-          window.postMessage({ type: 'kargo-shortcut', shortcut: shortcut }, '*');
-        }
-      });
-    `;
-
-    webview.executeJavaScript(shortcutsCode).catch(err => {
-      console.log('Kısayol enjeksiyonu başarısız:', err);
     });
   }
 
@@ -247,16 +193,6 @@ class ShortcutsManager {
       event.preventDefault();
       const { handler } = this.shortcuts.get(shortcut);
       handler();
-    }
-  }
-
-  handleWebviewMessage(event) {
-    if (event.data && event.data.type === 'kargo-shortcut') {
-      const shortcut = event.data.shortcut;
-      if (this.shortcuts.has(shortcut)) {
-        const { handler } = this.shortcuts.get(shortcut);
-        handler();
-      }
     }
   }
 
