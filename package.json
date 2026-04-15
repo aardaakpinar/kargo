@@ -5,7 +5,7 @@
 	"main": "src/main.js",
 	"scripts": {
 		"start": "electron .",
-		"dev": "electron . --enable-logging",
+		"dev": "electron . --enable-logging --watch",
 		"build": "electron-builder",
 		"build:win": "electron-builder --win",
 		"build:mac": "electron-builder --mac",
@@ -18,15 +18,19 @@
 		"keyboard",
 		"webview"
 	],
-	"author": "",
+	"author": "aardaakpinar",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/aardaakpinar/kargo"
+	},
 	"license": "MIT",
 	"devDependencies": {
 		"electron": "^41.2.0",
 		"electron-builder": "^26.8.1"
 	},
 	"build": {
+		"asar": true,
 		"appId": "com.kargo.browser",
-		"icon": "./src/static/icon.ico",
 		"productName": "Kargo",
 		"directories": {
 			"output": "dist"
@@ -36,12 +40,15 @@
 			"package.json"
 		],
 		"mac": {
+			"icon": "src/static/icon.icns",
 			"category": "public.app-category.productivity"
 		},
 		"win": {
+			"icon": "src/static/icon.ico",
 			"target": "nsis"
 		},
 		"linux": {
+			"icon": "src/static/icon.png",
 			"target": "AppImage"
 		}
 	}
