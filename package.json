@@ -1,48 +1,48 @@
 {
-  "name": "kargo",
-  "version": "0.1.1",
-  "description": "Kargo is a keyboard-first minimal desktop web browser built with Electron.",
-  "main": "src/main.js",
-  "scripts": {
-    "start": "electron .",
-    "dev": "electron . --enable-logging",
-    "build": "electron-builder",
-    "build:win": "electron-builder --win",
-    "build:mac": "electron-builder --mac",
-    "build:linux": "electron-builder --linux"
-  },
-  "keywords": [
-    "electron",
-    "browser",
-    "minimal",
-    "keyboard",
-    "webview"
-  ],
-  "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "electron": "^41.2.0",
-    "electron-builder": "^26.8.1"
-  },
-  "build": {
-    "appId": "com.kargo.browser",
-    "icon": "./src/static/icon.ico",
-    "productName": "Kargo",
-    "directories": {
-      "output": "dist"
-    },
-    "files": [
-      "src/**/*",
-      "package.json"
-    ],
-    "mac": {
-      "category": "public.app-category.productivity"
-    },
-    "win": {
-      "target": "nsis"
-    },
-    "linux": {
-      "target": "AppImage"
-    }
-  }
+	"name": "kargo",
+	"version": "0.1.1",
+	"description": "Kargo is a keyboard-first minimal desktop web browser built with Electron.",
+	"main": "src/main.js",
+	"scripts": {
+		"start": "electron .",
+		"dev": "electron . --enable-logging",
+		"build": "electron-builder",
+		"build:win": "electron-builder --win",
+		"build:mac": "electron-builder --mac",
+		"build:linux": "electron-builder --linux"
+	},
+	"keywords": [
+		"electron",
+		"browser",
+		"minimal",
+		"keyboard",
+		"webview"
+	],
+	"author": "",
+	"license": "MIT",
+	"devDependencies": {
+		"electron": "^41.2.0",
+		"electron-builder": "^26.8.1"
+	},
+	"build": {
+		"appId": "com.kargo.browser",
+		"icon": "./src/static/icon.ico",
+		"productName": "Kargo",
+		"directories": {
+			"output": "dist"
+		},
+		"files": [
+			"src/**/*",
+			"package.json"
+		],
+		"mac": {
+			"category": "public.app-category.productivity"
+		},
+		"win": {
+			"target": "nsis"
+		},
+		"linux": {
+			"target": "AppImage"
+		}
+	}
 }

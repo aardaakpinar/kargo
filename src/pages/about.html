@@ -1,56 +1,68 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kargo - Hakkında</title>
-    <link rel="stylesheet" href="../static/styles.css">
-  </head>
-  <body>
-    <header class="top-container">
-        <div class="search-header"></div>
-    </header>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Kargo - Hakkında</title>
+		<link rel="stylesheet" href="../static/styles.css" />
+	</head>
+	<body>
+		<header class="top-container">
+			<div class="search-header"></div>
+		</header>
 
-    <main>
-      <section class="inner">
-        <h1>🚂🚋🚋 Kargo</h1>
-        <p>Neredeyse hiç kullanıcı arayüzü (UI) olmayan bir tarayıcı.</p>
-        <p>Kargo, internette yaşayan ve fareden nefret eden insanlar için bir tarayıcıdır. Kargo, sadece birkaç klavye kısayolu kullanılarak kontrol edilebilir.</p>
-        <p>Kargo'yu geliştirdim çünkü tarayıcıda çok fazla vakit geçiriyorum ve çoğu özelliği kullanmadığımı fark ettim. Kargo; HTML, CSS ve Javascript kullanarak platformlar arası uygulamalar geliştirmeye yarayan bir framework olan <a href="https://electronjs.org">Electron</a> kullanılarak inşa edilmiştir - yani Kargo, web teknolojisiyle oluşturulmuş bir tarayıcıdır.</p>
-        <p>Kargo'yu kullandığınız için teşekkürler!</p>
-      </section>
-      
-      <section class="inner">
-        <h1>Klavye Kısayolları</h1>
-        <p>Kargo, klavye ile kullanılmak üzere tasarlanmıştır.</p>
-        <table id="shortcutsTable">
-          <!-- Kısayollar JavaScript ile doldurulacak -->
-        </table>
-      </section>
-    </main>
-    <script src="../utils/url.js"></script>
-    <script src="../view/shortcuts.js"></script>
-    <script>
-      // Kısayolları dinamik olarak tabloya ekle
-      function populateShortcutsTable() {
-        const table = document.getElementById('shortcutsTable');
-        if (!table || !window.kargoShortcuts) return;
+		<main>
+			<section class="inner">
+				<h1>🚂🚋🚋 Kargo</h1>
+				<p>Neredeyse hiç kullanıcı arayüzü (UI) olmayan bir tarayıcı.</p>
+				<p>
+					Kargo, internette yaşayan ve fareden nefret eden insanlar için bir
+					tarayıcıdır. Kargo, sadece birkaç klavye kısayolu kullanılarak kontrol
+					edilebilir.
+				</p>
+				<p>
+					Kargo'yu geliştirdim çünkü tarayıcıda çok fazla vakit geçiriyorum ve
+					çoğu özelliği kullanmadığımı fark ettim. Kargo; HTML, CSS ve
+					Javascript kullanarak platformlar arası uygulamalar geliştirmeye
+					yarayan bir framework olan
+					<a href="https://electronjs.org">Electron</a> kullanılarak inşa
+					edilmiştir - yani Kargo, web teknolojisiyle oluşturulmuş bir
+					tarayıcıdır.
+				</p>
+				<p>Kargo'yu kullandığınız için teşekkürler!</p>
+			</section>
 
-        const shortcuts = window.kargoShortcuts.getAllShortcuts();
-        
-        shortcuts.forEach(({ shortcut, description }) => {
-          const row = table.insertRow();
-          const shortcutCell = row.insertCell(0);
-          const descriptionCell = row.insertCell(1);
-          
-          shortcutCell.className = 'shortcut';
-          shortcutCell.textContent = shortcut.toLowerCase();
-          descriptionCell.textContent = description;
-        });
-      }
+			<section class="inner">
+				<h1>Klavye Kısayolları</h1>
+				<p>Kargo, klavye ile kullanılmak üzere tasarlanmıştır.</p>
+				<table id="shortcutsTable">
+					<!-- Kısayollar JavaScript ile doldurulacak -->
+				</table>
+			</section>
+		</main>
+		<script src="../utils/url.js"></script>
+		<script src="../view/shortcuts.js"></script>
+		<script>
+			// Kısayolları dinamik olarak tabloya ekle
+			function populateShortcutsTable() {
+				const table = document.getElementById("shortcutsTable");
+				if (!table || !window.kargoShortcuts) return;
 
-      // Sayfa yüklendiğinde kısayolları doldur
-      document.addEventListener('DOMContentLoaded', populateShortcutsTable);
-    </script>
-  </body>
+				const shortcuts = window.kargoShortcuts.getAllShortcuts();
+
+				shortcuts.forEach(({ shortcut, description }) => {
+					const row = table.insertRow();
+					const shortcutCell = row.insertCell(0);
+					const descriptionCell = row.insertCell(1);
+
+					shortcutCell.className = "shortcut";
+					shortcutCell.textContent = shortcut.toLowerCase();
+					descriptionCell.textContent = description;
+				});
+			}
+
+			// Sayfa yüklendiğinde kısayolları doldur
+			document.addEventListener("DOMContentLoaded", populateShortcutsTable);
+		</script>
+	</body>
 </html>

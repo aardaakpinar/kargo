@@ -15,13 +15,13 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
 
 ## Özellikler
 
- - __Chrome__: Kargo, gücünü Chromium'dan alan Electron'un webview etiketlerini kullanır.
- - __Sekmeler__: Diğer tüm tarayıcılar gibi Kargo da sekmeleri destekler, ancak bunları sizden gizler.
- - __Geliştirici Araçları__: Kargo, Chrome'un geliştirici araçlarını tam olarak destekler.
- - __Platformlar arası__: Kargo tüm platformlarda iyi görünür, Windows'taki başlık çubuğu bile şık durur.
- - __Basit__: Kargo sadece çoğu insanın ihtiyaç duyduğu özelliklere sahiptir.
- - __Sekme Kurtarma__: Kargo, açıldığında önceden açık olan sekmelerinizi otomatik olarak geri yükler.
- - __Çok şirin__: 🚂🚋🚋 Kargo (web'i evinize taşır).
+- **Chrome**: Kargo, gücünü Chromium'dan alan Electron'un webview etiketlerini kullanır.
+- **Sekmeler**: Diğer tüm tarayıcılar gibi Kargo da sekmeleri destekler, ancak bunları sizden gizler.
+- **Geliştirici Araçları**: Kargo, Chrome'un geliştirici araçlarını tam olarak destekler.
+- **Platformlar arası**: Kargo tüm platformlarda iyi görünür, Windows'taki başlık çubuğu bile şık durur.
+- **Basit**: Kargo sadece çoğu insanın ihtiyaç duyduğu özelliklere sahiptir.
+- **Sekme Kurtarma**: Kargo, açıldığında önceden açık olan sekmelerinizi otomatik olarak geri yükler.
+- **Çok şirin**: 🚂🚋🚋 Kargo (web'i evinize taşır).
 
 ## Ekran Görüntüleri
 
@@ -138,20 +138,20 @@ $ npm build
 
 #### Belirli bir platform için derleme
 
-__Mac__
+**Mac**
 
 ```
 $ npm build:mac
 ```
 
-__Windows__
+**Windows**
 
 ```
 $ npm build:win32
 $ npm build:win64
 ```
 
-__Tüm platformlar__
+**Tüm platformlar**
 
 ```
 $ npm build:all

@@ -1,5 +1,5 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer } = require("electron");
 
-contextBridge.exposeInMainWorld('kargo', {
-  windowControl: (action) => ipcRenderer.invoke('window-control', action)
+contextBridge.exposeInMainWorld("kargo", {
+	windowControl: (action) => ipcRenderer.invoke("window-control", action),
 });
