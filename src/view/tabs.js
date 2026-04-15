@@ -4,7 +4,7 @@ const queryInput = document.getElementById("queryInput");
 
 let tabs = [];
 let currentTabId = null;
-let tabBarVisible = false;
+let tabBarVisible = true;
 
 function generateTabId() {
 	return `tab-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
