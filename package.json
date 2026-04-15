@@ -1,6 +1,6 @@
 {
   "name": "kargo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Kargo is a keyboard-first minimal desktop web browser built with Electron.",
   "main": "src/main.js",
   "scripts": {
@@ -9,8 +9,7 @@
     "build": "electron-builder",
     "build:win": "electron-builder --win",
     "build:mac": "electron-builder --mac",
-    "build:linux": "electron-builder --linux",
-    "dist": "electron-builder --publish=never"
+    "build:linux": "electron-builder --linux"
   },
   "keywords": [
     "electron",
@@ -23,7 +22,7 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^41.2.0",
-    "electron-builder": "^24.13.3"
+    "electron-builder": "^26.8.1"
   },
   "build": {
     "appId": "com.kargo.browser",
