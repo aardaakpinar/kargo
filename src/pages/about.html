@@ -31,38 +31,8 @@
 				</p>
 				<p>Kargo'yu kullandığınız için teşekkürler!</p>
 			</section>
-
-			<section class="inner">
-				<h1>Klavye Kısayolları</h1>
-				<p>Kargo, klavye ile kullanılmak üzere tasarlanmıştır.</p>
-				<table id="shortcutsTable">
-					<!-- Kısayollar JavaScript ile doldurulacak -->
-				</table>
-			</section>
 		</main>
 		<script src="../utils/url.js"></script>
 		<script src="../view/shortcuts.js"></script>
-		<script>
-			// Kısayolları dinamik olarak tabloya ekle
-			function populateShortcutsTable() {
-				const table = document.getElementById("shortcutsTable");
-				if (!table || !window.kargoShortcuts) return;
-
-				const shortcuts = window.kargoShortcuts.getAllShortcuts();
-
-				shortcuts.forEach(({ shortcut, description }) => {
-					const row = table.insertRow();
-					const shortcutCell = row.insertCell(0);
-					const descriptionCell = row.insertCell(1);
-
-					shortcutCell.className = "shortcut";
-					shortcutCell.textContent = shortcut.toLowerCase();
-					descriptionCell.textContent = description;
-				});
-			}
-
-			// Sayfa yüklendiğinde kısayolları doldur
-			document.addEventListener("DOMContentLoaded", populateShortcutsTable);
-		</script>
 	</body>
 </html>

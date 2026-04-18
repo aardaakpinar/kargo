@@ -49,26 +49,6 @@ function handleSearch(event) {
 	openUrl(normalizeUrl(search));
 }
 
-function handleGlobalShortcut(event) {
-	if (
-		(event.ctrlKey || event.metaKey) &&
-		event.shiftKey &&
-		event.key.toLowerCase() === "a"
-	) {
-		event.preventDefault();
-		goToAboutPage();
-	}
-
-	if (
-		(event.ctrlKey || event.metaKey) &&
-		event.shiftKey &&
-		event.key.toLowerCase() === "h"
-	) {
-		event.preventDefault();
-		window.location.href = "index.html";
-	}
-}
-
 queryInput.addEventListener("keydown", handleSearch);
 queryInput.addEventListener("keypress", handleSearch);
 
@@ -76,8 +56,6 @@ queryInput.addEventListener("keypress", handleSearch);
 if (query) {
 	queryInput.value = query;
 }
-
-window.addEventListener("keydown", handleGlobalShortcut);
 
 // Load initial URL when tabs are ready
 function loadInitialUrl() {

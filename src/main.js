@@ -1,8 +1,10 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, globalShortcut } = require("electron");
 const path = require("path");
 
+let mainWindow;
+
 function createWindow() {
-	const win = new BrowserWindow({
+	mainWindow = new BrowserWindow({
 		width: 1200,
 		height: 820,
 		minWidth: 900,
@@ -21,31 +23,74 @@ function createWindow() {
 	});
 
 	if (process.platform !== "darwin") {
-		win.setMenuBarVisibility(false);
+		mainWindow.setMenuBarVisibility(false);
 	}
 
-	win.loadFile(path.join(__dirname, "pages", "index.html"));
+	mainWindow.loadFile(path.join(__dirname, "pages", "index.html"));
 
-	// Open DevTools for debugging
-	// win.webContents.openDevTools();
+	// Open DevTools only in development
+	if (process.env.DEBUG || process.env.NODE_ENV === "development") {
+		mainWindow.webContents.openDevTools();
+	}
 
 	ipcMain.handle("window-control", (_, action) => {
 		switch (action) {
 			case "minimize":
-				win.minimize();
+				mainWindow.minimize();
 				break;
 			case "maximize":
-				win.isMaximized() ? win.unmaximize() : win.maximize();
+				mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
 				break;
 			case "close":
-				win.close();
+				mainWindow.close();
 				break;
 			case "toggle-fullscreen":
-				win.setFullScreen(!win.isFullScreen());
+				mainWindow.setFullScreen(!mainWindow.isFullScreen());
 				break;
 			default:
 				break;
 		}
+	});
+
+	// Global keyboard shortcuts
+	registerGlobalShortcuts(mainWindow);
+}
+
+function registerGlobalShortcuts(win) {
+	const shortcuts = [
+		// Tab shortcuts
+		{ key: "ctrl+t", action: "createTab" },
+		{ key: "ctrl+x", action: "closeTab" },
+		{ key: "ctrl+shift+t", action: "toggleTabBar" },
+		{ key: "ctrl+shift+left", action: "prevTab" },
+		{ key: "ctrl+shift+right", action: "nextTab" },
+		{ key: "ctrl+0", action: "lastTab" },
+		// Navigation
+		{ key: "ctrl+left", action: "goBack" },
+		{ key: "ctrl+right", action: "goForward" },
+		{ key: "ctrl+shift+h", action: "goHome" },
+		{ key: "ctrl+shift+s", action: "goSearch" },
+		{ key: "ctrl+shift+a", action: "goAbout" },
+		// Browser
+		{ key: "ctrl+r", action: "refresh" },
+		{ key: "f5", action: "refresh" },
+		// UI
+		{ key: "f11", action: "toggleFullscreen" },
+		{ key: "ctrl+q", action: "closeApp" },
+		{ key: "ctrl+m", action: "minimize" },
+		{ key: "ctrl+shift+m", action: "maximize" },
+		{ key: "esc", action: "escape" },
+	];
+
+	// Tab shortcuts for 1-9
+	for (let i = 1; i <= 9; i++) {
+		shortcuts.push({ key: `ctrl+${i}`, action: `selectTab${i}` });
+	}
+
+	shortcuts.forEach(({ key, action }) => {
+		globalShortcut.register(key, () => {
+			win.webContents.send("global-shortcut", action);
+		});
 	});
 }
 
