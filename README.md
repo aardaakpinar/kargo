@@ -61,14 +61,6 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
         <td>Sonraki sekme</td>
     </tr>
     <tr>
-        <td class="shortcut">Ctrl + 0</td>
-        <td>Son sekmeye git</td>
-    </tr>
-    <tr>
-        <td class="shortcut">Ctrl + 1-9</td>
-        <td>Belirli sekmeye git</td>
-    </tr>
-    <tr>
         <td class="shortcut">Ctrl + ←</td>
         <td>Geri git</td>
     </tr>
@@ -91,14 +83,6 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
     <tr>
         <td class="shortcut">Ctrl + Shift + D</td>
         <td>DevTools'u aç</td>
-    </tr>
-    <tr>
-        <td class="shortcut">F11</td>
-        <td>Tam ekranı aç/kapat</td>
-    </tr>
-    <tr>
-        <td class="shortcut">Esc</td>
-        <td>İptal / Kapat</td>
     </tr>
 </table>
 

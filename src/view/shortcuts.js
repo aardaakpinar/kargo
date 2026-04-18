@@ -85,21 +85,6 @@ class ShortcutsManager {
 		});
 		this.shortcuts.set("ctrl+shift+right", { description: "Sonraki sekme", handler: () => {} });
 
-		window.Mousetrap.bind("ctrl+0", () => {
-			if (window.kargoTabs && window.kargoTabs.selectLastTab) {
-				window.kargoTabs.selectLastTab();
-			}
-		});
-		this.shortcuts.set("ctrl+0", { description: "Son sekmeye git", handler: () => {} });
-
-		for (let i = 1; i <= 9; i++) {
-			window.Mousetrap.bind(`ctrl+${i}`, () => {
-				if (window.kargoTabs && window.kargoTabs.selectTabByIndex) {
-					window.kargoTabs.selectTabByIndex(i - 1);
-				}
-			});
-			this.shortcuts.set(`ctrl+${i}`, { description: `${i}. sekmeye git`, handler: () => {} });
-		}
 	}
 
 	registerNavigationShortcuts() {
@@ -125,11 +110,6 @@ class ShortcutsManager {
 			window.location.href = "index.html";
 		});
 		this.shortcuts.set("ctrl+shift+h", { description: "Ana sayfaya git", handler: () => {} });
-
-		window.Mousetrap.bind("ctrl+shift+s", () => {
-			window.location.href = "search.html";
-		});
-		this.shortcuts.set("ctrl+shift+s", { description: "Arama sayfasına git", handler: () => {} });
 
 		window.Mousetrap.bind("ctrl+shift+a", () => {
 			window.location.href = "about.html";
@@ -158,13 +138,6 @@ class ShortcutsManager {
 	}
 
 	registerUIShortcuts() {
-		window.Mousetrap.bind("f11", () => {
-			if (window.kargo && window.kargo.windowControl) {
-				window.kargo.windowControl("toggle-fullscreen");
-			}
-		});
-		this.shortcuts.set("f11", { description: "Tam ekran", handler: () => {} });
-
 		window.Mousetrap.bind("ctrl+q", () => {
 			if (window.kargo && window.kargo.windowControl) {
 				window.kargo.windowControl("close");
@@ -185,15 +158,6 @@ class ShortcutsManager {
 			}
 		});
 		this.shortcuts.set("ctrl+shift+m", { description: "Pencereyi büyüt", handler: () => {} });
-
-		window.Mousetrap.bind("esc", () => {
-			const overlay = document.querySelector(".overlay");
-			if (overlay && !overlay.classList.contains("hidden")) {
-				overlay.classList.add("hidden");
-				overlay.innerHTML = "";
-			}
-		});
-		this.shortcuts.set("esc", { description: "Kapat/İptal", handler: () => {} });
 	}
 
 	setupGlobalShortcutListener() {
@@ -237,8 +201,6 @@ class ShortcutsManager {
 			}
 		} else if (action === "goHome") {
 			window.location.href = "index.html";
-		} else if (action === "goSearch") {
-			window.location.href = "search.html";
 		} else if (action === "goAbout") {
 			window.location.href = "about.html";
 		}

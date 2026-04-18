@@ -64,22 +64,18 @@ function registerGlobalShortcuts(win) {
 		{ key: "ctrl+shift+t", action: "toggleTabBar" },
 		{ key: "ctrl+shift+left", action: "prevTab" },
 		{ key: "ctrl+shift+right", action: "nextTab" },
-		{ key: "ctrl+0", action: "lastTab" },
 		// Navigation
 		{ key: "ctrl+left", action: "goBack" },
 		{ key: "ctrl+right", action: "goForward" },
 		{ key: "ctrl+shift+h", action: "goHome" },
-		{ key: "ctrl+shift+s", action: "goSearch" },
 		{ key: "ctrl+shift+a", action: "goAbout" },
 		// Browser
 		{ key: "ctrl+r", action: "refresh" },
 		{ key: "f5", action: "refresh" },
 		// UI
-		{ key: "f11", action: "toggleFullscreen" },
 		{ key: "ctrl+q", action: "closeApp" },
 		{ key: "ctrl+m", action: "minimize" },
 		{ key: "ctrl+shift+m", action: "maximize" },
-		{ key: "esc", action: "escape" },
 	];
 
 	// Tab shortcuts for 1-9
