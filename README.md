@@ -121,7 +121,7 @@ Kargo'yu derlemek için sadece [nodejs](https://nodejs.org) ve [npm](https://npm
 Tüm bağımlılıkları yükleyin (bu işlem biraz zaman alabilir)
 
 ```
-$ npm
+$ npm install
 ```
 
 Run kargo
@@ -147,8 +147,7 @@ $ npm build:mac
 **Windows**
 
 ```
-$ npm build:win32
-$ npm build:win64
+$ npm build:win
 ```
 
 **Tüm platformlar**
