@@ -49,7 +49,30 @@ function createTab(url = "") {
 			const title = webview.getTitle() || "Sekme";
 			tab.title = title.length > 20 ? title.substring(0, 17) + "..." : title;
 			updateTabButton(tab);
+			if (window.kargoSettings) {
+				window.kargoSettings.recordHistory(tab.url, title);
+			}
 		} catch (e) {}
+	});
+
+	webview.addEventListener("did-navigate", (event) => {
+		tab.url = event.url;
+		if (currentTabId === tab.id) {
+			queryInput.value = event.url;
+		}
+		if (window.kargoSettings) {
+			window.kargoSettings.recordHistory(event.url, tab.title);
+		}
+	});
+
+	webview.addEventListener("did-navigate-in-page", (event) => {
+		tab.url = event.url;
+		if (currentTabId === tab.id) {
+			queryInput.value = event.url;
+		}
+		if (window.kargoSettings) {
+			window.kargoSettings.recordHistory(event.url, tab.title);
+		}
 	});
 
 	webview.addEventListener("did-fail-load", (event) => {

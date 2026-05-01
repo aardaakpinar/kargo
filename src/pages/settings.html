@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Kargo - Ayarlar</title>
+		<script src="../view/settings-store.js"></script>
+		<link rel="stylesheet" href="../static/styles.css" />
+	</head>
+	<body class="settings-page">
+		<header class="top-container">
+			<div class="search-header"></div>
+		</header>
+		
+		<div class="settings-shell">
+			<header class="settings-header">
+				<div>
+					<h1>Ayarlar</h1>
+					<p>Kargo tarayıcı tercihlerini özelleştir.</p>
+				</div>
+			</header>
+
+			<main class="settings-content">
+				<section class="settings-card">
+					<div class="settings-card-head">
+						<h2>Görünüm</h2>
+						<span>Tema ayarları</span>
+					</div>
+
+					<div class="settings-option">
+						<div>
+							<h3>Tema</h3>
+							<p>Karanlık veya açık tema seç.</p>
+						</div>
+
+						<select id="themeSelect" class="settings-select">
+							<option value="dark">Karanlık</option>
+							<option value="light">Açık</option>
+						</select>
+					</div>
+				</section>
+
+				<section class="settings-card">
+					<div class="settings-card-head">
+						<h2>Başlangıç</h2>
+						<span>Tarayıcı davranışı</span>
+					</div>
+
+					<div class="settings-option">
+						<div>
+							<h3>Başlangıç Sayfası</h3>
+							<p>Uygulama açıldığında gidilecek adres.</p>
+						</div>
+
+						<input
+							id="homepageInput"
+							type="text"
+							class="settings-input"
+							placeholder="https://example.com"
+						/>
+					</div>
+				</section>
+
+				<section class="settings-card">
+					<div class="settings-card-head">
+						<h2>Gizlilik</h2>
+						<span>Veri seçenekleri</span>
+					</div>
+
+					<label class="settings-toggle">
+						<div>
+							<h3>Geçmişi Kaydet</h3>
+							<p>Ziyaret edilen siteleri yerel olarak sakla.</p>
+						</div>
+
+						<input type="checkbox" id="historyToggle" checked />
+					</label>
+				</section>
+
+				<section class="settings-card">
+					<div class="settings-card-head">
+						<h2>Kısayollar</h2>
+						<span>Klavye kısayolları</span>
+					</div>
+
+					<ul id="shortcutsList" class="settings-shortcuts"></ul>
+				</section>
+
+				<div class="settings-actions">
+					<button id="backBtn" class="settings-secondary-btn" type="button">
+						Geri
+					</button>
+					<button id="saveBtn" class="settings-save-btn" type="button">
+						Kaydet
+					</button>
+				</div>
+			</main>
+		</div>
+		
+		<script src="../view/shortcuts.js"></script>
+		<script>
+			const themeSelect = document.getElementById("themeSelect");
+			const homepageInput = document.getElementById("homepageInput");
+			const historyToggle = document.getElementById("historyToggle");
+			const shortcutsList = document.getElementById("shortcutsList");
+
+			const savedSettings = window.kargoSettings.get();
+
+			themeSelect.value = savedSettings.theme;
+			homepageInput.value = savedSettings.homepage;
+			historyToggle.checked = savedSettings.saveHistory;
+
+			themeSelect.addEventListener("change", () => {
+				window.kargoSettings.applyTheme(themeSelect.value);
+			});
+
+			document.getElementById("saveBtn").addEventListener("click", () => {
+				window.kargoSettings.save({
+					theme: themeSelect.value,
+					homepage: homepageInput.value,
+					saveHistory: historyToggle.checked,
+				});
+
+				alert("Ayarlar kaydedildi.");
+			});
+
+			document.getElementById("backBtn").addEventListener("click", () => {
+				window.history.back();
+			});
+
+			const fallbackShortcuts = [
+				{ shortcut: "ctrl+t", description: "Yeni sekme aç" },
+				{ shortcut: "ctrl+x", description: "Sekmeyi kapat" },
+				{ shortcut: "ctrl+shift+t", description: "Tab bar göster/gizle" },
+				{ shortcut: "ctrl+shift+s", description: "Ayarlar sayfasına git" },
+				{ shortcut: "ctrl+shift+a", description: "Hakkında sayfası" },
+				{ shortcut: "ctrl+r", description: "Sayfayı yenile" },
+			];
+
+			function renderShortcuts() {
+				if (!shortcutsList) return;
+
+				const shortcuts = window.kargoShortcuts
+					? window.kargoShortcuts.getAllShortcuts()
+					: [];
+				(shortcuts.length ? shortcuts : fallbackShortcuts).forEach(
+					({ shortcut, description }) => {
+						const item = document.createElement("li");
+						const key = document.createElement("kbd");
+						const text = document.createElement("span");
+
+						key.textContent = shortcut.replaceAll("+", " + ");
+						text.textContent = description;
+						item.appendChild(key);
+						item.appendChild(text);
+						shortcutsList.appendChild(item);
+					},
+				);
+			}
+
+			window.addEventListener("load", renderShortcuts);
+		</script>
+	</body>
+</html>

@@ -73,16 +73,16 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
         <td>Ana sayfaya git</td>
     </tr>
     <tr>
+        <td class="shortcut">Ctrl + Shift + S</td>
+        <td>Ayarlar sayfasını aç</td>
+    </tr>
+    <tr>
         <td class="shortcut">Ctrl + Shift + A</td>
         <td>Hakkında sayfasını aç</td>
     </tr>
     <tr>
         <td class="shortcut">Ctrl + R / F5</td>
         <td>Sayfayı yenile</td>
-    </tr>
-    <tr>
-        <td class="shortcut">Ctrl + Shift + D</td>
-        <td>DevTools'u aç</td>
     </tr>
 </table>
 
@@ -93,8 +93,6 @@ Kargo hala geliştirilme aşamasındadır, ancak hayallerimizdeki tarayıcıyı 
 #### YAPILACAKLAR (TODO)
 
 - Testler
-- Tasarım iyileştirmeleri
-- Ayarlar
 
 ## Geliştirme
 

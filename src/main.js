@@ -68,6 +68,7 @@ function registerGlobalShortcuts(win) {
 		{ key: "ctrl+left", action: "goBack" },
 		{ key: "ctrl+right", action: "goForward" },
 		{ key: "ctrl+shift+h", action: "goHome" },
+		{ key: "ctrl+shift+s", action: "goSettings" },
 		{ key: "ctrl+shift+a", action: "goAbout" },
 		// Browser
 		{ key: "ctrl+r", action: "refresh" },

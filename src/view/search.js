@@ -16,6 +16,10 @@ function openUrl(url) {
 			window.location.href = "index.html";
 			return;
 		}
+		if (parsed === "kargo://settings") {
+			window.location.href = "settings.html";
+			return;
+		}
 		window.location.href = "about.html";
 		return;
 	}
@@ -25,6 +29,9 @@ function openUrl(url) {
 		if (currentTab) {
 			currentTab.url = url;
 			currentTab.webview.setAttribute("src", url);
+			if (window.kargoSettings) {
+				window.kargoSettings.recordHistory(url);
+			}
 		}
 	}
 }

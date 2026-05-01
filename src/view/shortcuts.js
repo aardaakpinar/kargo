@@ -111,6 +111,11 @@ class ShortcutsManager {
 		});
 		this.shortcuts.set("ctrl+shift+h", { description: "Ana sayfaya git", handler: () => {} });
 
+		window.Mousetrap.bind("ctrl+shift+s", () => {
+			window.location.href = "settings.html";
+		});
+		this.shortcuts.set("ctrl+shift+s", { description: "Ayarlar sayfasına git", handler: () => {} });
+
 		window.Mousetrap.bind("ctrl+shift+a", () => {
 			window.location.href = "about.html";
 		});
@@ -201,6 +206,8 @@ class ShortcutsManager {
 			}
 		} else if (action === "goHome") {
 			window.location.href = "index.html";
+		} else if (action === "goSettings") {
+			window.location.href = "settings.html";
 		} else if (action === "goAbout") {
 			window.location.href = "about.html";
 		}

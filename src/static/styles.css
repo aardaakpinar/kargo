@@ -49,7 +49,7 @@
 	--color-link: var(--color-text-accent);
 
 	/* Selection */
-	--color-selection: #fcc41d;
+	--color-selection: #ffb636;
 }
 
 /* --------- LIGHT THEME --------- */
@@ -103,7 +103,7 @@
 	--color-link: var(--color-text-accent);
 
 	/* Selection */
-	--color-selection: #fcc41d;
+	--color-selection: #ffb636;
 }
 
 /* ============================================
@@ -504,22 +504,6 @@ body.search-page ::selection {
 	flex-shrink: 0;
 }
 
-.back-btn {
-	border: none;
-	border-radius: 0.5rem;
-	background: var(--color-button-bg);
-	color: var(--color-text-primary);
-	padding: 0.5rem 0.8rem;
-	cursor: pointer;
-	flex-shrink: 0;
-	font-size: 1rem;
-	transition: background 0.14s ease;
-}
-
-.back-btn:hover {
-	background: var(--color-button-hover);
-}
-
 .search-header .dest {
 	-webkit-app-region: no-drag;
 	max-width: 500px;
@@ -610,4 +594,223 @@ td {
 
 td.shortcut {
 	font-family: monospace;
+}
+
+
+/* ============================================
+   SETTINGS PAGE
+   ============================================ */
+
+body.settings-page {
+	margin: 0;
+	padding: 0;
+	min-height: 100vh;
+	background: var(--color-bg-primary);
+	color: var(--color-text-primary);
+	font-family:
+		Inter,
+		system-ui,
+		-apple-system,
+		BlinkMacSystemFont,
+		sans-serif;
+}
+
+.settings-shell {
+	max-width: 920px;
+	margin: 0 auto;
+	padding: 2rem 1.2rem 4rem;
+}
+
+.settings-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+	margin-bottom: 2rem;
+}
+
+.settings-header h1 {
+	margin: 0;
+	font-size: 2rem;
+	font-weight: 700;
+}
+
+.settings-header p {
+	margin: 0.4rem 0 0;
+	color: var(--color-text-secondary);
+}
+
+.settings-content {
+	display: grid;
+	gap: 1.2rem;
+}
+
+.settings-card {
+	background: var(--color-panel);
+	border: 1px solid var(--color-border);
+	border-radius: 1.2rem;
+	padding: 1.2rem;
+	backdrop-filter: blur(12px);
+}
+
+.settings-card-head {
+	margin-bottom: 1.25rem;
+}
+
+.settings-card-head h2 {
+	margin: 0;
+	font-size: 1.1rem;
+}
+
+.settings-card-head span {
+	font-size: 0.9rem;
+	color: var(--color-text-secondary);
+}
+
+.settings-option {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+	padding: 0.9rem 0;
+}
+
+.settings-option h3,
+.settings-toggle h3 {
+	margin: 0;
+	font-size: 1rem;
+}
+
+.settings-option p,
+.settings-toggle p {
+	margin: 0.35rem 0 0;
+	font-size: 0.92rem;
+	color: var(--color-text-secondary);
+}
+
+.settings-input,
+.settings-select {
+	min-width: 240px;
+	padding: 0.75rem 0.9rem;
+	border-radius: 0.8rem;
+	border: 1px solid var(--color-input-border);
+	background: var(--color-input-bg);
+	color: var(--color-text-primary);
+	outline: none;
+	transition:
+		border-color 0.2s ease,
+		box-shadow 0.2s ease;
+}
+
+.settings-input:focus,
+.settings-select:focus {
+	border-color: var(--color-input-border-focus);
+	box-shadow: 0 0 0 3px var(--color-input-focus-ring);
+}
+
+.settings-toggle {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+	cursor: pointer;
+}
+
+.settings-toggle input {
+	width: 20px;
+	height: 20px;
+	accent-color: var(--color-text-accent);
+}
+
+.settings-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.75rem;
+	margin-top: 0.5rem;
+}
+
+.settings-secondary-btn,
+.settings-save-btn {
+	border: none;
+	padding: 0.9rem 1.2rem;
+	border-radius: 0.9rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition:
+		transform 0.2s ease,
+		opacity 0.2s ease;
+}
+
+.settings-secondary-btn {
+	background: var(--color-button-bg);
+	color: var(--color-text-primary);
+}
+
+.settings-save-btn {
+	background: var(--color-text-accent);
+	color: var(--color-bg-primary);
+}
+
+.settings-secondary-btn:hover,
+.settings-save-btn:hover {
+	transform: translateY(-1px);
+	opacity: 0.9;
+}
+
+.settings-shortcuts {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 0.65rem;
+}
+
+.settings-shortcuts li {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.75rem 0;
+	border-bottom: 1px solid var(--color-border);
+	color: var(--color-text-secondary);
+}
+
+.settings-shortcuts li:last-child {
+	border-bottom: none;
+}
+
+.settings-shortcuts kbd {
+	padding: 0.35rem 0.5rem;
+	border: 1px solid var(--color-border);
+	border-radius: 0.45rem;
+	background: var(--color-button-bg);
+	color: var(--color-text-primary);
+	font-family: inherit;
+	font-size: 0.8rem;
+	white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+	.settings-header,
+	.settings-option,
+	.settings-toggle {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.settings-input,
+	.settings-select {
+		width: 100%;
+		min-width: unset;
+	}
+
+	.settings-actions {
+		justify-content: stretch;
+		flex-direction: column-reverse;
+	}
+
+	.settings-secondary-btn,
+	.settings-save-btn {
+		width: 100%;
+	}
 }
