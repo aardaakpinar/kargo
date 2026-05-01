@@ -94,50 +94,6 @@ Kargo hala geliştirilme aşamasındadır, ancak hayallerimizdeki tarayıcıyı 
 
 - Testler
 
-## Geliştirme
-
-Kargo'yu derlemek için sadece [nodejs](https://nodejs.org) ve [npm](https://npmpkg.com) yüklü olması gerekir.
-
-### Kargo'yu çalıştırma
-
-Tüm bağımlılıkları yükleyin (bu işlem biraz zaman alabilir)
-
-```
-$ npm install
-```
-
-Run kargo
-
-```
-$ npm start
-```
-
-### Kargo'yu derleme
-
-```
-$ npm build
-```
-
-#### Belirli bir platform için derleme
-
-**Mac**
-
-```
-$ npm build:mac
-```
-
-**Windows**
-
-```
-$ npm build:win
-```
-
-**Tüm platformlar**
-
-```
-$ npm build:all
-```
-
 ## License
 
 [The steamlocomotive logo](https://github.com/twitter/twemoji/blob/gh-pages/svg/1f682.svg) by [twemoji](https://github.com/twitter/twemoji) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
