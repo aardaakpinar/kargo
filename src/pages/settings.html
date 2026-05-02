@@ -23,8 +23,8 @@
 			<main class="settings-content">
 				<section class="settings-card">
 					<div class="settings-card-head">
-						<h2>Görünüm</h2>
-						<span>Tema ayarları</span>
+						<h2>Genel</h2>
+						<span>Temel ayarlar</span>
 					</div>
 
 					<div class="settings-option">
@@ -37,13 +37,6 @@
 							<option value="dark">Karanlık</option>
 							<option value="light">Açık</option>
 						</select>
-					</div>
-				</section>
-
-				<section class="settings-card">
-					<div class="settings-card-head">
-						<h2>Başlangıç</h2>
-						<span>Tarayıcı davranışı</span>
 					</div>
 
 					<div class="settings-option">
@@ -58,6 +51,18 @@
 							class="settings-input"
 							placeholder="https://example.com"
 						/>
+					</div>
+
+					<div class="settings-option">
+						<div>
+							<h3>Arama Motoru</h3>
+							<p>Adres çubuğunda kullanılacak varsayılan arama motoru.</p>
+						</div>
+
+						<select id="searchEngineSelect" class="settings-select">
+							<option value="duckduckgo" selected>DuckDuckGo</option>
+							<option value="google">Google</option>
+						</select>
 					</div>
 				</section>
 
@@ -87,9 +92,6 @@
 				</section>
 
 				<div class="settings-actions">
-					<button id="backBtn" class="settings-secondary-btn" type="button">
-						Geri
-					</button>
 					<button id="saveBtn" class="settings-save-btn" type="button">
 						Kaydet
 					</button>
@@ -100,6 +102,7 @@
 		<script src="../view/shortcuts.js"></script>
 		<script>
 			const themeSelect = document.getElementById("themeSelect");
+			const searchEngineSelect = document.getElementById("searchEngineSelect");
 			const homepageInput = document.getElementById("homepageInput");
 			const historyToggle = document.getElementById("historyToggle");
 			const shortcutsList = document.getElementById("shortcutsList");
@@ -107,6 +110,7 @@
 			const savedSettings = window.kargoSettings.get();
 
 			themeSelect.value = savedSettings.theme;
+			searchEngineSelect.value = savedSettings.searchEngine;
 			homepageInput.value = savedSettings.homepage;
 			historyToggle.checked = savedSettings.saveHistory;
 
@@ -117,15 +121,12 @@
 			document.getElementById("saveBtn").addEventListener("click", () => {
 				window.kargoSettings.save({
 					theme: themeSelect.value,
+					searchEngine: searchEngineSelect.value,
 					homepage: homepageInput.value,
 					saveHistory: historyToggle.checked,
 				});
 
 				alert("Ayarlar kaydedildi.");
-			});
-
-			document.getElementById("backBtn").addEventListener("click", () => {
-				window.history.back();
 			});
 
 			const fallbackShortcuts = [

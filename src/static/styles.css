@@ -605,6 +605,8 @@ body.settings-page {
 	margin: 0;
 	padding: 0;
 	min-height: 100vh;
+	font-size: 0.94rem;
+	line-height: 1.45;
 	background: var(--color-bg-primary);
 	color: var(--color-text-primary);
 	font-family:
@@ -618,7 +620,7 @@ body.settings-page {
 .settings-shell {
 	max-width: 920px;
 	margin: 0 auto;
-	padding: 2rem 1.2rem 4rem;
+	padding: 1.4rem 1rem 2.5rem;
 }
 
 .settings-header {
@@ -770,9 +772,10 @@ body.settings-page {
 	align-items: center;
 	justify-content: space-between;
 	gap: 1rem;
-	padding: 0.75rem 0;
+	padding: 0.62rem 0;
 	border-bottom: 1px solid var(--color-border);
 	color: var(--color-text-secondary);
+	font-size: 0.88rem;
 }
 
 .settings-shortcuts li:last-child {
@@ -780,13 +783,13 @@ body.settings-page {
 }
 
 .settings-shortcuts kbd {
-	padding: 0.35rem 0.5rem;
+	padding: 0.28rem 0.45rem;
 	border: 1px solid var(--color-border);
-	border-radius: 0.45rem;
+	border-radius: 0.4rem;
 	background: var(--color-button-bg);
 	color: var(--color-text-primary);
 	font-family: inherit;
-	font-size: 0.8rem;
+	font-size: 0.74rem;
 	white-space: nowrap;
 }
 
