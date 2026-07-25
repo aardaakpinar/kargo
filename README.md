@@ -90,10 +90,6 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
 
 Kargo hala geliştirilme aşamasındadır, ancak hayallerimizdeki tarayıcıyı yapmak için birlikte çalışabiliriz.
 
-#### YAPILACAKLAR (TODO)
-
-- Testler
-
 ## License
 Idea inspired by [cargo](https://github.com/herber/cargo)
 
