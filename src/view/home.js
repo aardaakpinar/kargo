@@ -48,4 +48,3 @@ function handleSearchInput(event) {
 }
 
 destInput.addEventListener("keydown", handleSearchInput);
-destInput.addEventListener("keypress", handleSearchInput);

@@ -1,6 +1,17 @@
 const params = new URLSearchParams(window.location.search);
 const query = params.get("q") || "";
 
+// Tarayıcıda açılamayan, işletim sistemine ait adresler.
+function isExternalUrl(url) {
+	return /^(mailto|tel|sms|webcal):/i.test(url || "");
+}
+
+function openExternalUrl(url) {
+	if (window.kargo && window.kargo.openExternal) {
+		window.kargo.openExternal(url);
+	}
+}
+
 function openUrl(url) {
 	if (window.isKargoScheme && window.isKargoScheme(url)) {
 		const parsed = url.toLowerCase();
@@ -20,7 +31,16 @@ function openUrl(url) {
 			window.location.href = "settings.html";
 			return;
 		}
+		if (parsed === "kargo://history") {
+			window.location.href = "history.html";
+			return;
+		}
 		window.location.href = "about.html";
+		return;
+	}
+
+	if (isExternalUrl(url)) {
+		openExternalUrl(url);
 		return;
 	}
 
@@ -41,8 +61,7 @@ function goToAboutPage() {
 }
 
 function handleSearch(event) {
-	const isEnter =
-		event.key === "Enter" || event.code === "Enter" || event.keyCode === 13;
+	const isEnter = event.key === "Enter" || event.code === "Enter" || event.keyCode === 13;
 	if (!isEnter) return;
 	event.preventDefault();
 
@@ -57,7 +76,6 @@ function handleSearch(event) {
 }
 
 queryInput.addEventListener("keydown", handleSearch);
-queryInput.addEventListener("keypress", handleSearch);
 
 // Set initial query value if coming from home page
 if (query) {
@@ -70,6 +88,11 @@ function loadInitialUrl() {
 
 	if (window.kargoTabs && window.kargoTabs.currentTab) {
 		const url = normalizeUrl(query);
+		if (isExternalUrl(url)) {
+			queryInput.value = url;
+			openExternalUrl(url);
+			return;
+		}
 		window.kargoTabs.currentTab.url = url;
 		window.kargoTabs.currentTab.webview.setAttribute("src", url);
 		queryInput.value = url;

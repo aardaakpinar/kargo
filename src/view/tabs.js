@@ -4,10 +4,32 @@ const queryInput = document.getElementById("queryInput");
 
 let tabs = [];
 let currentTabId = null;
-let tabBarVisible = true;
+// HTML'de sekme çubuğu "hidden" sınıfıyla başlıyor; durumu DOM'dan al ki
+// ilk Ctrl+Shift+T basışı çubuğu gizlemek yerine göstersin.
+let tabBarVisible = !tabBar.classList.contains("hidden");
 
 function generateTabId() {
 	return `tab-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+}
+
+let lastPopupOpen = { url: "", at: 0 };
+
+// Popup isteklerini (target="_blank", window.open) yeni pencere yerine
+// Kargo içinde sekme olarak aç. Arka plan istekleri odağı çalmaz.
+function openPopupInTab(popupUrl, { background = false } = {}) {
+	if (!popupUrl) return;
+	const now = Date.now();
+	if (lastPopupOpen.url === popupUrl && now - lastPopupOpen.at < 250) {
+		return;
+	}
+	lastPopupOpen = { url: popupUrl, at: now };
+
+	const tab = createTab(popupUrl);
+	if (background) {
+		// Reklamların/otomatik açılan bağlantıların odağı çalmasını engelle.
+		return;
+	}
+	switchTab(tab.id);
 }
 
 function createTab(url = "") {
@@ -30,18 +52,6 @@ function createTab(url = "") {
 		title: "Yeni Sekme",
 		url: url || "",
 		webview,
-	};
-
-	let lastPopupOpen = { url: "", at: 0 };
-	const openPopupInTab = (popupUrl) => {
-		if (!popupUrl) return;
-		const now = Date.now();
-		if (lastPopupOpen.url === popupUrl && now - lastPopupOpen.at < 250) {
-			return;
-		}
-		lastPopupOpen = { url: popupUrl, at: now };
-		const newTab = createTab(popupUrl);
-		switchTab(newTab.id);
 	};
 
 	webview.addEventListener("page-title-updated", () => {
@@ -81,19 +91,28 @@ function createTab(url = "") {
 		}
 	});
 
-	webview.addEventListener("new-window", (event) => {
-		if (typeof event.preventDefault === "function") {
-			event.preventDefault();
-		}
-		openPopupInTab(event.url);
+	// HTML5 tam ekran (video, oyun) sırasında Kargo arayüzünü gizle.
+	webview.addEventListener("enter-html-full-screen", () => {
+		document.body.classList.add("html-fullscreen");
+	});
+	webview.addEventListener("leave-html-full-screen", () => {
+		document.body.classList.remove("html-fullscreen");
 	});
 
-	webview.addEventListener("did-create-window", (event) => {
-		openPopupInTab(event.url);
-		if (event.window && !event.window.isDestroyed()) {
-			event.window.close();
-		}
-	});
+	// Varsayılan yakınlaştırma yalnızca sekme ilk yüklendiğinde uygulanır;
+	// sonraki gezinmelerde kullanıcının kendi zoom tercihi korunur.
+	webview.addEventListener(
+		"dom-ready",
+		() => {
+			if (!window.kargoSettings) return;
+			const factor = Number(window.kargoSettings.get().defaultZoom);
+			if (!Number.isFinite(factor) || factor <= 0) return;
+			try {
+				webview.setZoomFactor(factor);
+			} catch (error) {}
+		},
+		{ once: true },
+	);
 
 	tabs.push(tab);
 	webviewShell.appendChild(webview);
@@ -186,8 +205,31 @@ function closeTab(tabId) {
 }
 
 function toggleTabBar() {
-	tabBarVisible = !tabBarVisible;
-	tabBar.classList.toggle("hidden", !tabBarVisible);
+	if (tabBarVisible) {
+		hideTabBar();
+	} else {
+		showTabBar();
+	}
+}
+
+function showTabBar() {
+	tabBarVisible = true;
+	tabBar.classList.remove("hidden");
+}
+
+function hideTabBar() {
+	tabBarVisible = false;
+	tabBar.classList.add("hidden");
+}
+
+function newTab(url = "") {
+	const tab = createTab(url);
+	switchTab(tab.id);
+	if (!url) {
+		queryInput.focus();
+		queryInput.select();
+	}
+	return tab;
 }
 
 function selectPreviousTab() {
@@ -235,6 +277,38 @@ function refreshCurrentTab() {
 	}
 }
 
+// Chromium zoom seviyesi aynı origin için tüm sekmelerde geçerlidir.
+const MIN_ZOOM_LEVEL = -6;
+const MAX_ZOOM_LEVEL = 8;
+const ZOOM_STEP = 0.5;
+
+function applyZoom(delta) {
+	const currentTab = getCurrentTab();
+	if (!currentTab) return;
+
+	const webview = currentTab.webview;
+	const current =
+		typeof webview.getZoomLevel === "function" ? webview.getZoomLevel() : 0;
+	const level =
+		delta === 0
+			? 0
+			: Math.min(MAX_ZOOM_LEVEL, Math.max(MIN_ZOOM_LEVEL, current + delta));
+
+	webview.setZoomLevel(level);
+}
+
+function zoomIn() {
+	applyZoom(ZOOM_STEP);
+}
+
+function zoomOut() {
+	applyZoom(-ZOOM_STEP);
+}
+
+function zoomReset() {
+	applyZoom(0);
+}
+
 function openDevTools() {
 	const currentTab = getCurrentTab();
 	if (currentTab) {
@@ -267,6 +341,7 @@ window.kargoTabs = {
 		return getCurrentTab();
 	},
 	createTab,
+	newTab,
 	switchTab,
 	closeTab,
 	closeCurrentTab,
@@ -276,11 +351,26 @@ window.kargoTabs = {
 	selectTabByIndex,
 	selectLastTab,
 	refreshCurrentTab,
+	zoomIn,
+	zoomOut,
+	zoomReset,
 	openDevTools,
 	goBack,
 	goForward,
 	getCurrentTab,
 };
+
+// Ana süreçte (main.js) yakalanan popup istekleri burada sekmeye dönüşür.
+if (window.kargo && window.kargo.onOpenTab) {
+	window.kargo.onOpenTab(({ url, background }) =>
+		openPopupInTab(url, { background })
+	);
+}
+
+// Sekme çubuğu varsayılan olarak gizli; kullanıcı ayarlardan açtıysa görünür başlat.
+if (window.kargoSettings && window.kargoSettings.get().showTabBar) {
+	showTabBar();
+}
 
 const initialTab = createTab("");
 switchTab(initialTab.id);

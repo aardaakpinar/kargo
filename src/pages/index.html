@@ -7,21 +7,29 @@
 		<script src="../view/settings-store.js"></script>
 		<link rel="stylesheet" href="../static/styles.css" />
 	</head>
-	<body class="home-page">
+	<body class="home-page index-page">
 		<header class="top-container">
 			<div class="search-header"></div>
 		</header>
 
-		<h1>🚂🚋🚋 Kargo</h1>
-		<p class="text">-</p>
+		<main class="home-shell">
+			<section class="home-hero">
+				<h1>🚂 Kargo</h1>
+				<p class="text">-</p>
 
-		<input
-			id="destInput"
-			type="text"
-			class="dest"
-			placeholder="İstikamet"
-			autocomplete="off"
-		/>
+				<input
+					id="destInput"
+					type="text"
+					class="dest"
+					placeholder="İstikamet"
+					autocomplete="off"
+				/>
+
+				<p class="home-hint">
+					Adres yaz veya ara · <kbd>Enter</kbd> ile devam et
+				</p>
+			</section>
+		</main>
 
 		<script src="../utils/url.js"></script>
 		<script src="../view/shortcuts.js"></script>

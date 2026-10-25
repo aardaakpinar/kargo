@@ -1,17 +1,33 @@
 <!doctype html>
-<html>
+<html lang="tr">
 	<head>
 		<meta charset="utf-8" />
-		<title>Kargo</title>
+		<title>Kargo — Klavye odaklı minimalist tarayıcı</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta
+			name="description"
+			content="Kargo, neredeyse hiç kullanıcı arayüzü olmayan, klavye odaklı minimalist bir masaüstü tarayıcısıdır. Chromium tabanlıdır ve Electron ile geliştirilmiştir."
+		/>
+		<meta property="og:title" content="Kargo" />
+		<meta
+			property="og:description"
+			content="Neredeyse hiç kullanıcı arayüzü olmayan, klavye odaklı minimalist bir tarayıcı."
+		/>
+		<meta
+			property="og:image"
+			content="https://aardaakpinar.github.io/kargo/example.png"
+		/>
+		<meta property="og:url" content="https://aardaakpinar.github.io/kargo/" />
+		<meta property="og:type" content="website" />
 		<link rel="stylesheet" href="./styles.css" />
 		<link rel="icon" type="image/x-icon" href="./favicon.ico" />
 		<meta name="theme-color" content="#000000" />
 	</head>
 	<body>
 		<nav>
-			<span class="left"><a class="nav-link" href="/">Kargo</a></span>
+			<span class="left"><a class="nav-link" href="./">Kargo</a></span>
 			<span class="right">
+				<a class="nav-link" href="#shortcuts">Kısayollar</a>
 				<a
 					class="nav-link"
 					href="https://github.com/aardaakpinar/kargo/releases/latest"
@@ -27,8 +43,7 @@
 			<section class="header-text">
 				<h1>Kargo</h1>
 				<p>
-					Kullanıcı arayüzü neredeyse hiç olmayan bir tarayıcının Türkçe
-					versiyonu.
+					Neredeyse hiç kullanıcı arayüzü olmayan, klavye odaklı bir tarayıcı.
 				</p>
 				<a
 					class="button"
@@ -38,7 +53,7 @@
 			</section>
 			<img
 				src="./example.png"
-				alt=""
+				alt="Kargo tarayıcısının Windows üzerindeki ana sayfası"
 				style="border-radius: 5px; width: 800px"
 			/>
 		</header>
@@ -75,8 +90,26 @@
 						sekmeleri destekler, ancak bunları sizden gizler.
 					</li>
 					<li>
+						<strong>Popup'lar sekme olur</strong>: <code>target="_blank"</code>
+						ile açılan bağlantılar ve <code>window.open</code> çağrıları yeni
+						pencere yerine Kargo sekmesinde açılır. OAuth gibi gerçek pencere
+						gerektiren akışlar güvenli bir pencerede çalışmaya devam eder.
+					</li>
+					<li>
+						<strong>Kargo'ya özel sağ tık menüsü</strong>: Kes, kopyala, yapıştır
+						ve tümünü seç işlemleri sade bir menüde toplanır.
+					</li>
+					<li>
+						<strong>Özelleştirilebilir kısayollar</strong>: Ayarlar sayfasından
+						her kısayolu kendi alışkanlığına göre değiştirebilirsin.
+					</li>
+					<li>
 						<strong>Geliştirici Araçları</strong>: Kargo, Chrome'un geliştirici
 						araçlarını tam olarak destekler.
+					</li>
+					<li>
+						<strong>PDF ve tam ekran</strong>: PDF dosyaları tarayıcı içinde
+						açılır, HTML5 tam ekranı desteklenir.
 					</li>
 					<li>
 						<strong>Platformlar arası</strong>: Kargo tüm platformlarda iyi
@@ -92,6 +125,13 @@
 				</ul>
 
 				<h3 id="shortcuts">Klavye Kısayolları</h3>
+				<p class="note">
+					Bu tablo varsayılan kısayolları gösterir. Kargo'yu ilk kez
+					başlattığında veya ayarları sıfırladığında bu kombinasyonlar geçerli
+					olur.
+				</p>
+
+				<h4>Sekmeler</h4>
 				<table>
 					<tr>
 						<td class="shortcut">Ctrl + T</td>
@@ -114,6 +154,14 @@
 						<td>Sonraki sekme</td>
 					</tr>
 					<tr>
+						<td class="shortcut">Ctrl + 1 … 9</td>
+						<td>İlgili sekmeye geç</td>
+					</tr>
+				</table>
+
+				<h4>Gezinme</h4>
+				<table>
+					<tr>
 						<td class="shortcut">Ctrl + ←</td>
 						<td>Geri git</td>
 					</tr>
@@ -133,11 +181,76 @@
 						<td class="shortcut">Ctrl + Shift + A</td>
 						<td>Hakkında sayfasını aç</td>
 					</tr>
+				</table>
+
+				<h4>Tarayıcı</h4>
+				<table>
 					<tr>
 						<td class="shortcut">Ctrl + R / F5</td>
 						<td>Sayfayı yenile</td>
 					</tr>
+					<tr>
+						<td class="shortcut">Ctrl + K</td>
+						<td>Arama alanına odaklan</td>
+					</tr>
+					<tr>
+						<td class="shortcut">Ctrl + =</td>
+						<td>Yakınlaştır</td>
+					</tr>
+					<tr>
+						<td class="shortcut">Ctrl + -</td>
+						<td>Uzaklaştır</td>
+					</tr>
+					<tr>
+						<td class="shortcut">Ctrl + 0</td>
+						<td>Yakınlaştırmayı sıfırla</td>
+					</tr>
 				</table>
+
+				<h4>Pencere</h4>
+				<table>
+					<tr>
+						<td class="shortcut">Ctrl + M</td>
+						<td>Pencereyi küçült</td>
+					</tr>
+					<tr>
+						<td class="shortcut">Ctrl + Shift + M</td>
+						<td>Pencereyi büyüt</td>
+					</tr>
+					<tr>
+						<td class="shortcut">Ctrl + Q</td>
+						<td>Uygulamayı kapat</td>
+					</tr>
+				</table>
+
+				<p class="note">
+					Kısayolları <strong>Ayarlar → Kısayollar</strong> bölümünden
+					değiştirebilirsin: bir kısayola tıklayıp yeni tuş kombinasyonuna bas.
+					<code>Esc</code> kaydı iptal eder, <code>↺</code> tek kısayolu,
+					<em>Varsayılanlara dön</em> ise tümünü sıfırlar. Aynı kombinasyonu iki
+					kısayola vermeye çalışırsan eski sahibi boşa alınır.
+				</p>
+
+				<h3>Geliştirme</h3>
+				<p>
+					Kargo hâlâ geliştirilme aşamasındadır. Hata bildirimleri ve katkılar
+					için
+					<a href="https://github.com/aardaakpinar/kargo/issues">GitHub</a>
+					üzerindeki sorun takibini kullanabilirsin.
+				</p>
+
+				<h3>Lisans</h3>
+				<p>
+					Kargo'nun fikri
+					<a href="https://github.com/herber/cargo">cargo</a> projesinden
+					esinlenmiştir. Buharlı lokomotif logosu
+					<a href="https://github.com/twitter/twemoji">twemoji</a> tarafından
+					oluşturulmuş olup
+					<a href="https://creativecommons.org/licenses/by/4.0/"
+						>CC BY 4.0</a
+					>
+					lisansı altında kullanılmaktadır.
+				</p>
 			</section>
 		</section>
 		<script

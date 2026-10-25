@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  Neredeyse hiç kullanıcı arayüzü (UI) olmayan bir tarayıcı.
+  Neredeyse hiç kullanıcı arayüzü olmayan bir tarayıcı.
 </p>
 
 Kargo, internette yaşayan ve fareden nefret eden insanlar için bir tarayıcıdır. Kargo, sadece birkaç klavye kısayolu kullanılarak kontrol edilebilir. Kargo, bir tarayıcının sadece en kullanışlı özelliklerini içerir; bu sayede internette gezinirken gereksiz özellikler sizi rahatsız edemez. Kargo'yu geliştirdim çünkü tercih ettiğim tarayıcıların (Chrome ve Firefox) sahip olduğu çoğu özelliği kullanmıyordum.
@@ -84,13 +84,32 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
         <td class="shortcut">Ctrl + R / F5</td>
         <td>Sayfayı yenile</td>
     </tr>
+    <tr>
+        <td class="shortcut">Ctrl + K</td>
+        <td>Arama alanına odaklan</td>
+    </tr>
+    <tr>
+        <td class="shortcut">Ctrl + =</td>
+        <td>Yakınlaştır</td>
+    </tr>
+    <tr>
+        <td class="shortcut">Ctrl + -</td>
+        <td>Uzaklaştır</td>
+    </tr>
+    <tr>
+        <td class="shortcut">Ctrl + 0</td>
+        <td>Yakınlaştırmayı sıfırla</td>
+    </tr>
 </table>
+
+Kısayolları **Ayarlar → Kısayollar** bölümünden değiştirebilirsin: bir kısayola tıklayıp yeni tuş kombinasyonuna bas. `Esc` kaydı iptal eder, `↺` tek kısayolu, "Varsayılanlara dön" ise tümünü sıfırlar.
 
 ## Gelecek
 
 Kargo hala geliştirilme aşamasındadır, ancak hayallerimizdeki tarayıcıyı yapmak için birlikte çalışabiliriz.
 
 ## License
+
 Idea inspired by [cargo](https://github.com/herber/cargo)
 
 [The steamlocomotive logo](https://github.com/twitter/twemoji/blob/gh-pages/svg/1f682.svg) by [twemoji](https://github.com/twitter/twemoji) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).

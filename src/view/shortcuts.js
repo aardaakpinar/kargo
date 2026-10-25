@@ -1,168 +1,11 @@
 // Kargo Keyboard Shortcuts Manager
-// Tüm kısayolları merkezi olarak yönetir
+// Tuşları ana süreç (main.js) before-input-event ile yakalar ve
+// "global-shortcut" kanalıyla buraya gönderir. Bu sınıf gelen aksiyonları
+// yürütür. Kısayol listesi ve özelleştirme ayarlar sayfasında ele alınır.
 
 class ShortcutsManager {
 	constructor() {
-		this.shortcuts = new Map();
-		this.init();
-	}
-
-	init() {
-		// Mousetrap'ı dinamik olarak yükle
-		this.loadMousetrap().then(() => {
-			this.registerAllShortcuts();
-		}).catch((error) => {
-			console.error("Mousetrap yüklenemedi:", error);
-		});
-	}
-
-	registerAllShortcuts() {
-		this.registerTabShortcuts();
-		this.registerNavigationShortcuts();
-		this.registerBrowserShortcuts();
-		this.registerUIShortcuts();
 		this.setupGlobalShortcutListener();
-	}
-
-	// Mousetrap kütüphanesini dinamik olarak yükle
-	async loadMousetrap() {
-		return new Promise((resolve, reject) => {
-			if (window.Mousetrap) {
-				this.mousetrap = window.Mousetrap;
-				resolve();
-				return;
-			}
-
-			// CDN'den yükle
-			const script = document.createElement('script');
-			script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.5/mousetrap.min.js';
-			script.onload = () => {
-				this.mousetrap = window.Mousetrap;
-				resolve();
-			};
-			script.onerror = reject;
-			document.head.appendChild(script);
-		});
-	}
-
-	// ============================================================
-	// KISAYOL REGISTRASYONU
-	// ============================================================
-
-	registerTabShortcuts() {
-		window.Mousetrap.bind("ctrl+t", () => {
-			if (window.kargoTabs && window.kargoTabs.createTab) {
-				window.kargoTabs.createTab();
-			}
-		});
-		this.shortcuts.set("ctrl+t", { description: "Yeni sekme aç", handler: () => {} });
-
-		window.Mousetrap.bind("ctrl+x", () => {
-			if (window.kargoTabs && window.kargoTabs.closeCurrentTab) {
-				window.kargoTabs.closeCurrentTab();
-			}
-		});
-		this.shortcuts.set("ctrl+x", { description: "Sekmeyi kapat", handler: () => {} });
-
-		window.Mousetrap.bind("ctrl+shift+t", () => {
-			if (window.kargoTabs && window.kargoTabs.toggleTabBar) {
-				window.kargoTabs.toggleTabBar();
-			}
-		});
-		this.shortcuts.set("ctrl+shift+t", { description: "Tab bar göster/gizle", handler: () => {} });
-
-		window.Mousetrap.bind("ctrl+shift+left", () => {
-			if (window.kargoTabs && window.kargoTabs.selectPreviousTab) {
-				window.kargoTabs.selectPreviousTab();
-			}
-		});
-		this.shortcuts.set("ctrl+shift+left", { description: "Önceki sekme", handler: () => {} });
-
-		window.Mousetrap.bind("ctrl+shift+right", () => {
-			if (window.kargoTabs && window.kargoTabs.selectNextTab) {
-				window.kargoTabs.selectNextTab();
-			}
-		});
-		this.shortcuts.set("ctrl+shift+right", { description: "Sonraki sekme", handler: () => {} });
-
-	}
-
-	registerNavigationShortcuts() {
-		window.Mousetrap.bind("ctrl+left", () => {
-			if (window.kargoTabs && window.kargoTabs.goBack) {
-				window.kargoTabs.goBack();
-			} else {
-				history.back();
-			}
-		});
-		this.shortcuts.set("ctrl+left", { description: "Geri git", handler: () => {} });
-
-		window.Mousetrap.bind("ctrl+right", () => {
-			if (window.kargoTabs && window.kargoTabs.goForward) {
-				window.kargoTabs.goForward();
-			} else {
-				history.forward();
-			}
-		});
-		this.shortcuts.set("ctrl+right", { description: "İleri git", handler: () => {} });
-
-		window.Mousetrap.bind("ctrl+shift+h", () => {
-			window.location.href = "index.html";
-		});
-		this.shortcuts.set("ctrl+shift+h", { description: "Ana sayfaya git", handler: () => {} });
-
-		window.Mousetrap.bind("ctrl+shift+s", () => {
-			window.location.href = "settings.html";
-		});
-		this.shortcuts.set("ctrl+shift+s", { description: "Ayarlar sayfasına git", handler: () => {} });
-
-		window.Mousetrap.bind("ctrl+shift+a", () => {
-			window.location.href = "about.html";
-		});
-		this.shortcuts.set("ctrl+shift+a", { description: "Hakkında sayfası", handler: () => {} });
-	}
-
-	registerBrowserShortcuts() {
-		window.Mousetrap.bind("ctrl+r", () => {
-			if (window.kargoTabs && window.kargoTabs.refreshCurrentTab) {
-				window.kargoTabs.refreshCurrentTab();
-			} else {
-				location.reload();
-			}
-		});
-		this.shortcuts.set("ctrl+r", { description: "Sayfayı yenile", handler: () => {} });
-
-		window.Mousetrap.bind("f5", () => {
-			if (window.kargoTabs && window.kargoTabs.refreshCurrentTab) {
-				window.kargoTabs.refreshCurrentTab();
-			} else {
-				location.reload();
-			}
-		});
-		this.shortcuts.set("f5", { description: "Sayfayı yenile", handler: () => {} });
-	}
-
-	registerUIShortcuts() {
-		window.Mousetrap.bind("ctrl+q", () => {
-			if (window.kargo && window.kargo.windowControl) {
-				window.kargo.windowControl("close");
-			}
-		});
-		this.shortcuts.set("ctrl+q", { description: "Uygulamayı kapat", handler: () => {} });
-
-		window.Mousetrap.bind("ctrl+m", () => {
-			if (window.kargo && window.kargo.windowControl) {
-				window.kargo.windowControl("minimize");
-			}
-		});
-		this.shortcuts.set("ctrl+m", { description: "Pencereyi küçült", handler: () => {} });
-
-		window.Mousetrap.bind("ctrl+shift+m", () => {
-			if (window.kargo && window.kargo.windowControl) {
-				window.kargo.windowControl("maximize");
-			}
-		});
-		this.shortcuts.set("ctrl+shift+m", { description: "Pencereyi büyüt", handler: () => {} });
 	}
 
 	setupGlobalShortcutListener() {
@@ -175,8 +18,14 @@ class ShortcutsManager {
 
 	handleGlobalShortcut(action) {
 		// Tab shortcuts
-		if (action === "createTab" && window.kargoTabs && window.kargoTabs.createTab) {
-			window.kargoTabs.createTab();
+		if (action === "createTab") {
+			if (window.kargoTabs && window.kargoTabs.newTab) {
+				window.kargoTabs.newTab();
+			} else {
+				// Sekme arayüzü olmayan sayfalardan (ana sayfa, ayarlar, hakkında)
+				// yeni sekme açmak için sekme görünümüne geç.
+				window.location.href = "search.html";
+			}
 		} else if (action === "closeTab" && window.kargoTabs && window.kargoTabs.closeCurrentTab) {
 			window.kargoTabs.closeCurrentTab();
 		} else if (action === "toggleTabBar" && window.kargoTabs && window.kargoTabs.toggleTabBar) {
@@ -208,6 +57,8 @@ class ShortcutsManager {
 			window.location.href = "index.html";
 		} else if (action === "goSettings") {
 			window.location.href = "settings.html";
+		} else if (action === "goHistory") {
+			window.location.href = "history.html";
 		} else if (action === "goAbout") {
 			window.location.href = "about.html";
 		}
@@ -217,6 +68,18 @@ class ShortcutsManager {
 				window.kargoTabs.refreshCurrentTab();
 			} else {
 				location.reload();
+			}
+		} else if (action === "focusSearch") {
+			const searchInput = document.getElementById("queryInput") || document.getElementById("destInput");
+			if (searchInput) {
+				searchInput.focus();
+				searchInput.select();
+			}
+		} else if (action === "zoomIn" || action === "zoomOut" || action === "zoomReset") {
+			if (window.kargoTabs && window.kargoTabs[action]) {
+				window.kargoTabs[action]();
+			} else if (window.kargo && window.kargo.setChromeZoom) {
+				window.kargo.setChromeZoom(action);
 			}
 		}
 		// UI
@@ -235,19 +98,6 @@ class ShortcutsManager {
 				overlay.innerHTML = "";
 			}
 		}
-	}
-
-	// ============================================================
-	// PUBLIC API
-	// ============================================================
-
-	getAllShortcuts() {
-		return Array.from(this.shortcuts.entries()).map(
-			([shortcut, { description }]) => ({
-				shortcut,
-				description,
-			})
-		);
 	}
 }
 

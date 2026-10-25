@@ -1,3 +1,19 @@
+const KARGO_SEARCH_URLS = {
+	duckduckgo: "https://duckduckgo.com/?q=",
+	google: "https://www.google.com/search?q=",
+	bing: "https://www.bing.com/search?q=",
+	brave: "https://search.brave.com/search?q=",
+};
+
+function getSearchUrl(query) {
+	const engine =
+		window.kargoSettings && typeof window.kargoSettings.get === "function"
+			? window.kargoSettings.get().searchEngine
+			: "duckduckgo";
+	const base = KARGO_SEARCH_URLS[engine] || KARGO_SEARCH_URLS.duckduckgo;
+	return `${base}${encodeURIComponent(query)}`;
+}
+
 function normalizeUrl(input) {
 	const trimmed = (input || "").trim();
 	if (!trimmed) {
@@ -20,7 +36,7 @@ function normalizeUrl(input) {
 		return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
 	}
 
-	return `https://duckduckgo.com/?q=${encodeURIComponent(trimmed)}`;
+	return getSearchUrl(trimmed);
 }
 
 function isKargoScheme(url) {
