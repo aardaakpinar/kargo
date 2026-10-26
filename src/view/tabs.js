@@ -4,9 +4,34 @@ const queryInput = document.getElementById("queryInput");
 
 let tabs = [];
 let currentTabId = null;
-// HTML'de sekme çubuğu "hidden" sınıfıyla başlıyor; durumu DOM'dan al ki
-// ilk Ctrl+Shift+T basışı çubuğu gizlemek yerine göstersin.
-let tabBarVisible = !tabBar.classList.contains("hidden");
+// Kenar çubuğu açık/kapalı durumu body üzerindeki "sidebar-collapsed"
+// sınıfından okunur; ilk karede sidebar-markup.js ayarlara göre uygular.
+let tabBarVisible = window.kargoSettings
+	? window.kargoSettings.get().showTabBar
+	: true;
+
+// Sekme veya gezinme durumu değiştiğinde dinleyicileri (yer imleri, kenar
+// çubuğu düğmeleri) haberdar et.
+const tabListeners = new Set();
+
+function notifyTabChange() {
+	tabListeners.forEach((listener) => {
+		try {
+			listener();
+		} catch (error) {
+			console.error("Sekme dinleyicisi hatası:", error);
+		}
+	});
+}
+
+function onTabChange(listener) {
+	tabListeners.add(listener);
+	return () => tabListeners.delete(listener);
+}
+
+function isBlankUrl(url) {
+	return !url || url === "about:blank";
+}
 
 function generateTabId() {
 	return `tab-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
@@ -51,39 +76,68 @@ function createTab(url = "") {
 		id: tabId,
 		title: "Yeni Sekme",
 		url: url || "",
+		favicon: "",
 		webview,
 	};
 
 	webview.addEventListener("page-title-updated", () => {
 		try {
 			const title = webview.getTitle() || "Sekme";
-			tab.title = title.length > 20 ? title.substring(0, 17) + "..." : title;
+			// Başlık tam saklanır; kısaltmayı CSS (text-overflow) yapar.
+			tab.title = title;
 			updateTabButton(tab);
 			if (window.kargoSettings) {
 				window.kargoSettings.recordHistory(tab.url, title);
 			}
+			notifyTabChange();
 		} catch (e) {}
 	});
 
-	webview.addEventListener("did-navigate", (event) => {
-		tab.url = event.url;
-		if (currentTabId === tab.id) {
-			queryInput.value = event.url;
+	webview.addEventListener("page-favicon-updated", (event) => {
+		const icons = event.favicons || [];
+		tab.favicon = (window.kargoSettings && window.kargoSettings.safeFavicon(icons[0])) || "";
+		updateTabButton(tab);
+		if (tab.favicon && window.kargoSettings) {
+			window.kargoSettings.updateBookmark(tab.url, { favicon: tab.favicon });
 		}
-		if (window.kargoSettings) {
-			window.kargoSettings.recordHistory(event.url, tab.title);
-		}
+		notifyTabChange();
 	});
 
-	webview.addEventListener("did-navigate-in-page", (event) => {
+	const handleNavigation = (event, { inPage }) => {
+		// Ana çerçeve dışı (iframe) gezinmeleri sekme adresini değiştirmemeli.
+		if (event.isMainFrame === false) return;
+
+		const previousUrl = tab.url;
 		tab.url = event.url;
-		if (currentTabId === tab.id) {
+
+		// Farklı bir siteye geçildiyse eski sitenin favicon'unu gösterme.
+		if (!inPage && previousUrl !== event.url) {
+			try {
+				if (new URL(previousUrl).origin !== new URL(event.url).origin) {
+					tab.favicon = "";
+					updateTabButton(tab);
+				}
+			} catch (error) {
+				tab.favicon = "";
+				updateTabButton(tab);
+			}
+		}
+
+		if (currentTabId === tab.id && document.activeElement !== queryInput) {
 			queryInput.value = event.url;
 		}
 		if (window.kargoSettings) {
 			window.kargoSettings.recordHistory(event.url, tab.title);
 		}
-	});
+		notifyTabChange();
+	};
+
+	webview.addEventListener("did-navigate", (event) =>
+		handleNavigation(event, { inPage: false }),
+	);
+	webview.addEventListener("did-navigate-in-page", (event) =>
+		handleNavigation(event, { inPage: true }),
+	);
 
 	webview.addEventListener("did-fail-load", (event) => {
 		if (event.errorCode !== -3) {
@@ -121,37 +175,95 @@ function createTab(url = "") {
 	return tab;
 }
 
+function updateTabCount() {
+	const count = document.getElementById("tabCount");
+	if (count) count.textContent = tabs.length ? String(tabs.length) : "";
+}
+
 function addTabButton(tab) {
 	const button = document.createElement("div");
 	button.className = "tab-item";
 	button.dataset.tabId = tab.id;
+	button.setAttribute("role", "button");
+	button.tabIndex = -1;
+
+	const icon = document.createElement("span");
+	icon.className = "tab-icon";
 
 	const titleSpan = document.createElement("span");
-	titleSpan.textContent = tab.title;
+	titleSpan.className = "tab-title";
 
 	const closeBtn = document.createElement("button");
 	closeBtn.className = "tab-close";
+	closeBtn.type = "button";
+	closeBtn.title = "Sekmeyi kapat";
+	closeBtn.setAttribute("aria-label", "Sekmeyi kapat");
 	closeBtn.textContent = "×";
 	closeBtn.addEventListener("click", (e) => {
 		e.stopPropagation();
 		closeTab(tab.id);
 	});
 
+	button.appendChild(icon);
 	button.appendChild(titleSpan);
 	button.appendChild(closeBtn);
 	button.addEventListener("click", () => switchTab(tab.id));
+	// Orta tuş: Chrome/Firefox gibi sekmeyi kapat.
+	button.addEventListener("auxclick", (e) => {
+		if (e.button === 1) {
+			e.preventDefault();
+			closeTab(tab.id);
+		}
+	});
 
 	tabBar.appendChild(button);
 	tab.buttonElement = button;
+	updateTabButton(tab);
+	updateTabCount();
 }
 
 function updateTabButton(tab) {
-	if (tab.buttonElement) {
-		const span = tab.buttonElement.querySelector("span");
-		if (span) {
-			span.textContent = tab.title;
-		}
+	const button = tab.buttonElement;
+	if (!button) return;
+
+	const titleSpan = button.querySelector(".tab-title");
+	if (titleSpan) {
+		titleSpan.textContent = tab.title;
 	}
+	button.title = tab.url ? `${tab.title}\n${tab.url}` : tab.title;
+
+	const icon = button.querySelector(".tab-icon");
+	if (icon) {
+		fillFavicon(icon, tab.favicon, isBlankUrl(tab.url) ? "" : tab.title || tab.url);
+	}
+}
+
+// Favicon varsa görseli, yoksa başlığın baş harfini gösterir.
+function fillFavicon(container, faviconUrl, label) {
+	if (container.dataset.src === (faviconUrl || "") && container.dataset.label === (label || "")) {
+		return;
+	}
+	container.dataset.src = faviconUrl || "";
+	container.dataset.label = label || "";
+	container.textContent = "";
+
+	const letter = ((label || "").trim().charAt(0) || "·").toUpperCase();
+	if (!faviconUrl) {
+		container.textContent = letter;
+		container.classList.add("is-letter");
+		return;
+	}
+
+	container.classList.remove("is-letter");
+	const img = document.createElement("img");
+	img.alt = "";
+	img.draggable = false;
+	img.addEventListener("error", () => {
+		container.textContent = letter;
+		container.classList.add("is-letter");
+	});
+	img.src = faviconUrl;
+	container.appendChild(img);
 }
 
 function switchTab(tabId) {
@@ -175,6 +287,10 @@ function switchTab(tabId) {
 	}
 	tab.webview.focus();
 	queryInput.value = tab.url;
+	if (tab.buttonElement && tab.buttonElement.scrollIntoView) {
+		tab.buttonElement.scrollIntoView({ block: "nearest" });
+	}
+	notifyTabChange();
 }
 
 function closeTab(tabId) {
@@ -182,10 +298,8 @@ function closeTab(tabId) {
 	if (index === -1) return;
 
 	if (tabs.length === 1) {
-		tabs[0].webview.loadURL("about:blank");
-		tabs[0].title = "Yeni Sekme";
-		updateTabButton(tabs[0]);
-		queryInput.value = "";
+		// Son sekme kapanınca boş sayfa yerine ana sayfaya dön.
+		window.location.href = "index.html";
 		return;
 	}
 
@@ -195,6 +309,7 @@ function closeTab(tabId) {
 		tab.buttonElement.remove();
 	}
 	tabs.splice(index, 1);
+	updateTabCount();
 
 	if (currentTabId === tabId) {
 		const nextTab = tabs[index] || tabs[index - 1];
@@ -202,6 +317,7 @@ function closeTab(tabId) {
 			switchTab(nextTab.id);
 		}
 	}
+	notifyTabChange();
 }
 
 function toggleTabBar() {
@@ -214,12 +330,19 @@ function toggleTabBar() {
 
 function showTabBar() {
 	tabBarVisible = true;
-	tabBar.classList.remove("hidden");
+	document.body.classList.remove("sidebar-collapsed", "sidebar-peek");
+	if (window.kargoSettings) {
+		window.kargoSettings.save({ showTabBar: true });
+	}
 }
 
 function hideTabBar() {
 	tabBarVisible = false;
-	tabBar.classList.add("hidden");
+	document.body.classList.add("sidebar-collapsed");
+	document.body.classList.remove("sidebar-peek");
+	if (window.kargoSettings) {
+		window.kargoSettings.save({ showTabBar: false });
+	}
 }
 
 function newTab(url = "") {
@@ -309,10 +432,15 @@ function zoomReset() {
 	applyZoom(0);
 }
 
-function openDevTools() {
+function toggleDevTools() {
 	const currentTab = getCurrentTab();
-	if (currentTab) {
-		currentTab.webview.openDevTools();
+	if (!currentTab) return;
+
+	const { webview } = currentTab;
+	if (webview.isDevToolsOpened()) {
+		webview.closeDevTools();
+	} else {
+		webview.openDevTools();
 	}
 }
 
@@ -342,6 +470,13 @@ window.kargoTabs = {
 	},
 	createTab,
 	newTab,
+	onChange: onTabChange,
+	fillFavicon,
+	isBlankUrl,
+	isSidebarVisible: () => tabBarVisible,
+	showSidebar: showTabBar,
+	hideSidebar: hideTabBar,
+	toggleSidebar: toggleTabBar,
 	switchTab,
 	closeTab,
 	closeCurrentTab,
@@ -354,7 +489,7 @@ window.kargoTabs = {
 	zoomIn,
 	zoomOut,
 	zoomReset,
-	openDevTools,
+	toggleDevTools,
 	goBack,
 	goForward,
 	getCurrentTab,
@@ -367,10 +502,8 @@ if (window.kargo && window.kargo.onOpenTab) {
 	);
 }
 
-// Sekme çubuğu varsayılan olarak gizli; kullanıcı ayarlardan açtıysa görünür başlat.
-if (window.kargoSettings && window.kargoSettings.get().showTabBar) {
-	showTabBar();
-}
+// Kenar çubuğunun açık/kapalı başlangıç durumu ve geçiş animasyonu artık
+// sidebar-markup.js tarafından ilk karede uygulanıyor.
 
 const initialTab = createTab("");
 switchTab(initialTab.id);

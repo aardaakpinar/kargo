@@ -7,20 +7,38 @@
 		<script src="../view/settings-store.js"></script>
 		<link rel="stylesheet" href="../static/styles.css" />
 	</head>
-	<body class="home-page">
+	<body class="home-page index-page error-page">
 		<header class="top-container">
 			<div class="search-header"></div>
 		</header>
 
-		<h1>
-			🔥🚂🚋🚋<br />
-			Kargo bu sayfayı yükleyemedi.
-		</h1>
-		<p class="text">
-			URL'nin doğru olup olmadığını ve web sitesinin hala mevcut olup olmadığını
-			kontrol etmelisiniz.
-		</p>
+		<main class="home-shell">
+			<section class="home-hero error-hero" aria-labelledby="errorTitle">
+				<h1 id="errorTitle">🚂 Kargo</h1>
+				<p class="text">Bu istikamete ulaşamadım. Adresin doğru olduğundan ve sitenin hâlâ erişilebilir olduğundan emin ol.</p>
 
+				<p id="errorUrl" class="dest error-url" hidden></p>
+
+				<p class="home-hint">Bir şeyler ters gitti · <kbd>Ctrl</kbd> <kbd>←</kbd> ile geri dön</p>
+			</section>
+		</main>
+
+		<script src="../view/sidebar-markup.js"></script>
+		<script src="../utils/url.js"></script>
+		<script src="../view/sidebar.js"></script>
+		<script src="../view/bookmarks.js"></script>
 		<script src="../view/shortcuts.js"></script>
+		<script>
+			(function () {
+				const params = new URLSearchParams(window.location.search);
+				const failedUrl = (params.get("url") || "").trim();
+				const urlElement = document.getElementById("errorUrl");
+
+				if (failedUrl) {
+					urlElement.textContent = failedUrl;
+					urlElement.hidden = false;
+				}
+			})();
+		</script>
 	</body>
 </html>

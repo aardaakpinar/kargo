@@ -1,6 +1,16 @@
 const destInput = document.getElementById("destInput");
 const promptText = document.querySelector(".text");
 
+function navigateTo(query) {
+	const normalized = window.normalizeUrl ? window.normalizeUrl(query) : query;
+	const kargoPage = window.kargoPageFor ? window.kargoPageFor(normalized) : null;
+	if (kargoPage) {
+		window.location.href = kargoPage;
+		return;
+	}
+	window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+}
+
 function openStartupPage() {
 	if (!window.kargoSettings || sessionStorage.getItem("kargoStartupLoaded")) {
 		return;
@@ -18,7 +28,7 @@ function openStartupPage() {
 		return;
 	}
 
-	window.location.href = `search.html?q=${encodeURIComponent(homepage)}`;
+	navigateTo(homepage);
 }
 
 const homePrompts = [
@@ -44,7 +54,7 @@ function handleSearchInput(event) {
 	if (!query) {
 		return;
 	}
-	window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+	navigateTo(query);
 }
 
 destInput.addEventListener("keydown", handleSearchInput);

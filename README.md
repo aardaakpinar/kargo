@@ -16,7 +16,8 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
 ## Özellikler
 
 - **Chrome**: Kargo, gücünü Chromium'dan alan Electron'un webview etiketlerini kullanır.
-- **Sekmeler**: Diğer tüm tarayıcılar gibi Kargo da sekmeleri destekler, ancak bunları sizden gizler.
+- **Kenar çubuğu**: Zen gibi sol tarafta kompakt bir kenar çubuğu; sekmeler ve yer imleri orada durur. Gizlediğinde sol kenara gelince yüzen panel olarak açılır.
+- **Yer imleri**: `Ctrl + D` ile sayfayı ekle/kaldır, kenar çubuğunda sürükleyerek sırala, ana sayfada hızlıca eriş.
 - **Geliştirici Araçları**: Kargo, Chrome'un geliştirici araçlarını tam olarak destekler.
 - **Platformlar arası**: Kargo tüm platformlarda iyi görünür, Windows'taki başlık çubuğu bile şık durur.
 - **Basit**: Kargo sadece çoğu insanın ihtiyaç duyduğu özelliklere sahiptir.
@@ -27,15 +28,15 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
 
 ##### Windows üzerinde Kargo ana sayfası
 
-![Home](./assets/cargo_home.png)
+![Home](./docs/screenshot/cargo_home.png)
 
 ##### Duckduckgo (varsayılan arama motoru)
 
-![DDG](./assets/cargo_ddg.png)
+![DDG](./docs/screenshot/cargo_ddg.png)
 
 ##### Windows üzerinde Kargo hakkında sayfası
 
-![About](./assets/cargo_about.png)
+![About](./docs/screenshot/cargo_about.png)
 
 ## Klavye Kısayolları
 
@@ -45,20 +46,32 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
         <td>Yeni sekme aç</td>
     </tr>
     <tr>
-        <td class="shortcut">Ctrl + X</td>
+        <td class="shortcut">Ctrl + W</td>
         <td>Mevcut sekmeyi kapat</td>
     </tr>
     <tr>
-        <td class="shortcut">Ctrl + Shift + T</td>
-        <td>Sekme çubuğunu göster/gizle</td>
+        <td class="shortcut">Ctrl + B</td>
+        <td>Kenar çubuğunu göster/gizle</td>
     </tr>
     <tr>
-        <td class="shortcut">Ctrl + Shift + ←</td>
+        <td class="shortcut">Ctrl + D</td>
+        <td>Sayfayı yer imlerine ekle/kaldır</td>
+    </tr>
+    <tr>
+        <td class="shortcut">Ctrl + Shift + Tab</td>
         <td>Önceki sekme</td>
     </tr>
     <tr>
-        <td class="shortcut">Ctrl + Shift + →</td>
+        <td class="shortcut">Ctrl + Tab</td>
         <td>Sonraki sekme</td>
+    </tr>
+    <tr>
+        <td class="shortcut">Ctrl + 1 … 8</td>
+        <td>İlgili sekmeye geç</td>
+    </tr>
+    <tr>
+        <td class="shortcut">Ctrl + 9</td>
+        <td>Son sekmeye geç</td>
     </tr>
     <tr>
         <td class="shortcut">Ctrl + ←</td>
@@ -73,8 +86,12 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
         <td>Ana sayfaya git</td>
     </tr>
     <tr>
-        <td class="shortcut">Ctrl + Shift + S</td>
+        <td class="shortcut">Ctrl + ,</td>
         <td>Ayarlar sayfasını aç</td>
+    </tr>
+    <tr>
+        <td class="shortcut">Ctrl + H</td>
+        <td>Geçmiş sayfasını aç</td>
     </tr>
     <tr>
         <td class="shortcut">Ctrl + Shift + A</td>
@@ -83,6 +100,10 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
     <tr>
         <td class="shortcut">Ctrl + R / F5</td>
         <td>Sayfayı yenile</td>
+    </tr>
+    <tr>
+        <td class="shortcut">F12</td>
+        <td>Geliştirici araçlarını aç/kapat</td>
     </tr>
     <tr>
         <td class="shortcut">Ctrl + K</td>
@@ -100,9 +121,21 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
         <td class="shortcut">Ctrl + 0</td>
         <td>Yakınlaştırmayı sıfırla</td>
     </tr>
+    <tr>
+        <td class="shortcut">Ctrl + M</td>
+        <td>Pencereyi küçült</td>
+    </tr>
+    <tr>
+        <td class="shortcut">Ctrl + Shift + M</td>
+        <td>Pencereyi büyüt</td>
+    </tr>
+    <tr>
+        <td class="shortcut">Ctrl + Q</td>
+        <td>Uygulamayı kapat</td>
+    </tr>
 </table>
 
-Kısayolları **Ayarlar → Kısayollar** bölümünden değiştirebilirsin: bir kısayola tıklayıp yeni tuş kombinasyonuna bas. `Esc` kaydı iptal eder, `↺` tek kısayolu, "Varsayılanlara dön" ise tümünü sıfırlar.
+Kısayolları **Ayarlar → Kısayollar** bölümünden değiştirebilirsin: bir kısayola tıklayıp yeni tuş kombinasyonuna bas. `Esc` kaydı iptal eder, `↺` tek kısayolu, "Varsayılanlara dön" ise tümünü sıfırlar. Tüm kısayollar `Ctrl` ile başlar; yalnızca `F5` ve `F12` bu kuralın dışındadır.
 
 ## Gelecek
 

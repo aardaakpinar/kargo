@@ -3,6 +3,7 @@ const { contextBridge, ipcRenderer } = require("electron");
 contextBridge.exposeInMainWorld("kargo", {
 	windowControl: (action) => ipcRenderer.invoke("window-control", action),
 	setChromeZoom: (action) => ipcRenderer.invoke("chrome-zoom", action),
+	toggleDevTools: () => ipcRenderer.invoke("toggle-devtools"),
 	openExternal: (url) => ipcRenderer.invoke("open-external", url),
 	shortcuts: {
 		list: () => ipcRenderer.invoke("shortcuts:list"),

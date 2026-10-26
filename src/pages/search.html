@@ -8,20 +8,15 @@
 		<link rel="stylesheet" href="../static/styles.css" />
 	</head>
 	<body class="search-page">
-		<div class="search-header">
-			<input
-				id="queryInput"
-				type="text"
-				class="dest"
-				placeholder="Ara veya site aç"
-				autocomplete="off"
-			/>
-		</div>
-		<div id="tabBar" class="tab-bar-tabs hidden"></div>
-		<div id="webviewShell" class="webview-shell"></div>
+		<main class="content">
+			<div id="webviewShell" class="webview-shell"></div>
+		</main>
 
+		<script src="../view/sidebar-markup.js"></script>
 		<script src="../utils/url.js"></script>
 		<script src="../view/tabs.js"></script>
+		<script src="../view/bookmarks.js"></script>
+		<script src="../view/sidebar.js"></script>
 		<script src="../view/shortcuts.js"></script>
 		<script src="../view/search.js"></script>
 	</body>

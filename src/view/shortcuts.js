@@ -28,8 +28,17 @@ class ShortcutsManager {
 			}
 		} else if (action === "closeTab" && window.kargoTabs && window.kargoTabs.closeCurrentTab) {
 			window.kargoTabs.closeCurrentTab();
-		} else if (action === "toggleTabBar" && window.kargoTabs && window.kargoTabs.toggleTabBar) {
-			window.kargoTabs.toggleTabBar();
+		} else if (action === "toggleTabBar") {
+			// Sekme görünümünde tabs.js, diğer sayfalarda sidebar.js yönetir.
+			if (window.kargoTabs && window.kargoTabs.toggleTabBar) {
+				window.kargoTabs.toggleTabBar();
+			} else if (window.kargoSidebar && window.kargoSidebar.toggle) {
+				window.kargoSidebar.toggle();
+			}
+		} else if (action === "toggleBookmark") {
+			if (window.kargoBookmarks && window.kargoBookmarks.toggle) {
+				window.kargoBookmarks.toggle();
+			}
 		} else if (action === "prevTab" && window.kargoTabs && window.kargoTabs.selectPreviousTab) {
 			window.kargoTabs.selectPreviousTab();
 		} else if (action === "nextTab" && window.kargoTabs && window.kargoTabs.selectNextTab) {
@@ -68,6 +77,14 @@ class ShortcutsManager {
 				window.kargoTabs.refreshCurrentTab();
 			} else {
 				location.reload();
+			}
+		} else if (action === "toggleDevTools") {
+			// Sekme görünümünde açık sayfanın, diğer sayfalarda pencere
+			// arayüzünün geliştirici araçlarını aç/kapat.
+			if (window.kargoTabs && window.kargoTabs.toggleDevTools) {
+				window.kargoTabs.toggleDevTools();
+			} else if (window.kargo && window.kargo.toggleDevTools) {
+				window.kargo.toggleDevTools();
 			}
 		} else if (action === "focusSearch") {
 			const searchInput = document.getElementById("queryInput") || document.getElementById("destInput");

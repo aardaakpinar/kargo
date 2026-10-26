@@ -95,6 +95,39 @@ function protocolOf(url) {
 	}
 }
 
+// kargo:// adreslerinin karşılık geldiği Kargo sayfaları.
+const KARGO_PAGE_FILES = {
+	home: "index.html",
+	index: "index.html",
+	settings: "settings.html",
+	history: "history.html",
+	about: "about.html",
+	error: "error.html",
+};
+
+function kargoPageFor(url) {
+	try {
+		const parsed = new URL(url);
+		if (parsed.protocol.toLowerCase() !== "kargo:") return null;
+		const name = (
+			parsed.hostname ||
+			parsed.pathname.replace(/^\/+/, "")
+		).toLowerCase();
+		return KARGO_PAGE_FILES[name] || "about.html";
+	} catch {
+		return null;
+	}
+}
+
+// kargo:// adreslerini Chromium'a (ve işletim sistemine) devretme; Kargo'nun
+// kendi sayfasında aç. Aksi halde "kargo uygulaması açılsın mı?" uyarısı çıkar.
+function openKargoPage(url) {
+	const page = kargoPageFor(url);
+	if (!page || !mainWindow || mainWindow.isDestroyed()) return false;
+	mainWindow.loadFile(path.join(__dirname, "pages", page));
+	return true;
+}
+
 function isWebUrl(url) {
 	return /^https?:\/\//i.test(url || "");
 }
@@ -109,9 +142,16 @@ function guardNavigation(contents, event, targetUrl) {
 	const protocol = protocolOf(targetUrl);
 	if (!protocol || WEB_PROTOCOLS.has(protocol)) return;
 
+	// Kargo'nun kendi adresleri uygulama içinde açılır.
+	if (protocol === "kargo:") {
+		event.preventDefault();
+		openKargoPage(targetUrl);
+		return;
+	}
+
 	// Kargo'nun kendi sayfaları file:// üzerinden yükleniyor.
 	const isChromeWindow = mainWindow && contents === mainWindow.webContents;
-	if (isChromeWindow && (protocol === "file:" || protocol === "kargo:")) return;
+	if (isChromeWindow && protocol === "file:") return;
 
 	event.preventDefault();
 	if (EXTERNAL_PROTOCOLS.has(protocol)) {
@@ -278,6 +318,12 @@ app.on("web-contents-created", (_event, contents) => {
 	// sekmesine dönüşür. Arka plan istekleri sessizce arkada açılır.
 	contents.setWindowOpenHandler(({ url, disposition, postBody }) => {
 		const protocol = protocolOf(url);
+
+		// Kargo adresleri yeni pencere yerine uygulama içinde açılır.
+		if (protocol === "kargo:") {
+			openKargoPage(url);
+			return { action: "deny" };
+		}
 
 		if (EXTERNAL_PROTOCOLS.has(protocol)) {
 			openExternal(url);
@@ -450,6 +496,19 @@ ipcMain.handle("chrome-zoom", (_, action) => {
 	}
 
 	contents.setZoomLevel(level);
+});
+
+// Geliştirici araçları: sekme görünümü dışındaki sayfalarda pencere
+// arayüzünü denetlemek için ayrı pencerede aç/kapat.
+ipcMain.handle("toggle-devtools", () => {
+	if (!mainWindow || mainWindow.isDestroyed()) return;
+
+	const contents = mainWindow.webContents;
+	if (contents.isDevToolsOpened()) {
+		contents.closeDevTools();
+	} else {
+		contents.openDevTools({ mode: "detach" });
+	}
 });
 
 // Adres alanına yazılan mailto:/tel: gibi adresleri işletim sisteminde aç.

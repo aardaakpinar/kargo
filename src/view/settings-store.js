@@ -3,7 +3,7 @@ const KARGO_DEFAULT_SETTINGS = {
 	homepage: "kargo://home",
 	saveHistory: true,
 	searchEngine: "duckduckgo",
-	showTabBar: false,
+	showTabBar: true,
 	defaultZoom: "1",
 };
 
@@ -159,6 +159,115 @@ function recordKargoHistory(url, title = "") {
 	historyWriteTimer = setTimeout(flushKargoHistory, 400);
 }
 
+// ---------- Yer imleri ----------
+// { id, url, title, favicon, addedAt } kayıtları, eklenme sırasına göre tutulur.
+const KARGO_BOOKMARK_KEY = "kargoBookmarks";
+const KARGO_BOOKMARK_LIMIT = 500;
+
+function bookmarkKey(url) {
+	return (url || "").trim().replace(/\/+$/, "");
+}
+
+function isBookmarkableUrl(url) {
+	const value = (url || "").trim();
+	return /^https?:\/\//i.test(value);
+}
+
+function safeFavicon(url) {
+	return typeof url === "string" && /^(https?:|data:image\/)/i.test(url) ? url : "";
+}
+
+function getKargoBookmarks() {
+	try {
+		const parsed = JSON.parse(localStorage.getItem(KARGO_BOOKMARK_KEY) || "[]");
+		if (!Array.isArray(parsed)) return [];
+		return parsed.filter((item) => item && typeof item.url === "string");
+	} catch (error) {
+		return [];
+	}
+}
+
+function saveKargoBookmarks(items) {
+	localStorage.setItem(
+		KARGO_BOOKMARK_KEY,
+		JSON.stringify(items.slice(0, KARGO_BOOKMARK_LIMIT)),
+	);
+	return items;
+}
+
+function findKargoBookmark(url) {
+	const key = bookmarkKey(url);
+	if (!key) return null;
+	return getKargoBookmarks().find((item) => bookmarkKey(item.url) === key) || null;
+}
+
+function isKargoBookmarked(url) {
+	return Boolean(findKargoBookmark(url));
+}
+
+function addKargoBookmark({ url, title = "", favicon = "" } = {}) {
+	const trimmed = (url || "").trim();
+	if (!isBookmarkableUrl(trimmed)) return null;
+
+	const items = getKargoBookmarks();
+	const existing = items.find((item) => bookmarkKey(item.url) === bookmarkKey(trimmed));
+	if (existing) return existing;
+
+	let fallbackTitle = trimmed;
+	try {
+		fallbackTitle = new URL(trimmed).hostname.replace(/^www\./, "");
+	} catch (error) {}
+
+	const bookmark = {
+		id: `bm-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+		url: trimmed,
+		title: (title || "").trim() || fallbackTitle,
+		favicon: safeFavicon(favicon),
+		addedAt: new Date().toISOString(),
+	};
+	items.push(bookmark);
+	saveKargoBookmarks(items);
+	return bookmark;
+}
+
+function removeKargoBookmark(url) {
+	const key = bookmarkKey(url);
+	const items = getKargoBookmarks().filter((item) => bookmarkKey(item.url) !== key);
+	return saveKargoBookmarks(items);
+}
+
+// Site favicon'u gecikmeli geldiyse yer imi kaydını tamamla.
+function updateKargoBookmark(url, patch = {}) {
+	const key = bookmarkKey(url);
+	const items = getKargoBookmarks();
+	const target = items.find((item) => bookmarkKey(item.url) === key);
+	if (!target) return false;
+
+	let changed = false;
+	const favicon = safeFavicon(patch.favicon);
+	if (favicon && favicon !== target.favicon) {
+		target.favicon = favicon;
+		changed = true;
+	}
+	if (changed) saveKargoBookmarks(items);
+	return changed;
+}
+
+function moveKargoBookmark(fromId, toId, after = false) {
+	if (fromId === toId) return getKargoBookmarks();
+	const items = getKargoBookmarks();
+	const fromIndex = items.findIndex((item) => item.id === fromId);
+	if (fromIndex === -1) return items;
+	const [moved] = items.splice(fromIndex, 1);
+	const toIndex = items.findIndex((item) => item.id === toId);
+	if (toIndex === -1) {
+		items.push(moved);
+	} else {
+		items.splice(after ? toIndex + 1 : toIndex, 0, moved);
+	}
+	return saveKargoBookmarks(items);
+}
+
 window.addEventListener("pagehide", flushKargoHistory);
 
 window.kargoSettings = {
@@ -172,6 +281,15 @@ window.kargoSettings = {
 	clearHistory: clearKargoHistory,
 	removeHistory: removeKargoHistory,
 	recordHistory: recordKargoHistory,
+	getBookmarks: getKargoBookmarks,
+	findBookmark: findKargoBookmark,
+	isBookmarked: isKargoBookmarked,
+	isBookmarkable: isBookmarkableUrl,
+	addBookmark: addKargoBookmark,
+	removeBookmark: removeKargoBookmark,
+	updateBookmark: updateKargoBookmark,
+	moveBookmark: moveKargoBookmark,
+	safeFavicon,
 };
 
 applyKargoTheme();

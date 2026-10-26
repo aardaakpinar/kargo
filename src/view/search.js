@@ -13,29 +13,13 @@ function openExternalUrl(url) {
 }
 
 function openUrl(url) {
-	if (window.isKargoScheme && window.isKargoScheme(url)) {
-		const parsed = url.toLowerCase();
-		if (parsed === "kargo://about") {
-			window.location.href = "about.html";
-			return;
-		}
-		if (parsed === "kargo://error") {
-			window.location.href = "error.html";
-			return;
-		}
-		if (parsed === "kargo://home" || parsed === "kargo://index") {
-			window.location.href = "index.html";
-			return;
-		}
-		if (parsed === "kargo://settings") {
-			window.location.href = "settings.html";
-			return;
-		}
-		if (parsed === "kargo://history") {
-			window.location.href = "history.html";
-			return;
-		}
-		window.location.href = "about.html";
+	// Kargo'nun kendi sayfaları webview'a verilmemeli; aksi halde Chromium
+	// bilinmeyen şema uyarısı gösterir. Doğrudan sayfaya yönlendir.
+	const kargoPage = window.kargoPageFor ? window.kargoPageFor(url) : null;
+	if (kargoPage) {
+		// replace: Geri tuşu arama sayfasına dönüp yeniden yönlendirme döngüsü
+		// oluşturmasın.
+		window.location.replace(kargoPage);
 		return;
 	}
 
@@ -57,7 +41,7 @@ function openUrl(url) {
 }
 
 function goToAboutPage() {
-	window.location.href = "about.html";
+	window.location.replace("about.html");
 }
 
 function handleSearch(event) {
@@ -88,6 +72,12 @@ function loadInitialUrl() {
 
 	if (window.kargoTabs && window.kargoTabs.currentTab) {
 		const url = normalizeUrl(query);
+		const kargoPage = window.kargoPageFor ? window.kargoPageFor(url) : null;
+		if (kargoPage) {
+			// Kargo sayfaları webview yerine doğrudan açılır.
+			window.location.replace(kargoPage);
+			return;
+		}
 		if (isExternalUrl(url)) {
 			queryInput.value = url;
 			openExternalUrl(url);

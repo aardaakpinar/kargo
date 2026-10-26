@@ -7,27 +7,39 @@ const path = require("path");
 const DEFAULT_SHORTCUTS = [
 	// Sekmeler
 	{ id: "createTab", action: "createTab", keys: "ctrl+t", description: "Yeni sekme aç" },
-	{ id: "closeTab", action: "closeTab", keys: "ctrl+x", description: "Sekmeyi kapat" },
+	{ id: "closeTab", action: "closeTab", keys: "ctrl+w", description: "Sekmeyi kapat" },
 	{
 		id: "toggleTabBar",
 		action: "toggleTabBar",
-		keys: "ctrl+shift+t",
-		description: "Sekme çubuğunu göster/gizle",
+		keys: "ctrl+b",
+		description: "Kenar çubuğunu göster/gizle",
 	},
-	{ id: "prevTab", action: "prevTab", keys: "ctrl+shift+left", description: "Önceki sekme" },
-	{ id: "nextTab", action: "nextTab", keys: "ctrl+shift+right", description: "Sonraki sekme" },
+	{
+		id: "toggleBookmark",
+		action: "toggleBookmark",
+		keys: "ctrl+d",
+		description: "Sayfayı yer imlerine ekle/kaldır",
+	},
+	{ id: "prevTab", action: "prevTab", keys: "ctrl+shift+tab", description: "Önceki sekme" },
+	{ id: "nextTab", action: "nextTab", keys: "ctrl+tab", description: "Sonraki sekme" },
 
 	// Gezinme
 	{ id: "goBack", action: "goBack", keys: "ctrl+left", description: "Geri git" },
 	{ id: "goForward", action: "goForward", keys: "ctrl+right", description: "İleri git" },
 	{ id: "goHome", action: "goHome", keys: "ctrl+shift+h", description: "Ana sayfaya git" },
-	{ id: "goSettings", action: "goSettings", keys: "ctrl+shift+s", description: "Ayarlar sayfasına git" },
+	{ id: "goSettings", action: "goSettings", keys: "ctrl+,", description: "Ayarlar sayfasına git" },
 	{ id: "goHistory", action: "goHistory", keys: "ctrl+h", description: "Geçmiş sayfasına git" },
 	{ id: "goAbout", action: "goAbout", keys: "ctrl+shift+a", description: "Hakkında sayfası" },
 
 	// Tarayıcı
 	{ id: "refresh", action: "refresh", keys: "ctrl+r", description: "Sayfayı yenile" },
 	{ id: "refreshF5", action: "refresh", keys: "f5", description: "Sayfayı yenile (F5)" },
+	{
+		id: "toggleDevTools",
+		action: "toggleDevTools",
+		keys: "f12",
+		description: "Geliştirici araçlarını aç/kapat",
+	},
 	{ id: "focusSearch", action: "focusSearch", keys: "ctrl+k", description: "Arama alanına odaklan" },
 	{ id: "zoomIn", action: "zoomIn", keys: "ctrl+=", description: "Yakınlaştır" },
 	{ id: "zoomOut", action: "zoomOut", keys: "ctrl+-", description: "Uzaklaştır" },
@@ -39,7 +51,14 @@ const DEFAULT_SHORTCUTS = [
 	{ id: "closeApp", action: "closeApp", keys: "ctrl+q", description: "Uygulamayı kapat" },
 ];
 
-for (let index = 1; index <= 9; index++) {
+DEFAULT_SHORTCUTS.push({
+	id: "lastTab",
+	action: "lastTab",
+	keys: "ctrl+9",
+	description: "Son sekmeye geç",
+});
+
+for (let index = 1; index <= 8; index++) {
 	DEFAULT_SHORTCUTS.push({
 		id: `selectTab${index}`,
 		action: `selectTab${index}`,
@@ -51,23 +70,7 @@ for (let index = 1; index <= 9; index++) {
 const DEFAULT_BY_ID = new Map(DEFAULT_SHORTCUTS.map((shortcut) => [shortcut.id, shortcut]));
 
 // Sadece değiştirici tuşlara basıldığında kaydı bekletmeye devam et.
-const MODIFIER_KEYS = new Set([
-	"Shift",
-	"Control",
-	"Alt",
-	"Meta",
-	"CapsLock",
-	"AltGraph",
-	"OS",
-	"ShiftLeft",
-	"ShiftRight",
-	"ControlLeft",
-	"ControlRight",
-	"AltLeft",
-	"AltRight",
-	"MetaLeft",
-	"MetaRight",
-]);
+const MODIFIER_KEYS = new Set(["Shift", "Control", "Alt", "Meta", "CapsLock", "AltGraph", "OS", "ShiftLeft", "ShiftRight", "ControlLeft", "ControlRight", "AltLeft", "AltRight", "MetaLeft", "MetaRight"]);
 
 const MODIFIER_TOKENS = new Set(["shift", "control", "alt", "meta"]);
 
@@ -185,14 +188,13 @@ function validateAccelerator(keys) {
 	const parts = keys.split("+");
 	const token = parts[parts.length - 1];
 	const hasCtrl = parts.includes("ctrl");
-	const hasAlt = parts.includes("alt");
 	const isFunctionKey = /^f[0-9]{1,2}$/.test(token);
 
 	if (token === "escape") {
 		return { valid: false, reason: "Esc, kaydı iptal etmek için ayrılmış." };
 	}
-	if (!hasCtrl && !hasAlt && !isFunctionKey) {
-		return { valid: false, reason: "Ctrl veya Alt ile birlikte kullanmalısın." };
+	if (!hasCtrl && !isFunctionKey) {
+		return { valid: false, reason: "Ctrl ile birlikte kullanmalısın." };
 	}
 	return { valid: true, reason: "" };
 }
