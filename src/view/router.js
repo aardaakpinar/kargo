@@ -171,7 +171,7 @@
 			try {
 				currentCleanup = view.mount(outlet) || null;
 			} catch (error) {
-				console.error(`"${name}" görünümü başlatılamadı:`, error);
+				console.error('"%s" görünümü başlatılamadı:', String(name), error);
 			}
 		}
 
