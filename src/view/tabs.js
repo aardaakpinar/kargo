@@ -86,7 +86,7 @@ function createTab(url = "") {
 			// Başlık tam saklanır; kısaltmayı CSS (text-overflow) yapar.
 			tab.title = title;
 			updateTabButton(tab);
-			if (window.kargoSettings) {
+			if (window.kargoSettings && tab.url && tab.url !== "about:blank") {
 				window.kargoSettings.recordHistory(tab.url, title);
 			}
 			notifyTabChange();
@@ -94,13 +94,15 @@ function createTab(url = "") {
 	});
 
 	webview.addEventListener("page-favicon-updated", (event) => {
-		const icons = event.favicons || [];
-		tab.favicon = (window.kargoSettings && window.kargoSettings.safeFavicon(icons[0])) || "";
-		updateTabButton(tab);
-		if (tab.favicon && window.kargoSettings) {
-			window.kargoSettings.updateBookmark(tab.url, { favicon: tab.favicon });
-		}
-		notifyTabChange();
+		try {
+			const icons = event.favicons || [];
+			tab.favicon = (window.kargoSettings && window.kargoSettings.safeFavicon(icons[0])) || "";
+			updateTabButton(tab);
+			if (tab.favicon && window.kargoSettings && tab.url && tab.url !== "about:blank") {
+				window.kargoSettings.updateBookmark(tab.url, { favicon: tab.favicon });
+			}
+			notifyTabChange();
+		} catch (e) {}
 	});
 
 	const handleNavigation = (event, { inPage }) => {
@@ -110,10 +112,14 @@ function createTab(url = "") {
 		const previousUrl = tab.url;
 		tab.url = event.url;
 
+		if (tab.url === "about:blank") {
+			return;
+		}
+
 		// Farklı bir siteye geçildiyse eski sitenin favicon'unu gösterme.
 		if (!inPage && previousUrl !== event.url) {
 			try {
-				if (new URL(previousUrl).origin !== new URL(event.url).origin) {
+				if (previousUrl && previousUrl !== "about:blank" && new URL(previousUrl).origin !== new URL(event.url).origin) {
 					tab.favicon = "";
 					updateTabButton(tab);
 				}
@@ -266,7 +272,7 @@ function fillFavicon(container, faviconUrl, label) {
 	container.appendChild(img);
 }
 
-function switchTab(tabId) {
+function switchTab(tabId, options = {}) {
 	const tab = tabs.find((t) => t.id === tabId);
 	if (!tab) return;
 
@@ -285,10 +291,16 @@ function switchTab(tabId) {
 	if (tab.buttonElement) {
 		tab.buttonElement.classList.add("active");
 	}
-	tab.webview.focus();
+	if (!options.silent) {
+		try {
+			tab.webview.focus();
+		} catch (error) {}
+	}
 	queryInput.value = tab.url;
 	if (tab.buttonElement && tab.buttonElement.scrollIntoView) {
-		tab.buttonElement.scrollIntoView({ block: "nearest" });
+		try {
+			tab.buttonElement.scrollIntoView({ block: "nearest" });
+		} catch (error) {}
 	}
 	notifyTabChange();
 }
@@ -304,19 +316,56 @@ function closeTab(tabId) {
 	}
 
 	const tab = tabs[index];
-	tab.webview.remove();
+	const wasActive = currentTabId === tabId;
+
+	try {
+		if (typeof tab.webview.stop === "function") {
+			tab.webview.stop();
+		}
+	} catch (error) {}
+
+	try {
+		tab.webview.style.display = "none";
+	} catch (error) {}
+
+	try {
+		if (tab.webview.getURL && tab.webview.getURL() !== "about:blank") {
+			tab.webview.loadURL("about:blank");
+		}
+	} catch (error) {
+		try {
+			tab.webview.src = "about:blank";
+		} catch (e) {}
+	}
+
 	if (tab.buttonElement) {
 		tab.buttonElement.remove();
 	}
 	tabs.splice(index, 1);
 	updateTabCount();
 
-	if (currentTabId === tabId) {
+	if (wasActive) {
 		const nextTab = tabs[index] || tabs[index - 1];
 		if (nextTab) {
-			switchTab(nextTab.id);
+			switchTab(nextTab.id, { silent: true });
+			requestAnimationFrame(() => {
+				try {
+					if (getCurrentTab() && getCurrentTab().id === nextTab.id) {
+						nextTab.webview.focus();
+					}
+				} catch (error) {}
+			});
 		}
 	}
+
+	requestAnimationFrame(() => {
+		try {
+			if (tab.webview && tab.webview.parentNode) {
+				tab.webview.remove();
+			}
+		} catch (error) {}
+	});
+
 	notifyTabChange();
 }
 

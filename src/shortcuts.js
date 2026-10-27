@@ -7,7 +7,7 @@ const path = require("path");
 const DEFAULT_SHORTCUTS = [
 	// Sekmeler
 	{ id: "createTab", action: "createTab", keys: "ctrl+t", description: "Yeni sekme aç" },
-	{ id: "closeTab", action: "closeTab", keys: "ctrl+w", description: "Sekmeyi kapat" },
+	{ id: "closeTab", action: "closeTab", keys: "ctrl+x", description: "Sekmeyi kapat" },
 	{
 		id: "toggleTabBar",
 		action: "toggleTabBar",
@@ -27,8 +27,8 @@ const DEFAULT_SHORTCUTS = [
 	{ id: "goBack", action: "goBack", keys: "ctrl+left", description: "Geri git" },
 	{ id: "goForward", action: "goForward", keys: "ctrl+right", description: "İleri git" },
 	{ id: "goHome", action: "goHome", keys: "ctrl+shift+h", description: "Ana sayfaya git" },
-	{ id: "goSettings", action: "goSettings", keys: "ctrl+,", description: "Ayarlar sayfasına git" },
-	{ id: "goHistory", action: "goHistory", keys: "ctrl+h", description: "Geçmiş sayfasına git" },
+	{ id: "goSettings", action: "goSettings", keys: "ctrl+shift+s", description: "Ayarlar sayfasını aç" },
+	{ id: "goHistory", action: "goHistory", keys: "ctrl+h", description: "Geçmiş sayfasını aç" },
 	{ id: "goAbout", action: "goAbout", keys: "ctrl+shift+a", description: "Hakkında sayfası" },
 
 	// Tarayıcı
@@ -41,7 +41,7 @@ const DEFAULT_SHORTCUTS = [
 		description: "Geliştirici araçlarını aç/kapat",
 	},
 	{ id: "focusSearch", action: "focusSearch", keys: "ctrl+k", description: "Arama alanına odaklan" },
-	{ id: "zoomIn", action: "zoomIn", keys: "ctrl+=", description: "Yakınlaştır" },
+	{ id: "zoomIn", action: "zoomIn", keys: "ctrl++", description: "Yakınlaştır" },
 	{ id: "zoomOut", action: "zoomOut", keys: "ctrl+-", description: "Uzaklaştır" },
 	{ id: "zoomReset", action: "zoomReset", keys: "ctrl+0", description: "Yakınlaştırmayı sıfırla" },
 
@@ -166,17 +166,26 @@ function acceleratorFromInput(input) {
 }
 
 function displayPart(part) {
+	if (!part) return "";
 	if (part === "ctrl") return "Ctrl";
 	if (part === "alt") return "Alt";
 	if (part === "shift") return "Shift";
 	if (KEY_LABELS[part]) return KEY_LABELS[part];
 	if (part.length === 1) return part.toUpperCase();
-	return part[0].toUpperCase() + part.slice(1);
+	if (part[0]) {
+		return part[0].toUpperCase() + part.slice(1);
+	}
+	return part;
 }
 
 function displayAccelerator(keys) {
 	if (!keys) return "Atanmadı";
-	return keys.split("+").map(displayPart).join(" + ");
+	return keys
+		.split("+")
+		.filter((part) => part && part !== "")
+		.map(displayPart)
+		.filter((part) => part)
+		.join(" + ") || "Atanmadı";
 }
 
 // Kullanıcı bir kısayol kaydederken bu kuralları uygularız.

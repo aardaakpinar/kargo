@@ -1,25 +1,9 @@
-const {
-	app,
-	BrowserWindow,
-	Menu,
-	clipboard,
-	ipcMain,
-	session,
-	shell,
-} = require("electron");
+const { app, BrowserWindow, Menu, clipboard, ipcMain, session, shell } = require("electron");
 const path = require("path");
-const {
-	ShortcutStore,
-	acceleratorFromInput,
-	displayAccelerator,
-	isModifierInput,
-	validateAccelerator,
-} = require("./shortcuts");
+const { ShortcutStore, acceleratorFromInput, displayAccelerator, isModifierInput, validateAccelerator } = require("./shortcuts");
 
 let mainWindow;
 let shortcutStore;
-// Ayarlar sayfasında bir kısayol kaydedilirken varsayılan kısayollar devre dışı
-// kalır; aksi halde Ctrl+T gibi bir kombinasyon kaydedilemeden yeni sekme açardı.
 let shortcutRecording = false;
 
 // Chromium zoom seviyesi: 0 = %100, her adım yaklaşık %10 büyür/küçülür.
@@ -38,7 +22,7 @@ const WEB_PROTOCOLS = new Set(["http:", "https:", "about:", "data:", "blob:"]);
 const POPUP_WINDOW_OPTIONS = {
 	width: 520,
 	height: 700,
-	minWidth: 400,
+	minWidth: 300,
 	minHeight: 480,
 	autoHideMenuBar: true,
 	backgroundColor: "#111",
@@ -95,25 +79,24 @@ function protocolOf(url) {
 	}
 }
 
-// kargo:// adreslerinin karşılık geldiği Kargo sayfaları.
-const KARGO_PAGE_FILES = {
-	home: "index.html",
-	index: "index.html",
-	settings: "settings.html",
-	history: "history.html",
-	about: "about.html",
-	error: "error.html",
+// kargo:// adreslerinin karşılık geldiği Kargo sayfaları. Ana sayfa, ayarlar,
+// geçmiş ve hakkında ayrı dosyalar değil; index.html kabuğunun görünümleridir
+// ve #hash ile seçilir (bkz. view/router.js). error.html ayrı bir sayfadır.
+const KARGO_PAGE_TARGETS = {
+	home: { file: "index.html", hash: "home" },
+	index: { file: "index.html", hash: "home" },
+	settings: { file: "index.html", hash: "settings" },
+	history: { file: "index.html", hash: "history" },
+	about: { file: "index.html", hash: "about" },
+	error: { file: "error.html" },
 };
 
 function kargoPageFor(url) {
 	try {
 		const parsed = new URL(url);
 		if (parsed.protocol.toLowerCase() !== "kargo:") return null;
-		const name = (
-			parsed.hostname ||
-			parsed.pathname.replace(/^\/+/, "")
-		).toLowerCase();
-		return KARGO_PAGE_FILES[name] || "about.html";
+		const name = (parsed.hostname || parsed.pathname.replace(/^\/+/, "")).toLowerCase();
+		return KARGO_PAGE_TARGETS[name] || KARGO_PAGE_TARGETS.about;
 	} catch {
 		return null;
 	}
@@ -122,9 +105,9 @@ function kargoPageFor(url) {
 // kargo:// adreslerini Chromium'a (ve işletim sistemine) devretme; Kargo'nun
 // kendi sayfasında aç. Aksi halde "kargo uygulaması açılsın mı?" uyarısı çıkar.
 function openKargoPage(url) {
-	const page = kargoPageFor(url);
-	if (!page || !mainWindow || mainWindow.isDestroyed()) return false;
-	mainWindow.loadFile(path.join(__dirname, "pages", page));
+	const target = kargoPageFor(url);
+	if (!target || !mainWindow || mainWindow.isDestroyed()) return false;
+	mainWindow.loadFile(path.join(__dirname, "pages", target.file), target.hash ? { hash: target.hash } : undefined);
 	return true;
 }
 
@@ -171,7 +154,9 @@ function cleanUserAgent(userAgent) {
 
 function isSettingsPage(contents) {
 	try {
-		return /\/settings\.html$/i.test(new URL(contents.getURL()).pathname);
+		// Ayarlar artık index.html kabuğunun "settings" görünümü (#settings).
+		const { pathname, hash } = new URL(contents.getURL());
+		return /\/index\.html$/i.test(pathname) && hash.toLowerCase() === "#settings";
 	} catch {
 		return false;
 	}
@@ -199,9 +184,7 @@ function attachShortcutHandler(contents) {
 				}
 
 				const keys = acceleratorFromInput(input);
-				const check = keys
-					? validateAccelerator(keys)
-					: { valid: false, reason: "Bu tuş kullanılamıyor." };
+				const check = keys ? validateAccelerator(keys) : { valid: false, reason: "Bu tuş kullanılamıyor." };
 				mainWindow.webContents.send("shortcut-captured", {
 					keys,
 					display: displayAccelerator(keys),
@@ -304,10 +287,7 @@ function buildContextMenu(contents, params) {
 			{ label: "Tümünü seç", click: () => contents.selectAll() },
 		);
 	} else if ((params.selectionText || "").trim()) {
-		template.push(
-			{ type: "separator" },
-			{ label: "Kopyala", click: () => contents.copy() },
-		);
+		template.push({ type: "separator" }, { label: "Kopyala", click: () => contents.copy() });
 	}
 
 	return template;
@@ -409,9 +389,9 @@ function createWindow() {
 	mainWindow = new BrowserWindow({
 		width: 1200,
 		height: 820,
-		minWidth: 900,
+		minWidth: 450,
 		minHeight: 650,
-		title: "🚂🚋🚋 Kargo",
+		title: "Kargo",
 		show: false,
 		frame: process.platform === "darwin",
 		titleBarStyle: process.platform === "darwin" ? "hiddenInset" : undefined,
@@ -569,9 +549,7 @@ if (!gotSingleInstanceLock) {
 		}
 
 		// Kullanıcı tanımlı kısayollar userData altında saklanır.
-		shortcutStore = new ShortcutStore(
-			path.join(app.getPath("userData"), "shortcuts.json"),
-		);
+		shortcutStore = new ShortcutStore(path.join(app.getPath("userData"), "shortcuts.json"));
 
 		createWindow();
 	});

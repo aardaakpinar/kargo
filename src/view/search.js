@@ -41,7 +41,10 @@ function openUrl(url) {
 }
 
 function goToAboutPage() {
-	window.location.replace("about.html");
+	// about.html artık ayrı bir sayfa değil; kabuğun "about" görünümü.
+	window.location.replace(
+		window.kargoPageHref ? window.kargoPageHref("about") : "index.html#about",
+	);
 }
 
 function handleSearch(event) {

@@ -1,9 +1,13 @@
 // Kenar çubuğu davranışları: gezinme düğmeleri, daraltma ve (Zen'deki gibi)
 // daraltılmışken sol kenara gelince geçici olarak açılma.
-// Sekme görünümünde (search.html) window.kargoTabs vardır; diğer sayfalarda
-// gezinme tarayıcı geçmişi ve sayfa yönlendirmeleriyle yapılır.
+// Sekme görünümünde (search.html) window.kargoTabs vardır. index.html
+// kabuğunda window.kargoRouter vardır: ana sayfa, ayarlar, geçmiş ve hakkında
+// düğmeleri sayfa değiştirmez, router.load(...) ile #app-view içeriğini yükler.
+// Kabuk dışındaki sayfalarda (error.html) bu düğmeler index.html#<görünüm>
+// adresine gider.
 (function () {
 	const tabsApi = window.kargoTabs || null;
+	const router = window.kargoRouter || null;
 	const store = window.kargoSettings || null;
 	const body = document.body;
 	const sidebar = document.getElementById("sidebar");
@@ -53,11 +57,15 @@
 	}
 	sidebar.addEventListener("mouseenter", () => {
 		pointerInside = true;
+		if (hideTimer) {
+			clearTimeout(hideTimer);
+			hideTimer = null;
+		}
 		peek();
 	});
 	sidebar.addEventListener("mouseleave", () => {
 		pointerInside = false;
-		unpeek();
+		unpeek({ delay: 150 });
 	});
 
 	// Ctrl+K veya Tab ile kenar çubuğuna odaklanınca paneli göster.
@@ -93,9 +101,7 @@
 				} else {
 					// Kargo sayfasında adresi temizlemek yerine sayfanın
 					// kendi kargo:// adresine geri dön.
-					queryField.value = window.kargoAddressForPage
-						? window.kargoAddressForPage(pageFile)
-						: "";
+					queryField.value = currentAddress();
 				}
 				queryField.blur();
 				unpeek({ force: true });
@@ -114,12 +120,9 @@
 				const normalized = window.normalizeUrl
 					? window.normalizeUrl(query)
 					: query;
-				const kargoPage = window.kargoPageFor
-					? window.kargoPageFor(normalized)
-					: null;
-				window.location.href = kargoPage
-					? kargoPage
-					: `search.html?q=${encodeURIComponent(query)}`;
+				// Kargo adresleri kendi görünümünde (ya da sayfasında) açılır.
+				if (window.kargoOpen && window.kargoOpen(normalized)) return;
+				window.location.href = `search.html?q=${encodeURIComponent(query)}`;
 			}
 		});
 
@@ -133,10 +136,16 @@
 		if (element) element.addEventListener("click", handler);
 	};
 
-	function goToPage(page) {
-		const current = window.location.pathname.split("/").pop() || "index.html";
-		if (current === page) return;
-		window.location.href = page;
+	// Kabukta içeriği router yükler; kabuk dışındaki sayfalarda index.html#<görünüm>
+	// adresine gidilir.
+	function goTo(route) {
+		if (router) {
+			router.load(route);
+			return;
+		}
+		window.location.href = window.kargoPageHref
+			? window.kargoPageHref(route)
+			: `index.html#${route}`;
 	}
 
 	bind("backBtn", () => (tabsApi ? tabsApi.goBack() : history.back()));
@@ -146,31 +155,61 @@
 	);
 	bind("collapseBtn", toggleSidebar);
 	bind("newTabBtn", () =>
-		tabsApi ? tabsApi.newTab() : goToPage("search.html"),
+		tabsApi ? tabsApi.newTab() : (window.location.href = "search.html"),
 	);
-	bind("homeBtn", () => goToPage("index.html"));
-	bind("historyBtn", () => goToPage("history.html"));
-	bind("settingsBtn", () => goToPage("settings.html"));
-	bind("aboutBtn", () => goToPage("about.html"));
+	bind("homeBtn", () => goTo("home"));
+	bind("historyBtn", () => goTo("history"));
+	bind("settingsBtn", () => goTo("settings"));
+	bind("aboutBtn", () => goTo("about"));
+
+	// Şu an gösterilen Kargo sayfasının kargo:// adresi. Kabukta router'ın
+	// geçerli görünümü, error.html gibi ayrı sayfalarda dosya adı belirler;
+	// sekme görünümünde (search.html) boştur.
+	function currentAddress() {
+		if (router) return router.current ? `kargo://${router.current}` : "";
+		return window.kargoAddressForPage
+			? window.kargoAddressForPage(pageFile)
+			: "";
+	}
 
 	// Hangi sayfada olduğumuzu alt çubukta işaretle.
-	const activePages = {
-		"index.html": "homeBtn",
-		"error.html": "homeBtn",
-		"history.html": "historyBtn",
-		"settings.html": "settingsBtn",
-		"about.html": "aboutBtn",
+	const footerButtons = {
+		home: "homeBtn",
+		history: "historyBtn",
+		settings: "settingsBtn",
+		about: "aboutBtn",
 	};
-	const activeButton = document.getElementById(activePages[pageFile] || "");
-	if (activeButton) {
-		activeButton.classList.add("active");
-		activeButton.setAttribute("aria-current", "page");
+	const activeButtonFor = { ...footerButtons, error: "homeBtn" };
+
+	function markActivePage() {
+		const page = currentAddress().replace("kargo://", "");
+		const activeId = activeButtonFor[page] || "";
+
+		Object.values(footerButtons).forEach((id) => {
+			const button = document.getElementById(id);
+			if (!button) return;
+			const isActive = id === activeId;
+			button.classList.toggle("active", isActive);
+			if (isActive) button.setAttribute("aria-current", "page");
+			else button.removeAttribute("aria-current");
+		});
 	}
 
 	// Sekme görünümü dışındaki sayfalarda adres kutusunda sayfanın
 	// kargo:// karşılığını göster; yazılan adres kaybolmasın.
-	if (queryField && !tabsApi && window.kargoAddressForPage) {
-		queryField.value = window.kargoAddressForPage(pageFile);
+	function showCurrentAddress() {
+		if (queryField && !tabsApi) queryField.value = currentAddress();
+	}
+
+	markActivePage();
+	showCurrentAddress();
+
+	// Görünüm değişince işaret ve adres çubuğu da güncellensin.
+	if (router) {
+		router.onChange(() => {
+			markActivePage();
+			showCurrentAddress();
+		});
 	}
 
 	// Sayfa içeriği kaydırılabilir kartın kendisidir. Klavye ile

@@ -1,0 +1,30 @@
+<header class="top-container">
+	<div class="search-header">
+		<input id="historyFilter" class="dest" type="search" placeholder="Geçmişte ara" autocomplete="off" />
+	</div>
+</header>
+
+<div class="settings-shell">
+	<header class="settings-header history-header">
+		<div>
+			<h1>Geçmiş</h1>
+			<p>Son ziyaret ettiğin sayfalar.</p>
+			<p id="historyCount" class="history-count"></p>
+		</div>
+
+		<button id="clearHistoryBtn" class="settings-danger-btn" type="button">Tümünü temizle</button>
+	</header>
+
+	<div class="settings-content">
+		<section class="settings-card history-card">
+			<ul id="historyList" class="history-entries"></ul>
+
+			<div id="historyEmpty" class="history-empty" hidden>
+				<p id="historyEmptyTitle" class="history-empty-title">Henüz geçmiş yok.</p>
+				<p id="historyEmptyText">Ziyaret ettiğin sayfalar burada listelenir.</p>
+			</div>
+		</section>
+	</div>
+</div>
+
+<div id="historyToast" class="toast" role="status" aria-live="polite"></div>

@@ -7,27 +7,18 @@
 		<script src="../view/settings-store.js"></script>
 		<link rel="stylesheet" href="../static/styles.css" />
 	</head>
-	<body class="home-page index-page">
-		<header class="top-container">
-			<div class="search-header"></div>
-		</header>
-
-		<main class="home-shell">
-			<section class="home-hero">
-				<h1>🚂 Kargo</h1>
-				<p class="text">-</p>
-
-				<input id="destInput" type="text" class="dest" placeholder="İstikamet" autocomplete="off" />
-
-				<p class="home-hint">Adres yaz veya ara · <kbd>Enter</kbd> ile devam et</p>
-			</section>
-		</main>
+	<body>
+		<main id="app-view" class="page-view" tabindex="-1"></main>
 
 		<script src="../view/sidebar-markup.js"></script>
 		<script src="../utils/url.js"></script>
+		<script src="../view/router.js"></script>
 		<script src="../view/sidebar.js"></script>
 		<script src="../view/bookmarks.js"></script>
 		<script src="../view/shortcuts.js"></script>
 		<script src="../view/home.js"></script>
+		<script src="../view/history.js"></script>
+		<script src="../view/settings.js"></script>
+		<script src="../view/shell.js"></script>
 	</body>
 </html>

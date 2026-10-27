@@ -795,12 +795,11 @@ body.platform-mac .sidebar-drag {
 	min-width: 0;
 	min-height: 0;
 	display: flex;
-	padding: var(--content-gap) var(--content-gap) var(--content-gap) 0;
 }
 
 .webview-shell {
-	border: 1px solid var(--color-border);
-	border-radius: var(--content-radius);
+	border: none;
+	border-radius: 0;
 	background: var(--color-bg-primary);
 }
 
@@ -839,7 +838,8 @@ body.sidebar-collapsed.sidebar-peek .sidebar-hotzone {
 }
 
 body.sidebar-collapsed .content {
-	padding-left: var(--content-gap);
+	padding-left: 0;
+	padding: 0;
 }
 
 /* macOS'ta trafik ışıkları içeriğin üstüne binmesin. */
@@ -854,28 +854,29 @@ body.platform-mac.sidebar-collapsed .window-drag-strip {
 
 body.sidebar-collapsed .sidebar {
 	position: fixed;
-	top: var(--content-gap);
-	bottom: var(--content-gap);
-	left: var(--content-gap);
+	top: 0;
+	bottom: 0;
+	left: 0;
 	z-index: 50;
-	border: 1px solid var(--color-border);
-	border-radius: 12px;
+	border: none;
+	border-right: 1px solid var(--color-border);
+	border-radius: 0;
 	background: var(--color-panel-strong);
-	box-shadow: var(--color-shadow);
-	transform: translateX(calc(-100% - 20px));
-	/* Gizliyken görünmez ve tıklanamaz; ama Ctrl+K ile odaklanabilir kalır. */
+	box-shadow: none;
+	transform: translateX(calc(-100% - 12px));
 	opacity: 0;
 	pointer-events: none;
+	will-change: transform, opacity;
 }
 
 body.sidebar-collapsed.sidebar-peek .sidebar {
-	transform: translateX(0);
+	transform: translate3d(0, 0, 0);
 	opacity: 1;
 	pointer-events: auto;
 }
 
 body.platform-mac.sidebar-collapsed .sidebar {
-	top: 30px;
+	top: 0;
 }
 
 body.sidebar-collapsed .sidebar-drag {
@@ -885,8 +886,8 @@ body.sidebar-collapsed .sidebar-drag {
 /* Animasyonlar yalnızca ilk kare çizildikten sonra çalışır. */
 body.sidebar-ready.sidebar-collapsed .sidebar {
 	transition:
-		transform 0.18s ease,
-		opacity 0.18s ease;
+		transform 0.24s cubic-bezier(0.25, 0.8, 0.25, 1),
+		opacity 0.18s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1114,6 +1115,18 @@ body.index-page .home-hero h1 {
 	font-size: 2.7rem;
 	font-weight: 700;
 	letter-spacing: -0.03em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.7rem;
+	line-height: 1;
+}
+
+body.index-page .home-logo {
+	width: 1em;
+	height: 1em;
+	border-radius: 0.2rem;
+	flex-shrink: 0;
 }
 
 body.index-page .home-hero .text {
@@ -1150,7 +1163,7 @@ body.index-page .home-hero .dest {
 	height: 100dvh;
 	display: flex;
 	flex-direction: row;
-	background: var(--color-sidebar-bg);
+	background: var(--color-bg-primary);
 }
 
 .top-container {
@@ -1192,6 +1205,9 @@ body.index-page .home-hero .dest {
 	width: 100%;
 	min-height: 0;
 	height: 100%;
+	border: none;
+	border-radius: 0;
+	background: var(--color-bg-primary);
 }
 
 /* HTML5 tam ekran (video/oyun): arayüzü gizle, webview pencereyi kaplasın. */
@@ -1865,7 +1881,7 @@ body.has-sidebar {
 	align-items: stretch;
 	justify-content: flex-start;
 	text-align: left;
-	background: var(--color-sidebar-bg);
+	background: var(--color-bg-primary);
 }
 
 body.has-sidebar .page-view {
@@ -1875,9 +1891,8 @@ body.has-sidebar .page-view {
 	min-height: 0;
 	display: flex;
 	flex-direction: column;
-	margin: var(--content-gap) var(--content-gap) var(--content-gap) 0;
-	border: 1px solid var(--color-border);
-	border-radius: var(--content-radius);
+	border: none;
+	border-radius: 0;
 	background: var(--color-bg-primary);
 	overflow-x: hidden;
 	overflow-y: auto;
@@ -1930,11 +1945,11 @@ body.has-sidebar .home-shell {
 
 /* Kenar çubuğu gizliyken içerik kartı sol boşluğu korusun. */
 body.sidebar-collapsed .page-view {
-	margin-left: var(--content-gap);
+	margin-left: 0;
 }
 
 body.platform-mac.sidebar-collapsed .page-view {
-	margin-top: 33px;
+	margin-top: 0;
 }
 
 @keyframes shortcut-pulse {

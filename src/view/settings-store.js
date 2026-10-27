@@ -7,7 +7,7 @@ const KARGO_DEFAULT_SETTINGS = {
 	defaultZoom: "1",
 };
 
-const KARGO_SEARCH_ENGINES = ["duckduckgo", "google", "bing", "brave"];
+const KARGO_SEARCH_ENGINES = ["duckduckgo", "google", "brave", "vuhuv", "ecosia"];
 const KARGO_ZOOM_FACTORS = ["0.8", "0.9", "1", "1.1", "1.25", "1.5"];
 
 function getStoredSetting(key, fallback) {
@@ -18,42 +18,23 @@ function getStoredSetting(key, fallback) {
 function getKargoSettings() {
 	const theme = getStoredSetting("theme", KARGO_DEFAULT_SETTINGS.theme);
 	const homepage = getStoredSetting("homepage", KARGO_DEFAULT_SETTINGS.homepage);
-	const saveHistory = getStoredSetting(
-		"saveHistory",
-		String(KARGO_DEFAULT_SETTINGS.saveHistory),
-	);
-	const searchEngine = getStoredSetting(
-		"searchEngine",
-		KARGO_DEFAULT_SETTINGS.searchEngine,
-	);
-	const showTabBar = getStoredSetting(
-		"showTabBar",
-		String(KARGO_DEFAULT_SETTINGS.showTabBar),
-	);
-	const defaultZoom = getStoredSetting(
-		"defaultZoom",
-		KARGO_DEFAULT_SETTINGS.defaultZoom,
-	);
+	const saveHistory = getStoredSetting("saveHistory", String(KARGO_DEFAULT_SETTINGS.saveHistory));
+	const searchEngine = getStoredSetting("searchEngine", KARGO_DEFAULT_SETTINGS.searchEngine);
+	const showTabBar = getStoredSetting("showTabBar", String(KARGO_DEFAULT_SETTINGS.showTabBar));
+	const defaultZoom = getStoredSetting("defaultZoom", KARGO_DEFAULT_SETTINGS.defaultZoom);
 
 	return {
 		theme: theme === "light" ? "light" : "dark",
 		homepage: homepage.trim() || KARGO_DEFAULT_SETTINGS.homepage,
 		saveHistory: saveHistory !== "false",
-		searchEngine: KARGO_SEARCH_ENGINES.includes(searchEngine)
-			? searchEngine
-			: KARGO_DEFAULT_SETTINGS.searchEngine,
+		searchEngine: KARGO_SEARCH_ENGINES.includes(searchEngine) ? searchEngine : KARGO_DEFAULT_SETTINGS.searchEngine,
 		showTabBar: showTabBar === "true",
-		defaultZoom: KARGO_ZOOM_FACTORS.includes(defaultZoom)
-			? defaultZoom
-			: KARGO_DEFAULT_SETTINGS.defaultZoom,
+		defaultZoom: KARGO_ZOOM_FACTORS.includes(defaultZoom) ? defaultZoom : KARGO_DEFAULT_SETTINGS.defaultZoom,
 	};
 }
 
 function applyKargoTheme(theme = getKargoSettings().theme) {
-	document.documentElement.setAttribute(
-		"data-theme",
-		theme === "light" ? "light" : "dark",
-	);
+	document.documentElement.setAttribute("data-theme", theme === "light" ? "light" : "dark");
 }
 
 function saveKargoSettings(nextSettings) {
@@ -63,16 +44,11 @@ function saveKargoSettings(nextSettings) {
 	};
 
 	settings.theme = settings.theme === "light" ? "light" : "dark";
-	settings.homepage =
-		(settings.homepage || "").trim() || KARGO_DEFAULT_SETTINGS.homepage;
+	settings.homepage = (settings.homepage || "").trim() || KARGO_DEFAULT_SETTINGS.homepage;
 	settings.saveHistory = Boolean(settings.saveHistory);
-	settings.searchEngine = KARGO_SEARCH_ENGINES.includes(settings.searchEngine)
-		? settings.searchEngine
-		: KARGO_DEFAULT_SETTINGS.searchEngine;
+	settings.searchEngine = KARGO_SEARCH_ENGINES.includes(settings.searchEngine) ? settings.searchEngine : KARGO_DEFAULT_SETTINGS.searchEngine;
 	settings.showTabBar = Boolean(settings.showTabBar);
-	settings.defaultZoom = KARGO_ZOOM_FACTORS.includes(String(settings.defaultZoom))
-		? String(settings.defaultZoom)
-		: KARGO_DEFAULT_SETTINGS.defaultZoom;
+	settings.defaultZoom = KARGO_ZOOM_FACTORS.includes(String(settings.defaultZoom)) ? String(settings.defaultZoom) : KARGO_DEFAULT_SETTINGS.defaultZoom;
 
 	localStorage.setItem("theme", settings.theme);
 	localStorage.setItem("homepage", settings.homepage);
@@ -188,10 +164,7 @@ function getKargoBookmarks() {
 }
 
 function saveKargoBookmarks(items) {
-	localStorage.setItem(
-		KARGO_BOOKMARK_KEY,
-		JSON.stringify(items.slice(0, KARGO_BOOKMARK_LIMIT)),
-	);
+	localStorage.setItem(KARGO_BOOKMARK_KEY, JSON.stringify(items.slice(0, KARGO_BOOKMARK_LIMIT)));
 	return items;
 }
 

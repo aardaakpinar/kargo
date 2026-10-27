@@ -1,0 +1,142 @@
+<header class="top-container">
+	<div class="search-header"></div>
+</header>
+
+<div class="settings-shell">
+	<header class="settings-header">
+		<div>
+			<h1>Ayarlar</h1>
+			<p>Kargo tarayıcı tercihlerini özelleştir.</p>
+		</div>
+	</header>
+
+	<div class="settings-content">
+		<section class="settings-card">
+			<div class="settings-card-head">
+				<h2>Genel</h2>
+				<span>Başlangıç ve arama</span>
+			</div>
+
+			<div class="settings-option">
+				<div class="settings-option-text">
+					<h3>Başlangıç Sayfası</h3>
+					<p>Kargo açıldığında gösterilecek adres. Boş bırakırsan ana sayfa açılır.</p>
+				</div>
+
+				<input id="homepageInput" type="text" class="settings-input" placeholder="https://example.com" />
+			</div>
+
+			<div class="settings-option">
+				<div class="settings-option-text">
+					<h3>Arama Motoru</h3>
+					<p>Adres çubuğunda yazdıkların için kullanılacak motor.</p>
+				</div>
+
+				<select id="searchEngineSelect" class="settings-select">
+					<option value="duckduckgo">DuckDuckGo</option>
+					<option value="google">Google</option>
+					<option value="brave">Brave Search</option>
+					<option value="vuhuv">Vuhuv</option>
+					<option value="ecosia">Ecosia</option>
+				</select>
+			</div>
+		</section>
+
+		<section class="settings-card">
+			<div class="settings-card-head">
+				<h2>Görünüm</h2>
+				<span>Tema ve kenar çubuğu</span>
+			</div>
+
+			<div class="settings-option">
+				<div class="settings-option-text">
+					<h3>Tema</h3>
+					<p>Karanlık veya açık tema seç.</p>
+				</div>
+
+				<select id="themeSelect" class="settings-select">
+					<option value="dark">Karanlık</option>
+					<option value="light">Açık</option>
+				</select>
+			</div>
+
+			<label class="settings-toggle">
+				<div class="settings-option-text">
+					<h3>Kenar Çubuğu</h3>
+					<p>Sekmeler ve yer imleri sol kenar çubuğunda açık başlasın. Kapalıyken sol kenara gelince açılır.</p>
+				</div>
+
+				<span class="settings-switch">
+					<input type="checkbox" id="tabBarToggle" />
+					<span class="settings-switch-track" aria-hidden="true"></span>
+				</span>
+			</label>
+
+			<div class="settings-option">
+				<div class="settings-option-text">
+					<h3>Varsayılan Yakınlaştırma</h3>
+					<p>Yeni açılan sayfaların başlangıç yakınlaştırma oranı.</p>
+				</div>
+
+				<select id="zoomSelect" class="settings-select">
+					<option value="0.8">%80</option>
+					<option value="0.9">%90</option>
+					<option value="1">%100</option>
+					<option value="1.1">%110</option>
+					<option value="1.25">%125</option>
+					<option value="1.5">%150</option>
+				</select>
+			</div>
+		</section>
+
+		<section class="settings-card">
+			<div class="settings-card-head">
+				<h2>Gizlilik</h2>
+				<span>Geçmiş ve veri seçenekleri</span>
+			</div>
+
+			<label class="settings-toggle">
+				<div class="settings-option-text">
+					<h3>Geçmişi Kaydet</h3>
+					<p>Ziyaret edilen siteleri yerel olarak sakla.</p>
+				</div>
+
+				<span class="settings-switch">
+					<input type="checkbox" id="historyToggle" checked />
+					<span class="settings-switch-track" aria-hidden="true"></span>
+				</span>
+			</label>
+
+			<div class="settings-option">
+				<div class="settings-option-text">
+					<h3>Gezi Geçmişi</h3>
+					<p>Kaydedilen sayfaları görüntüle veya bu cihazdan sil.</p>
+				</div>
+
+				<div class="settings-inline-actions">
+					<a class="settings-secondary-btn settings-link-btn" href="#history"> Geçmişi aç </a>
+					<button id="clearHistoryBtn" class="settings-danger-btn" type="button">Temizle</button>
+				</div>
+			</div>
+		</section>
+
+		<section class="settings-card">
+			<div class="settings-card-head with-action">
+				<div>
+					<h2>Kısayollar</h2>
+					<span>Değiştirmek için bir kısayola tıkla</span>
+				</div>
+
+				<button id="shortcutResetAll" class="settings-mini-btn" type="button">Varsayılanlara dön</button>
+			</div>
+
+			<ul id="shortcutsList" class="settings-shortcuts"></ul>
+		</section>
+
+		<div class="settings-autosave" role="status" aria-live="polite">
+			<span id="autosaveStatus"></span>
+		</div>
+	</div>
+</div>
+
+<div id="settingsToast" class="toast" role="status" aria-live="polite"></div>

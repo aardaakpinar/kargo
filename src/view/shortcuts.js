@@ -16,6 +16,16 @@ class ShortcutsManager {
 		}
 	}
 
+	// Kabukta (index.html) içeriği router yükler; search.html gibi kabuk dışı
+	// sayfalarda kabuk ilgili görünümle açılır.
+	goToView(route) {
+		if (window.kargoGo) {
+			window.kargoGo(route);
+		} else {
+			window.location.href = `index.html#${route}`;
+		}
+	}
+
 	handleGlobalShortcut(action) {
 		// Tab shortcuts
 		if (action === "createTab") {
@@ -63,13 +73,13 @@ class ShortcutsManager {
 				history.forward();
 			}
 		} else if (action === "goHome") {
-			window.location.href = "index.html";
+			this.goToView("home");
 		} else if (action === "goSettings") {
-			window.location.href = "settings.html";
+			this.goToView("settings");
 		} else if (action === "goHistory") {
-			window.location.href = "history.html";
+			this.goToView("history");
 		} else if (action === "goAbout") {
-			window.location.href = "about.html";
+			this.goToView("about");
 		}
 		// Browser
 		else if (action === "refresh") {
