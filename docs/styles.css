@@ -11,7 +11,7 @@
 	--button-bg: rgba(255, 255, 255, 0.08);
 	--button-hover: rgba(255, 255, 255, 0.13);
 	--accent: #ff473e;
-	--accent-soft: rgba(255, 71, 62, 0.16);
+	--accent-soft: rgba(202, 90, 84, 0.16);
 	--accent-border: rgba(255, 71, 62, 0.55);
 	--page-width: 840px;
 }
@@ -121,8 +121,33 @@ a:hover {
 }
 
 .brand-mark {
-	font-size: 1.1rem;
+	width: 1.6rem;
+	height: 1.6rem;
 	line-height: 1;
+	display: inline-block;
+	border-radius: 0.25rem;
+}
+
+.hero-logo {
+	width: 1.2em;
+	height: 1.2em;
+	border-radius: 0.4rem;
+	flex-shrink: 0;
+}
+
+.inline-logo {
+	width: 1.2rem;
+	height: 1.2rem;
+	vertical-align: -0.2rem;
+	margin-right: 0.4rem;
+	border-radius: 0.2rem;
+}
+
+.footer-logo {
+	width: 1.4rem;
+	height: 1.4rem;
+	border-radius: 0.25rem;
+	flex-shrink: 0;
 }
 
 .app-nav {
@@ -181,6 +206,10 @@ a:hover {
 	font-size: clamp(2.6rem, 6vw, 4rem);
 	line-height: 1.1;
 	letter-spacing: -0.04em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.8rem;
 }
 
 .lede {
@@ -490,6 +519,12 @@ code {
 	border-top: 1px solid var(--border);
 	color: var(--muted);
 	font-size: 0.8rem;
+}
+
+.site-footer > span:first-child {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
 }
 
 .site-footer a {

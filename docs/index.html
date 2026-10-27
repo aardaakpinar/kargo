@@ -17,25 +17,24 @@
 	<body>
 		<header class="app-bar">
 			<a class="brand" href="./">
-				<span class="brand-mark" aria-hidden="true">🚂</span>
+				<img class="brand-mark" src="./icon.png" alt="" aria-hidden="true" />
 				<span>Kargo</span>
 			</a>
 			<nav class="app-nav" aria-label="Ana gezinme">
 				<a href="#about">Hakkında</a>
 				<a href="#features">Özellikler</a>
 				<a href="#shortcuts">Kısayollar</a>
-				<a href="https://github.com/aardaakpinar/kargo/">GitHub</a>
-				<a class="nav-cta" href="https://github.com/aardaakpinar/kargo/releases/latest">İndir</a>
+				<a class="nav-cta" href="https://github.com/aardaakpinar/kargo/">GitHub</a>
 			</nav>
 		</header>
 
 		<main>
 			<section class="hero">
 				<p class="eyebrow">Chromium tabanlı · Electron</p>
-				<h1>🚂 Kargo</h1>
+				<h1><img src="./icon.png" alt="" class="hero-logo" aria-hidden="true" />Kargo</h1>
 				<p class="lede">Neredeyse hiç kullanıcı arayüzü olmayan, klavye odaklı bir tarayıcı.</p>
 				<div class="hero-actions">
-					<a class="button button-primary" href="https://github.com/aardaakpinar/kargo/releases/latest">Şimdi İndir</a>
+					<a id="downloadBtn" class="button button-primary" href="https://github.com/aardaakpinar/kargo/releases/latest">Şimdi İndir</a>
 					<a class="button button-ghost" href="https://github.com/aardaakpinar/kargo/">Kaynak kodu</a>
 				</div>
 
@@ -116,7 +115,7 @@
 
 						<article class="panel feature-card">
 							<h3>Çok şirin</h3>
-							<p>🚂🚋🚋 Kargo (web'i evinize taşır)</p>
+							<p>Kargo, web'i evinize taşır.</p>
 						</article>
 					</div>
 				</div>
@@ -137,7 +136,7 @@
 									<dd>Yeni sekme aç</dd>
 								</div>
 								<div class="shortcut-row">
-									<dt><kbd>Ctrl</kbd><kbd>W</kbd></dt>
+									<dt><kbd>Ctrl</kbd><kbd>X</kbd></dt>
 									<dd>Mevcut sekmeyi kapat</dd>
 								</div>
 								<div class="shortcut-row">
@@ -179,16 +178,16 @@
 									<dd>İleri git</dd>
 								</div>
 								<div class="shortcut-row">
+									<dt><kbd>Ctrl</kbd><kbd>H</kbd></dt>
+									<dd>Geçmiş sayfasını aç</dd>
+								</div>
+								<div class="shortcut-row">
 									<dt><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>H</kbd></dt>
 									<dd>Ana sayfaya git</dd>
 								</div>
 								<div class="shortcut-row">
-									<dt><kbd>Ctrl</kbd><kbd>,</kbd></dt>
+									<dt><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>S</kbd></dt>
 									<dd>Ayarlar sayfasını aç</dd>
-								</div>
-								<div class="shortcut-row">
-									<dt><kbd>Ctrl</kbd><kbd>H</kbd></dt>
-									<dd>Geçmiş sayfasını aç</dd>
 								</div>
 								<div class="shortcut-row">
 									<dt><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>A</kbd></dt>
@@ -213,7 +212,7 @@
 									<dd>Arama alanına odaklan</dd>
 								</div>
 								<div class="shortcut-row">
-									<dt><kbd>Ctrl</kbd><kbd>=</kbd></dt>
+									<dt><kbd>Ctrl</kbd><kbd>+</kbd></dt>
 									<dd>Yakınlaştır</dd>
 								</div>
 								<div class="shortcut-row">
@@ -245,17 +244,43 @@
 							</dl>
 						</article>
 					</div>
-
-					<p class="note note-spaced">Kısayolları <strong>Ayarlar → Kısayollar</strong> bölümünden değiştirebilirsin: bir kısayola tıklayıp yeni tuş kombinasyonuna bas. <code>Esc</code> kaydı iptal eder, <code>↺</code> tek kısayolu, <em>Varsayılanlara dön</em> ise tümünü sıfırlar. Aynı kombinasyonu iki kısayola vermeye çalışırsan eski sahibi boşa alınır. Tüm kısayollar <code>Ctrl</code> ile başlar; yalnızca <code>F5</code> ve <code>F12</code> bu kuralın dışındadır.</p>
 				</div>
 			</section>
 		</main>
 
 		<footer class="site-footer">
-			<span>🚂🚋🚋 Kargo</span>
-			<span> <a href="https://github.com/aardaakpinar/kargo/">GitHub</a> · MIT </span>
+			<span><img src="./icon.png" alt="" class="footer-logo" aria-hidden="true" />Kargo</span>
+			<span><a href="https://github.com/aardaakpinar/kargo/">GitHub</a> · MIT</span>
 		</footer>
 
+		<script>
+			(function () {
+				const btn = document.getElementById("downloadBtn");
+				if (!btn) return;
+				const ua = navigator.userAgent || "";
+				const platform = navigator.platform || "";
+				const isWindows = /Windows/i.test(ua) || /Win/i.test(platform);
+				const isLinux = /Linux/i.test(ua) && !/Android/i.test(ua);
+				const isMac = /Mac/i.test(ua) || /Mac/i.test(platform);
+
+				fetch("https://api.github.com/repos/aardaakpinar/kargo/releases/latest")
+					.then((r) => r.json())
+					.then((data) => {
+						const assets = data.assets || [];
+						if (isWindows) {
+							const exe = assets.find((a) => /\.exe$/i.test(a.name));
+							if (exe) btn.href = exe.browser_download_url;
+						} else if (isLinux) {
+							const appimage = assets.find((a) => /\.AppImage$/i.test(a.name));
+							if (appimage) btn.href = appimage.browser_download_url;
+						} else if (isMac) {
+							const dmg = assets.find((a) => /\.dmg$/i.test(a.name));
+							if (dmg) btn.href = dmg.browser_download_url;
+						}
+					})
+					.catch(() => {});
+			})();
+		</script>
 		<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 	</body>
 </html>
