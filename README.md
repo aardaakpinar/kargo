@@ -30,9 +30,9 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
 
 ![Home](./docs/screenshot/cargo_home.png)
 
-##### Duckduckgo (varsayılan arama motoru)
+##### Windows üzerinde Kargo Kompakt Mod
 
-![DDG](./docs/screenshot/cargo_ddg.png)
+![DDG](./docs/screenshot/cargo_compact.png)
 
 ##### Windows üzerinde Kargo hakkında sayfası
 
