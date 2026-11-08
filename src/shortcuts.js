@@ -20,6 +20,12 @@ const DEFAULT_SHORTCUTS = [
 		keys: "ctrl+d",
 		description: "Sayfayı yer imlerine ekle/kaldır",
 	},
+	{
+		id: "toggleBookmarkPanel",
+		action: "toggleBookmarkPanel",
+		keys: "ctrl+shift+b",
+		description: "Yer imleri panelini göster/gizle",
+	},
 	{ id: "prevTab", action: "prevTab", keys: "ctrl+shift+tab", description: "Önceki sekme" },
 	{ id: "nextTab", action: "nextTab", keys: "ctrl+tab", description: "Sonraki sekme" },
 
@@ -40,7 +46,7 @@ const DEFAULT_SHORTCUTS = [
 		keys: "f12",
 		description: "Geliştirici araçlarını aç/kapat",
 	},
-	{ id: "focusSearch", action: "focusSearch", keys: "ctrl+k", description: "Arama alanına odaklan" },
+	{ id: "focusSearch", action: "focusSearch", keys: "ctrl+k", description: "Arama penceresini aç" },
 	{ id: "zoomIn", action: "zoomIn", keys: "ctrl++", description: "Yakınlaştır" },
 	{ id: "zoomOut", action: "zoomOut", keys: "ctrl+-", description: "Uzaklaştır" },
 	{ id: "zoomReset", action: "zoomReset", keys: "ctrl+0", description: "Yakınlaştırmayı sıfırla" },

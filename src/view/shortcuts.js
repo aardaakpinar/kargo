@@ -49,6 +49,10 @@ class ShortcutsManager {
 			if (window.kargoBookmarks && window.kargoBookmarks.toggle) {
 				window.kargoBookmarks.toggle();
 			}
+		} else if (action === "toggleBookmarkPanel") {
+			if (window.kargoBookmarks && window.kargoBookmarks.togglePanel) {
+				window.kargoBookmarks.togglePanel();
+			}
 		} else if (action === "prevTab" && window.kargoTabs && window.kargoTabs.selectPreviousTab) {
 			window.kargoTabs.selectPreviousTab();
 		} else if (action === "nextTab" && window.kargoTabs && window.kargoTabs.selectNextTab) {
@@ -97,10 +101,15 @@ class ShortcutsManager {
 				window.kargo.toggleDevTools();
 			}
 		} else if (action === "focusSearch") {
-			const searchInput = document.getElementById("queryInput") || document.getElementById("destInput");
-			if (searchInput) {
-				searchInput.focus();
-				searchInput.select();
+			// Arama artık ayrı bir popup; Ctrl + K onu açar.
+			if (window.kargoSearch) {
+				window.kargoSearch.open();
+			} else {
+				const searchInput = document.getElementById("destInput");
+				if (searchInput) {
+					searchInput.focus();
+					searchInput.select();
+				}
 			}
 		} else if (action === "zoomIn" || action === "zoomOut" || action === "zoomReset") {
 			if (window.kargoTabs && window.kargoTabs[action]) {

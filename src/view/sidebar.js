@@ -12,7 +12,6 @@
 	const body = document.body;
 	const sidebar = document.getElementById("sidebar");
 	const hotzone = document.getElementById("sidebarHotzone");
-	const queryField = document.getElementById("queryInput");
 	const pageFile = window.location.pathname.split("/").pop() || "index.html";
 
 	if (!sidebar) return;
@@ -68,7 +67,7 @@
 		unpeek({ delay: 150 });
 	});
 
-	// Ctrl+K veya Tab ile kenar çubuğuna odaklanınca paneli göster.
+	// Tab ile kenar çubuğuna odaklanınca paneli göster.
 	sidebar.addEventListener("focusin", peek);
 	sidebar.addEventListener("focusout", () => unpeek());
 
@@ -90,45 +89,6 @@
 	// Klavye kısayolları (Ctrl + B) sekme görünümü dışındaki
 	// sayfalarda da aynı daraltma davranışını kullanabilsin.
 	window.kargoSidebar = { toggle: toggleSidebar, isCollapsed };
-
-	if (queryField) {
-		queryField.addEventListener("keydown", (event) => {
-			if (event.key === "Escape") {
-				const current = tabsApi ? tabsApi.currentTab : null;
-				if (current) {
-					queryField.value = current.url;
-					if (current.webview) current.webview.focus();
-				} else {
-					// Kargo sayfasında adresi temizlemek yerine sayfanın
-					// kendi kargo:// adresine geri dön.
-					queryField.value = currentAddress();
-				}
-				queryField.blur();
-				unpeek({ force: true });
-				return;
-			}
-
-			// Sekme görünümü dışındaki sayfalarda adres kutusu doğrudan
-			// hedefe yönlendirir. Kargo adresleri kendi sayfalarında açılır.
-			if (!tabsApi && (event.key === "Enter" || event.code === "Enter")) {
-				event.preventDefault();
-				const query = queryField.value.trim();
-				if (!query) {
-					window.location.href = "search.html";
-					return;
-				}
-				const normalized = window.normalizeUrl
-					? window.normalizeUrl(query)
-					: query;
-				// Kargo adresleri kendi görünümünde (ya da sayfasında) açılır.
-				if (window.kargoOpen && window.kargoOpen(normalized)) return;
-				window.location.href = `search.html?q=${encodeURIComponent(query)}`;
-			}
-		});
-
-		// Adres alanına odaklanınca tüm adresi seç (tek tıkla kopyalama/değiştirme).
-		queryField.addEventListener("focus", () => queryField.select());
-	}
 
 	// Gezinme düğmeleri
 	const bind = (id, handler) => {
@@ -195,21 +155,11 @@
 		});
 	}
 
-	// Sekme görünümü dışındaki sayfalarda adres kutusunda sayfanın
-	// kargo:// karşılığını göster; yazılan adres kaybolmasın.
-	function showCurrentAddress() {
-		if (queryField && !tabsApi) queryField.value = currentAddress();
-	}
-
 	markActivePage();
-	showCurrentAddress();
 
-	// Görünüm değişince işaret ve adres çubuğu da güncellensin.
+	// Görünüm değişince işaret güncellensin (adres yazısını search-popup.js günceller).
 	if (router) {
-		router.onChange(() => {
-			markActivePage();
-			showCurrentAddress();
-		});
+		router.onChange(markActivePage);
 	}
 
 	// Sayfa içeriği kaydırılabilir kartın kendisidir. Klavye ile
@@ -307,12 +257,9 @@
 	}
 	updateNavState();
 
-	// Kenar çubuğunda tarayıcının "Geri/Yenile" sağ tık menüsü anlamsız;
-	// yalnızca adres alanında kes/kopyala/yapıştır menüsü kalsın.
+	// Kenar çubuğunda tarayıcının "Geri/Yenile" sağ tık menüsü anlamsız.
 	sidebar.addEventListener("contextmenu", (event) => {
-		if (!event.target.closest("input")) {
-			event.preventDefault();
-		}
+		event.preventDefault();
 	});
 
 	// Daraltma düğmesinin ipucunu duruma göre güncelle.

@@ -398,8 +398,13 @@ function newTab(url = "") {
 	const tab = createTab(url);
 	switchTab(tab.id);
 	if (!url) {
-		queryInput.focus();
-		queryInput.select();
+		// Yeni boş sekmede arama popup'ı açılır.
+		if (window.kargoSearch) {
+			window.kargoSearch.open();
+		} else {
+			queryInput.focus();
+			queryInput.select();
+		}
 	}
 	return tab;
 }

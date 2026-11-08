@@ -12,57 +12,7 @@ function openExternalUrl(url) {
 	}
 }
 
-function openUrl(url) {
-	// Kargo'nun kendi sayfaları webview'a verilmemeli; aksi halde Chromium
-	// bilinmeyen şema uyarısı gösterir. Doğrudan sayfaya yönlendir.
-	const kargoPage = window.kargoPageFor ? window.kargoPageFor(url) : null;
-	if (kargoPage) {
-		// replace: Geri tuşu arama sayfasına dönüp yeniden yönlendirme döngüsü
-		// oluşturmasın.
-		window.location.replace(kargoPage);
-		return;
-	}
-
-	if (isExternalUrl(url)) {
-		openExternalUrl(url);
-		return;
-	}
-
-	if (window.kargoTabs) {
-		const currentTab = window.kargoTabs.currentTab;
-		if (currentTab) {
-			currentTab.url = url;
-			currentTab.webview.setAttribute("src", url);
-			if (window.kargoSettings) {
-				window.kargoSettings.recordHistory(url);
-			}
-		}
-	}
-}
-
-function goToAboutPage() {
-	// about.html artık ayrı bir sayfa değil; kabuğun "about" görünümü.
-	window.location.replace(
-		window.kargoPageHref ? window.kargoPageHref("about") : "index.html#about",
-	);
-}
-
-function handleSearch(event) {
-	const isEnter = event.key === "Enter" || event.code === "Enter" || event.keyCode === 13;
-	if (!isEnter) return;
-	event.preventDefault();
-
-	const search = queryInput.value.trim();
-	const lowerSearch = search.toLowerCase();
-	if (["about", "hakkında", "hakkinda"].includes(lowerSearch)) {
-		goToAboutPage();
-		return;
-	}
-
-	openUrl(normalizeUrl(search));
-}
-
-queryInput.addEventListener("keydown", handleSearch);
+// Adres çubuğundan gitme (Enter) artık search-popup.js içinde.
 
 // Set initial query value if coming from home page
 if (query) {
@@ -89,6 +39,7 @@ function loadInitialUrl() {
 		window.kargoTabs.currentTab.url = url;
 		window.kargoTabs.currentTab.webview.setAttribute("src", url);
 		queryInput.value = url;
+		if (window.kargoSearch) window.kargoSearch.refresh();
 	} else {
 		// Retry if tabs not ready yet
 		setTimeout(loadInitialUrl, 50);

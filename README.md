@@ -16,8 +16,9 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
 ## Özellikler
 
 - **Chrome**: Kargo, gücünü Chromium'dan alan Electron'un webview etiketlerini kullanır.
-- **Kenar çubuğu**: Zen gibi sol tarafta kompakt bir kenar çubuğu; sekmeler ve yer imleri orada durur. Gizlediğinde sol kenara gelince yüzen panel olarak açılır.
-- **Yer imleri**: `Ctrl + D` ile sayfayı ekle/kaldır, kenar çubuğunda sürükleyerek sırala, ana sayfada hızlıca eriş.
+- **Kenar çubuğu**: Zen gibi sol tarafta kompakt bir kenar çubuğu; sekmeler orada durur. Gizlediğinde sol kenara gelince yüzen panel olarak açılır.
+- **Arama penceresi**: `Ctrl + K` ile açılan, ayrı bir popup. Boşken son gezinilen sayfaları gösterir; yazarken geçmişi de sorguya katar. `↑` `↓` ile gez, `Enter` ile aç, `Esc` ile kapat.
+- **Yer imleri**: `Ctrl + D` ile sayfayı ekle/kaldır. `Ctrl + Shift + B` ile sağdaki açılır/kapanır yer imleri panelini göster; panelde sürükleyerek sırala.
 - **Geliştirici Araçları**: Kargo, Chrome'un geliştirici araçlarını tam olarak destekler.
 - **Platformlar arası**: Kargo tüm platformlarda iyi görünür, Windows'taki başlık çubuğu bile şık durur.
 - **Basit**: Kargo sadece çoğu insanın ihtiyaç duyduğu özelliklere sahiptir.

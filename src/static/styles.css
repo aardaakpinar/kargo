@@ -710,71 +710,10 @@ body.platform-mac .sidebar-drag {
 	box-shadow: 0 2px 0 0 var(--color-highlight);
 }
 
-/* ---- Yer imleri: yalnızca simge, kare karolar (Zen'deki sabitlenmiş sekmeler gibi) ---- */
+/* ---- Yer imleri: sağ paneldeki dikey liste ---- */
 
 .bookmark-list {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
-	gap: 6px;
-	padding: 2px 0.2rem 4px;
-}
-
-.bookmark-list .bookmark-item {
-	height: auto;
-	aspect-ratio: 1 / 1;
-	justify-content: center;
-	padding: 0;
-	border-radius: 0.7rem;
-	background: var(--color-button-bg);
-}
-
-.bookmark-list .bookmark-item:hover {
-	background: var(--color-button-hover);
-}
-
-.bookmark-list .bookmark-item.active {
-	background: var(--color-sidebar-item-active);
-	box-shadow: inset 0 0 0 1.5px var(--color-highlight);
-}
-
-.bookmark-list .bookmark-item.active::before {
-	display: none;
-}
-
-.bookmark-list .bookmark-title {
-	display: none;
-}
-
-.bookmark-list .bookmark-item .tab-icon {
-	flex-basis: 22px;
-	width: 22px;
-	height: 22px;
-	border-radius: 6px;
-	font-size: 0.85rem;
-}
-
-.bookmark-list .bookmark-item .tab-icon img {
-	width: 22px;
-	height: 22px;
-}
-
-.bookmark-list .bookmark-remove {
-	position: absolute;
-	top: 2px;
-	right: 2px;
-	width: 16px;
-	height: 16px;
-	border-radius: 50%;
-	background: var(--color-panel-strong);
-	font-size: 0.8rem;
-}
-
-.bookmark-list .bookmark-item.drop-before {
-	box-shadow: -3px 0 0 0 var(--color-highlight);
-}
-
-.bookmark-list .bookmark-item.drop-after {
-	box-shadow: 3px 0 0 0 var(--color-highlight);
+	padding: 2px 0 4px;
 }
 
 /* ---- Alt çubuk ---- */
@@ -1213,6 +1152,7 @@ body.index-page .home-hero .dest {
 /* HTML5 tam ekran (video/oyun): arayüzü gizle, webview pencereyi kaplasın. */
 body.html-fullscreen .search-header,
 body.html-fullscreen .sidebar,
+body.html-fullscreen .bookmark-panel,
 body.html-fullscreen .sidebar-hotzone,
 body.html-fullscreen .window-drag-strip {
 	display: none !important;
@@ -2036,5 +1976,298 @@ body.platform-mac.sidebar-collapsed .page-view {
 		right: 1rem;
 		bottom: 1rem;
 		max-width: none;
+	}
+}
+
+/* ============================================
+   ADRES DÜĞMESİ VE ARAMA POPUP'I
+   ============================================ */
+
+.address-btn {
+	-webkit-app-region: no-drag;
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin: 0;
+	padding: 0.4rem 0.6rem;
+	border: 1px solid transparent;
+	border-radius: 0.6rem;
+	background: var(--color-button-bg);
+	color: var(--color-text-primary);
+	font: inherit;
+	font-size: 0.82rem;
+	text-align: left;
+	cursor: pointer;
+	transition: background 0.12s ease;
+}
+
+.address-btn:hover {
+	background: var(--color-button-hover);
+}
+
+.address-btn:focus-visible {
+	outline: none;
+	border-color: var(--color-input-border-focus);
+	box-shadow: 0 0 0 3px var(--color-input-focus-ring);
+}
+
+.address-btn svg {
+	flex: 0 0 14px;
+	width: 14px;
+	height: 14px;
+	fill: none;
+	stroke: var(--color-text-secondary);
+	stroke-width: 1.5;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.address-label {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.address-label.is-placeholder {
+	color: var(--color-text-secondary);
+}
+
+.search-popup {
+	-webkit-app-region: no-drag;
+	position: fixed;
+	inset: 0;
+	z-index: 300;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	padding: min(14vh, 120px) 1rem 1rem;
+	background: var(--color-overlay-bg);
+	backdrop-filter: var(--color-overlay-blur);
+	animation: search-popup-fade 0.12s ease-out;
+}
+
+.search-popup[hidden] {
+	display: none;
+}
+
+.search-popup-card {
+	width: min(640px, 100%);
+	max-height: min(72vh, 540px);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	border: 1px solid var(--color-border);
+	border-radius: 1rem;
+	background: var(--color-panel-strong);
+	color: var(--color-text-primary);
+	box-shadow: var(--color-shadow);
+	animation: search-popup-rise 0.16s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.search-popup-field {
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.65rem;
+	padding: 0.15rem 1rem;
+}
+
+.search-popup-field svg {
+	flex: 0 0 16px;
+	width: 16px;
+	height: 16px;
+	fill: none;
+	stroke: var(--color-text-secondary);
+	stroke-width: 1.5;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.search-popup-input {
+	flex: 1;
+	min-width: 0;
+	padding: 0.9rem 0;
+	border: none;
+	outline: none;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-size: 1.02rem;
+	-webkit-user-select: text;
+	user-select: text;
+}
+
+.search-popup-input::placeholder {
+	color: var(--color-text-secondary);
+}
+
+.search-popup-field kbd {
+	flex-shrink: 0;
+	padding: 0.1rem 0.4rem;
+	border: 1px solid var(--color-border);
+	border-radius: 0.35rem;
+	background: var(--color-button-bg);
+	color: var(--color-text-secondary);
+	font-family: inherit;
+	font-size: 0.7rem;
+}
+
+.search-results {
+	min-height: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding: 0.35rem;
+	border-top: 1px solid var(--color-border);
+	--scrollbar-size: 8px;
+}
+
+.search-results:empty {
+	display: none;
+}
+
+.search-group {
+	padding: 0.55rem 0.65rem 0.25rem;
+	color: var(--color-text-secondary);
+	font-size: 0.72rem;
+	font-weight: 600;
+}
+
+.search-row {
+	display: flex;
+	align-items: center;
+	gap: 0.65rem;
+	min-width: 0;
+	padding: 0.5rem 0.65rem;
+	border-radius: 0.6rem;
+	font-size: 0.88rem;
+	cursor: pointer;
+}
+
+.search-row.active {
+	background: var(--color-sidebar-item-active);
+}
+
+.search-row .tab-icon svg {
+	width: 14px;
+	height: 14px;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.5;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.search-row-title {
+	flex: 0 1 auto;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.search-row-sub {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: var(--color-text-secondary);
+	font-size: 0.78rem;
+}
+
+.search-row-hint {
+	margin-left: auto;
+	flex-shrink: 0;
+	color: var(--color-text-secondary);
+	font-size: 0.72rem;
+}
+
+.search-empty {
+	margin: 0;
+	padding: 0.9rem 0.75rem;
+	color: var(--color-text-secondary);
+	font-size: 0.82rem;
+}
+
+@keyframes search-popup-fade {
+	from {
+		opacity: 0;
+	}
+}
+
+@keyframes search-popup-rise {
+	from {
+		opacity: 0;
+		transform: translateY(-8px) scale(0.985);
+	}
+}
+
+/* ============================================
+   SAĞ YER İMLERİ PANELİ (açılır/kapanır)
+   ============================================ */
+
+:root {
+	--bookmark-panel-width: 264px;
+}
+
+.bookmark-panel {
+	flex: 0 0 0;
+	width: 0;
+	min-height: 0;
+	overflow: hidden;
+	visibility: hidden;
+	background: var(--color-sidebar-bg);
+	border-left: 0 solid var(--color-border);
+	color: var(--color-text-primary);
+	font-size: 0.86rem;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.bookmark-panel-inner {
+	box-sizing: border-box;
+	width: var(--bookmark-panel-width);
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	padding: 0 0.45rem 0.4rem;
+}
+
+.bookmark-panel-drag {
+	-webkit-app-region: drag;
+	flex: 0 0 8px;
+	margin: 0 -0.45rem;
+}
+
+body.bookmarks-open .bookmark-panel {
+	flex-basis: var(--bookmark-panel-width);
+	width: var(--bookmark-panel-width);
+	border-left-width: 1px;
+	visibility: visible;
+}
+
+/* Animasyon yalnızca ilk kare çizildikten sonra çalışır. */
+body.sidebar-ready .bookmark-panel {
+	transition:
+		flex-basis 0.2s cubic-bezier(0.25, 0.8, 0.25, 1),
+		width 0.2s cubic-bezier(0.25, 0.8, 0.25, 1),
+		visibility 0s linear 0.2s;
+}
+
+body.sidebar-ready.bookmarks-open .bookmark-panel {
+	transition-delay: 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.sidebar-ready .bookmark-panel,
+	.search-popup,
+	.search-popup-card {
+		transition: none;
+		animation: none;
 	}
 }
