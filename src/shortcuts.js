@@ -20,12 +20,6 @@ const DEFAULT_SHORTCUTS = [
 		keys: "ctrl+d",
 		description: "Sayfayı yer imlerine ekle/kaldır",
 	},
-	{
-		id: "toggleBookmarkPanel",
-		action: "toggleBookmarkPanel",
-		keys: "ctrl+shift+b",
-		description: "Yer imleri panelini göster/gizle",
-	},
 	{ id: "prevTab", action: "prevTab", keys: "ctrl+shift+tab", description: "Önceki sekme" },
 	{ id: "nextTab", action: "nextTab", keys: "ctrl+tab", description: "Sonraki sekme" },
 

@@ -4,9 +4,9 @@
 		<meta charset="utf-8" />
 		<title>Kargo</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="description" content="Kargo, neredeyse hiç kullanıcı arayüzü olmayan, klavye odaklı minimalist bir masaüstü tarayıcısıdır. Chromium tabanlıdır ve Electron ile geliştirilmiştir." />
+		<meta name="description" content="Kargo, Electron ve Chromium tabanlı, klavye odaklı sade bir masaüstü tarayıcısıdır. Sekmeleri, aramayı, geçmişi ve yer imlerini klavyeyle yönet." />
 		<meta property="og:title" content="Kargo" />
-		<meta property="og:description" content="Neredeyse hiç kullanıcı arayüzü olmayan, klavye odaklı minimalist bir tarayıcı." />
+		<meta property="og:description" content="Electron ve Chromium tabanlı, klavye odaklı sade bir masaüstü tarayıcısı." />
 		<meta property="og:image" content="https://aardaakpinar.github.io/kargo/screenshot/cargo_home.png" />
 		<meta property="og:url" content="https://aardaakpinar.github.io/kargo/" />
 		<meta property="og:type" content="website" />
@@ -32,7 +32,7 @@
 			<section class="hero">
 				<p class="eyebrow">Chromium tabanlı · Electron</p>
 				<h1><img src="./icon.png" alt="" class="hero-logo" aria-hidden="true" />Kargo</h1>
-				<p class="lede">Neredeyse hiç kullanıcı arayüzü olmayan, klavye odaklı bir tarayıcı.</p>
+				<p class="lede">Electron ve Chromium tabanlı, klavye odaklı sade bir masaüstü tarayıcısı.</p>
 				<div class="hero-actions">
 					<a id="downloadBtn" class="button button-primary" href="https://github.com/aardaakpinar/kargo/releases/latest">Şimdi İndir</a>
 					<a class="button button-ghost" href="https://github.com/aardaakpinar/kargo/">Kaynak kodu</a>
@@ -47,10 +47,10 @@
 				<div class="section-inner">
 					<div class="panel about-card">
 						<h2>Kargo yeni bir tarayıcıdır.</h2>
-						<p>Kargo, internette yaşayan ve fareden nefret eden insanlar için tasarlanmış bir tarayıcıdır. Kargo, sadece birkaç klavye kısayolu kullanılarak kontrol edilebilir. Kargo, bir tarayıcının sadece en kullanışlı özelliklerini içerir; bu sayede internette gezinirken gereksiz özellikler sizi rahatsız edemez. Kargo'yu geliştirdim çünkü tercih ettiğim tarayıcıların (Chrome ve Firefox) sahip olduğu çoğu özelliği kullanmıyordum.</p>
+						<p>Kargo, internette klavyeyle gezinmek ve gereksiz arayüz öğelerini azaltmak isteyenler için tasarlanmış bir tarayıcıdır. Temel tarayıcı özelliklerini klavye kısayollarıyla yönetebilir; sekmeler, arama, geçmiş ve yer imlerine hızlıca erişebilirsin.</p>
 						<p>
-							Kargo; Javascript, HTML ve CSS kullanarak modern, platformlar arası masaüstü uygulamaları geliştirmeye yarayan bir teknoloji olan <a href="https://electronjs.org">Electron</a> kullanılarak inşa edilmiştir. Kaynak koduna
-							<a href="https://github.com/aardaakpinar/kargo">Github</a>
+							Kargo, Chromium tabanlı <a href="https://electronjs.org">Electron</a> ile geliştirilmiştir. Kaynak koduna
+							<a href="https://github.com/aardaakpinar/kargo">GitHub</a>
 							üzerinden ulaşılabilir.
 						</p>
 					</div>
@@ -66,16 +66,25 @@
 
 					<div class="feature-grid">
 						<article class="panel feature-card">
-							<h3>Chrome</h3>
+							<h3>Chromium ve Electron</h3>
 							<p>
-								Kargo, gücünü Chromium'dan alan Electron'un
-								<code>webview</code> etiketlerini kullanır.
+								Kargo, web sayfalarını Electron'un <code>webview</code> öğesiyle Chromium üzerinde görüntüler.
 							</p>
 						</article>
 
 						<article class="panel feature-card">
 							<h3>Sekmeler</h3>
-							<p>Diğer tüm tarayıcılar gibi Kargo da sekmeleri destekler, ancak bunları sizden gizler.</p>
+							<p>Sekmeler sol kenar çubuğunda listelenir; etkin sekmeyi buradan değiştirip yeni sekme açabilirsin.</p>
+						</article>
+
+						<article class="panel feature-card">
+							<h3>Arama ve geçmiş</h3>
+							<p><code>Ctrl + K</code> ile aramayı, son ziyaret edilen sayfaları ve geçmiş sonuçlarını aç. Geçmişi görüntüle veya temizle.</p>
+						</article>
+
+						<article class="panel feature-card">
+							<h3>Yer imleri</h3>
+							<p><code>Ctrl + D</code> ile sayfayı yer imlerine ekle veya kaldır; yer imlerini kenar çubuğunda sırala.</p>
 						</article>
 
 						<article class="panel feature-card">
@@ -146,10 +155,6 @@
 								<div class="shortcut-row">
 									<dt><kbd>Ctrl</kbd><kbd>D</kbd></dt>
 									<dd>Sayfayı yer imlerine ekle/kaldır</dd>
-								</div>
-								<div class="shortcut-row">
-									<dt><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>B</kbd></dt>
-									<dd>Yer imleri panelini göster/gizle</dd>
 								</div>
 								<div class="shortcut-row">
 									<dt><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>Tab</kbd></dt>

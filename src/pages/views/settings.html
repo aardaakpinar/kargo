@@ -89,7 +89,7 @@
 			</div>
 		</section>
 
-		<section class="settings-card">
+		<section class="settings-card settings-wide">
 			<div class="settings-card-head">
 				<h2>Gizlilik</h2>
 				<span>Geçmiş ve veri seçenekleri</span>
@@ -120,17 +120,22 @@
 			</div>
 		</section>
 
-		<section class="settings-card">
+		<section class="settings-card settings-wide">
 			<div class="settings-card-head with-action">
 				<div>
 					<h2>Kısayollar</h2>
-					<span>Değiştirmek için bir kısayola tıkla</span>
+					<span>Aramak veya değiştirmek için bir kısayola tıkla</span>
 				</div>
 
 				<button id="shortcutResetAll" class="settings-mini-btn" type="button">Varsayılanlara dön</button>
 			</div>
 
+			<div class="shortcut-toolbar">
+				<input id="shortcutSearch" type="search" class="settings-input" placeholder="Kısayol ara" aria-label="Kısayollarda ara" />
+				<span id="shortcutCount" class="shortcut-count" aria-live="polite"></span>
+			</div>
 			<ul id="shortcutsList" class="settings-shortcuts"></ul>
+			<p id="shortcutEmpty" class="shortcut-empty" hidden>Aramana uygun kısayol bulunamadı.</p>
 		</section>
 
 		<div class="settings-autosave" role="status" aria-live="polite">

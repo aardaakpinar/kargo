@@ -278,55 +278,9 @@
 	render();
 	updateMarks();
 
-	// ---------- Sağdaki yer imleri paneli (açılır/kapanır) ----------
-
-	const panel = document.getElementById("bookmarkPanel");
-	const panelToggle = document.getElementById("bookmarksBtn");
-	const panelClose = document.getElementById("bookmarkCloseBtn");
-	const PANEL_KEY = "kargoBookmarkPanel";
-
-	function isPanelOpen() {
-		return document.body.classList.contains("bookmarks-open");
-	}
-
-	function setPanel(open, { remember = true } = {}) {
-		document.body.classList.toggle("bookmarks-open", open);
-		if (panel) panel.inert = !open;
-		if (panelToggle) {
-			panelToggle.classList.toggle("active", open);
-			panelToggle.setAttribute("aria-pressed", String(open));
-			panelToggle.title = open
-				? "Yer imleri panelini gizle (Ctrl + Shift + B)"
-				: "Yer imleri panelini göster (Ctrl + Shift + B)";
-		}
-		if (remember) {
-			try {
-				localStorage.setItem(PANEL_KEY, String(open));
-			} catch (error) {}
-		}
-	}
-
-	function togglePanel() {
-		setPanel(!isPanelOpen());
-	}
-
-	if (panelToggle) panelToggle.addEventListener("click", togglePanel);
-	if (panelClose) panelClose.addEventListener("click", () => setPanel(false));
-
-	// Başlangıç durumu (sidebar-markup.js sınıfı ilk karede zaten uyguladı).
-	let startOpen = false;
-	try {
-		startOpen = localStorage.getItem(PANEL_KEY) === "true";
-	} catch (error) {}
-	setPanel(startOpen, { remember: false });
-
 	window.kargoBookmarks = {
 		toggle: toggleBookmark,
 		open: openBookmark,
 		render,
-		togglePanel,
-		openPanel: () => setPanel(true),
-		closePanel: () => setPanel(false),
-		isPanelOpen,
 	};
 })();

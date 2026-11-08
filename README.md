@@ -4,26 +4,33 @@
 </p>
 
 <p align="center">
-  Neredeyse hiç kullanıcı arayüzü olmayan bir tarayıcı.
+  Chromium tabanlı, klavye odaklı ve sade bir masaüstü tarayıcısı.
 </p>
 
-Kargo, internette yaşayan ve fareden nefret eden insanlar için bir tarayıcıdır. Kargo, sadece birkaç klavye kısayolu kullanılarak kontrol edilebilir. Kargo, bir tarayıcının sadece en kullanışlı özelliklerini içerir; bu sayede internette gezinirken gereksiz özellikler sizi rahatsız edemez. Kargo'yu geliştirdim çünkü tercih ettiğim tarayıcıların (Chrome ve Firefox) sahip olduğu çoğu özelliği kullanmıyordum.
+Kargo, web'de klavyeyle gezinmek ve gereksiz arayüz öğelerini azaltmak için tasarlanmış bir masaüstü tarayıcısıdır. Electron ve Chromium tabanlıdır; sekmeler, arama, geçmiş ve yer imleri gibi temel özelliklere odaklanır.
 
-Kargo henüz çok erken aşamadadır ancak şimdiden kullanılabilir durumdadır; lütfen geliştirmeme yardımcı olun.
+Proje geliştirme aşamasındadır. Denemek veya yüklemek için [en son sürümü](https://github.com/aardaakpinar/kargo/releases/latest) indirebilirsin.
 
-Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](https://github.com/aardaakpinar/kargo/releases/latest) birini kullanabilirsiniz.
+## Geliştirme
+
+Node.js ve npm kurulu bir ortamda:
+
+```sh
+npm install
+npm run dev
+```
+
+Paket oluşturmak için `npm run build`; işletim sistemine özel paket için `npm run build:win`, `npm run build:mac` veya `npm run build:linux` kullan.
 
 ## Özellikler
 
-- **Chrome**: Kargo, gücünü Chromium'dan alan Electron'un webview etiketlerini kullanır.
-- **Kenar çubuğu**: Zen gibi sol tarafta kompakt bir kenar çubuğu; sekmeler orada durur. Gizlediğinde sol kenara gelince yüzen panel olarak açılır.
-- **Arama penceresi**: `Ctrl + K` ile açılan, ayrı bir popup. Boşken son gezinilen sayfaları gösterir; yazarken geçmişi de sorguya katar. `↑` `↓` ile gez, `Enter` ile aç, `Esc` ile kapat.
-- **Yer imleri**: `Ctrl + D` ile sayfayı ekle/kaldır. `Ctrl + Shift + B` ile sağdaki açılır/kapanır yer imleri panelini göster; panelde sürükleyerek sırala.
-- **Geliştirici Araçları**: Kargo, Chrome'un geliştirici araçlarını tam olarak destekler.
-- **Platformlar arası**: Kargo tüm platformlarda iyi görünür, Windows'taki başlık çubuğu bile şık durur.
-- **Basit**: Kargo sadece çoğu insanın ihtiyaç duyduğu özelliklere sahiptir.
-- **Sekme Kurtarma**: Kargo, açıldığında önceden açık olan sekmelerinizi otomatik olarak geri yükler.
-- **Çok şirin**: 🚂🚋🚋 Kargo (web'i evinize taşır).
+- **Kenar çubuğunda sekmeler**: Sekmeleri ve Kargo'nun kendi sayfalarını aynı kenar çubuğundan yönet.
+- **Arama ve gezinme**: `Ctrl + K` arama penceresini açar; boşken yakın zamanda ziyaret edilen sayfaları gösterir, yazarken arama ve geçmiş sonuçlarını sunar. `↑` ve `↓` ile sonuçları seç, `Enter` ile aç, `Esc` ile kapat.
+- **Yer imleri**: `Ctrl + D` geçerli sayfayı ekler veya kaldırır. Yer imleri kenar çubuğunda listelenir; sürükleyerek sıralayabilirsin.
+- **Geçmiş**: Ziyaret edilen sayfaları görüntüle, tek tek kaldır veya tüm geçmişi temizle.
+- **Kısayolları özelleştirme**: Ayarlar sayfasında kısayol ata, tek bir kısayolu veya tümünü varsayılana döndür.
+- **Diğerleri**: Açılır bağlantıları sekmede açma, Chromium geliştirici araçları, PDF görüntüleme ve HTML5 tam ekran desteği.
+- **Sade tasarım**: Koyu ve açık tema, başlangıç sayfası, arama motoru, kenar çubuğu ve yakınlaştırma tercihleri.
 
 ## Ekran Görüntüleri
 
@@ -31,7 +38,7 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
 
 ![Home](./docs/screenshot/cargo_home.png)
 
-##### Windows üzerinde Kargo Kompakt Mod
+##### Windows üzerinde Kargo'da bir web sayfası
 
 ![DDG](./docs/screenshot/cargo_compact.png)
 
@@ -41,18 +48,14 @@ Denemek veya yüklemek için önceden derlenmiş [sürümlerimizden (binaries)](
 
 ## Klavye Kısayolları
 
-https://aardaakpinar.github.io/kargo/#shortcuts
-
-Kısayolları **Ayarlar → Kısayollar** bölümünden değiştirebilirsin: bir kısayola tıklayıp yeni tuş kombinasyonuna bas. `Esc` kaydı iptal eder, `↺` tek kısayolu, "Varsayılanlara dön" ise tümünü sıfırlar. Tüm kısayollar `Ctrl` ile başlar; yalnızca `F5` ve `F12` bu kuralın dışındadır.
+Varsayılan kısayolların tam listesi [Kargo web sitesinde](https://aardaakpinar.github.io/kargo/#shortcuts) yer alır. Uygulamada **Ayarlar → Kısayollar** bölümünden bir kısayola tıklayıp yeni tuş kombinasyonuna basarak değiştirebilirsin. `Esc` kaydı iptal eder; `↺` seçili kısayolu, **Varsayılanlara dön** tüm kısayolları sıfırlar. Özel atamalar `Ctrl` içerir; `F5` ve `F12` varsayılanları bu kuralın dışındadır.
 
 ## Gelecek
 
-Kargo hala geliştirilme aşamasındadır, ancak hayallerimizdeki tarayıcıyı yapmak için birlikte çalışabiliriz.
+Kargo geliştirme aşamasındadır. Katkı ve hata bildirimleri için [GitHub deposunu](https://github.com/aardaakpinar/kargo) ziyaret edebilirsin.
 
-## License
+## Lisans ve atıflar
 
-Idea inspired by [cargo](https://github.com/herber/cargo)
+Proje MIT lisanslıdır. Logo, [Twemoji](https://github.com/twitter/twemoji/blob/gh-pages/svg/1f682.svg) çalışmasından alınmış ve [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) lisansıyla kullanılmıştır.
 
-[The steamlocomotive logo](https://github.com/twitter/twemoji/blob/gh-pages/svg/1f682.svg) by [twemoji](https://github.com/twitter/twemoji) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
-
-MIT License © [Arda](http://aardaakpinar.github.io)
+MIT License © [Arda](https://aardaakpinar.github.io)

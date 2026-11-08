@@ -49,10 +49,6 @@ class ShortcutsManager {
 			if (window.kargoBookmarks && window.kargoBookmarks.toggle) {
 				window.kargoBookmarks.toggle();
 			}
-		} else if (action === "toggleBookmarkPanel") {
-			if (window.kargoBookmarks && window.kargoBookmarks.togglePanel) {
-				window.kargoBookmarks.togglePanel();
-			}
 		} else if (action === "prevTab" && window.kargoTabs && window.kargoTabs.selectPreviousTab) {
 			window.kargoTabs.selectPreviousTab();
 		} else if (action === "nextTab" && window.kargoTabs && window.kargoTabs.selectNextTab) {

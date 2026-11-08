@@ -11,6 +11,9 @@
 		const zoomSelect = root.querySelector("#zoomSelect");
 		const clearHistoryBtn = root.querySelector("#clearHistoryBtn");
 		const shortcutsList = root.querySelector("#shortcutsList");
+		const shortcutSearch = root.querySelector("#shortcutSearch");
+		const shortcutCount = root.querySelector("#shortcutCount");
+		const shortcutEmpty = root.querySelector("#shortcutEmpty");
 
 		const savedSettings = window.kargoSettings.get();
 
@@ -140,7 +143,6 @@
 			{ id: "closeTab", description: "Sekmeyi kapat", display: "Ctrl + X" },
 			{ id: "toggleTabBar", description: "Kenar çubuğunu göster/gizle", display: "Ctrl + B" },
 			{ id: "toggleBookmark", description: "Sayfayı yer imlerine ekle/kaldır", display: "Ctrl + D" },
-			{ id: "toggleBookmarkPanel", description: "Yer imleri panelini göster/gizle", display: "Ctrl + Shift + B" },
 			{ id: "prevTab", description: "Önceki sekme", display: "Ctrl + Shift + Tab" },
 			{ id: "nextTab", description: "Sonraki sekme", display: "Ctrl + Tab" },
 			{ id: "lastTab", description: "Son sekmeye geç", display: "Ctrl + 9" },
@@ -160,65 +162,78 @@
 			{ id: "minimize", description: "Pencereyi küçült", display: "Ctrl + M" },
 			{ id: "maximize", description: "Pencereyi büyüt", display: "Ctrl + Shift + M" },
 			{ id: "closeApp", description: "Uygulamayı kapat", display: "Ctrl + Q" },
+			...Array.from({ length: 8 }, (_, index) => ({
+				id: `selectTab${index + 1}`,
+				description: `${index + 1}. sekmeye geç`,
+				display: `Ctrl + ${index + 1}`,
+			})),
 		].map((entry) => ({ ...entry, keys: "fallback", isDefault: true }));
 
 		function renderShortcuts() {
 			if (disposed || !shortcutsList) return;
 			shortcutsList.innerHTML = "";
 
-			// 1-9 arası sekme kısayolları çalışmaya devam eder ama ayarlar
-			// listesini kalabalıklaştırmasın diye burada gizlenir.
-			shortcutEntries
-				.filter((entry) => !/^selectTab\d+$/.test(entry.id))
-				.forEach((entry) => {
-					const item = document.createElement("li");
-					item.className = "shortcut-row";
-					item.dataset.id = entry.id;
+			const query = shortcutSearch ? shortcutSearch.value.trim().toLocaleLowerCase("tr") : "";
+			const visibleEntries = shortcutEntries.filter((entry) => {
+				const searchable = `${entry.description} ${entry.display || ""}`.toLocaleLowerCase("tr");
+				return searchable.includes(query);
+			});
+			if (shortcutCount) {
+				shortcutCount.textContent = `${visibleEntries.length} / ${shortcutEntries.length} kısayol`;
+			}
+			if (shortcutEmpty) shortcutEmpty.hidden = visibleEntries.length > 0;
 
-					const description = document.createElement("span");
-					description.className = "shortcut-desc";
-					description.textContent = entry.description;
+			visibleEntries.forEach((entry) => {
+				const item = document.createElement("li");
+				item.className = "shortcut-row";
+				item.dataset.id = entry.id;
 
-					const controls = document.createElement("div");
-					controls.className = "shortcut-controls";
+				const description = document.createElement("span");
+				description.className = "shortcut-desc";
+				description.textContent = entry.description;
 
-					const keyButton = document.createElement("button");
-					keyButton.type = "button";
-					keyButton.className = "shortcut-key";
+				const controls = document.createElement("div");
+				controls.className = "shortcut-controls";
 
-					const isRecording = recordingShortcutId === entry.id;
-					if (isRecording) {
-						keyButton.classList.add("recording");
-						keyButton.textContent = "Tuşlara bas…";
-						keyButton.title = "İptal için Esc";
-					} else {
-						if (!entry.keys) keyButton.classList.add("unassigned");
-						keyButton.textContent = entry.display || "Atanmadı";
-						keyButton.title = "Değiştirmek için tıkla";
-					}
-					keyButton.disabled = !shortcutApi;
-					keyButton.addEventListener("click", (event) => {
-						// Belgeye yayılan tıklama kaydı hemen iptal etmesin.
-						event.stopPropagation();
-						beginRecordingShortcut(entry.id);
-					});
+				const keyButton = document.createElement("button");
+				keyButton.type = "button";
+				keyButton.className = "shortcut-key";
 
-					const resetButton = document.createElement("button");
-					resetButton.type = "button";
-					resetButton.className = "shortcut-reset";
-					resetButton.textContent = "↺";
-					resetButton.title = "Varsayılana döndür";
-					resetButton.disabled = !shortcutApi || entry.isDefault;
-					resetButton.addEventListener("click", (event) => {
-						event.stopPropagation();
-						resetShortcut(entry.id);
-					});
-
-					controls.append(keyButton, resetButton);
-					item.append(description, controls);
-					shortcutsList.appendChild(item);
+				const isRecording = recordingShortcutId === entry.id;
+				if (isRecording) {
+					keyButton.classList.add("recording");
+					keyButton.textContent = "Tuşlara bas…";
+					keyButton.title = "İptal için Esc";
+				} else {
+					if (!entry.keys) keyButton.classList.add("unassigned");
+					keyButton.textContent = entry.display || "Atanmadı";
+					keyButton.title = "Değiştirmek için tıkla";
+				}
+				keyButton.disabled = !shortcutApi;
+				keyButton.addEventListener("click", (event) => {
+					// Belgeye yayılan tıklama kaydı hemen iptal etmesin.
+					event.stopPropagation();
+					beginRecordingShortcut(entry.id);
 				});
+
+				const resetButton = document.createElement("button");
+				resetButton.type = "button";
+				resetButton.className = "shortcut-reset";
+				resetButton.textContent = "↺";
+				resetButton.title = "Varsayılana döndür";
+				resetButton.disabled = !shortcutApi || entry.isDefault;
+				resetButton.addEventListener("click", (event) => {
+					event.stopPropagation();
+					resetShortcut(entry.id);
+				});
+
+				controls.append(keyButton, resetButton);
+				item.append(description, controls);
+				shortcutsList.appendChild(item);
+			});
 		}
+
+		if (shortcutSearch) shortcutSearch.addEventListener("input", renderShortcuts);
 
 		async function beginRecordingShortcut(id) {
 			if (!shortcutApi) return;

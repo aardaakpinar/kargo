@@ -7,7 +7,6 @@
 		const historyEmptyTitle = root.querySelector("#historyEmptyTitle");
 		const historyEmptyText = root.querySelector("#historyEmptyText");
 		const historyCount = root.querySelector("#historyCount");
-		const historyFilter = root.querySelector("#historyFilter");
 		const clearHistoryBtn = root.querySelector("#clearHistoryBtn");
 		const historyToast = root.querySelector("#historyToast");
 
@@ -95,30 +94,23 @@
 		}
 
 		function renderHistory() {
-			const query = historyFilter.value.trim().toLowerCase();
-			const visibleItems = query ? historyItems.filter((item) => `${item.title || ""} ${item.url || ""}`.toLowerCase().includes(query)) : historyItems;
-
 			historyList.innerHTML = "";
-			visibleItems.forEach((item) => {
+			historyItems.forEach((item) => {
 				historyList.appendChild(createHistoryItem(item));
 			});
 
-			const hasItems = visibleItems.length > 0;
+			const hasItems = historyItems.length > 0;
 			historyList.hidden = !hasItems;
 			historyEmpty.hidden = hasItems;
 
 			if (!hasItems) {
-				historyEmptyTitle.textContent = historyItems.length ? "Eşleşen kayıt yok." : "Henüz geçmiş yok.";
-				historyEmptyText.textContent = historyItems.length ? "Farklı bir arama deneyebilirsin." : "Ziyaret ettiğin sayfalar burada listelenir.";
+				historyEmptyTitle.textContent = "Henüz geçmiş yok.";
+				historyEmptyText.textContent = "Ziyaret ettiğin sayfalar burada listelenir.";
 			}
 
-			historyCount.textContent = query
-				? `${visibleItems.length} / ${historyItems.length} kayıt`
-				: `${historyItems.length} kayıt`;
+			historyCount.textContent = `${historyItems.length} kayıt`;
 			clearHistoryBtn.disabled = historyItems.length === 0;
 		}
-
-		historyFilter.addEventListener("input", renderHistory);
 
 		clearHistoryBtn.addEventListener("click", () => {
 			if (!historyItems.length) return;
